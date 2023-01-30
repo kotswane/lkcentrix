@@ -10,7 +10,7 @@
 </head>
 <body>
 <section class="content-header">
-<pre>
+
     <?php
 	  //print_r($report);
 	 // exit;

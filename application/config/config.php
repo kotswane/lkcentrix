@@ -24,7 +24,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 #$config['base_url'] = 'http://ec2-13-246-207-3.af-south-1.compute.amazonaws.com/';
-$config['base_url'] = 'http://localhost:8881/';
+$config['base_url'] = 'http://ec2-13-244-253-167.af-south-1.compute.amazonaws.com/';
+#$config['base_url'] = 'http://localhost:8881/';
 
 /*
 |--------------------------------------------------------------------------
@@ -533,5 +534,5 @@ $config['rewrite_short_tags'] = FALSE;
 $config['proxy_ips'] = '';
 $config['composer_autoload'] = TRUE;
 $config['composer_autoload'] = 'vendor/autoload.php';
-$config['google_key'] = '6Lcf1QokAAAAAC37FcEAxxjfR0p3e5j239gPXWZ9';
-$config['google_secret'] = '6Lcf1QokAAAAAIjSOeltYuUOVEkaw4ExuOkI6qJd';
+$config['google_key'] = '6Ld0YzwkAAAAAILsRo5_50Fb-P7pfBeQOwJpfxQn';
+$config['google_secret'] = '6Ld0YzwkAAAAAMRlaTAMqLUsykCDu1Q_JyTDuaff';

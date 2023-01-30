@@ -54,7 +54,7 @@ class Procurementreport extends CI_Controller {
 		if(!$this->session->userdata('agreed_tc_and_c')){
 			 redirect('user/logout');
 		}
-		$data = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal');
+		$data = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal prod');
 		$response = $this->redisclient->request($data);
 
 		if($response->status != "success"){
@@ -194,7 +194,7 @@ class Procurementreport extends CI_Controller {
 		if(!$this->session->userdata('agreed_tc_and_c')){
 			 redirect('user/logout');
 		}
-		$data = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal');
+		$data = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal prod');
 		$response = $this->redisclient->request($data);
 
 		if($response->status != "success"){
@@ -331,7 +331,7 @@ class Procurementreport extends CI_Controller {
 		if(!$this->session->userdata('agreed_tc_and_c')){
 			 redirect('user/logout');
 		}
-		$data = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal');
+		$data = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal prod');
 		$response = $this->redisclient->request($data);
 
 		if($response->status != "success"){
@@ -423,7 +423,7 @@ class Procurementreport extends CI_Controller {
 		if(!$this->session->userdata('agreed_tc_and_c')){
 			 redirect('user/logout');
 		}		
-		$data = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal');
+		$data = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal prod');
 		$response = $this->redisclient->request($data);
 
 		if($response->status != "success"){
@@ -475,7 +475,7 @@ class Procurementreport extends CI_Controller {
 		if(!$this->session->userdata('agreed_tc_and_c')){
 			 redirect('user/logout');
 		}		
-		$data = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal');
+		$data = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal prod');
 		$response = $this->redisclient->request($data);
 
 		if($response->status != "success"){
@@ -571,7 +571,7 @@ class Procurementreport extends CI_Controller {
 		if(!$this->session->userdata('agreed_tc_and_c')){
 			 redirect('user/logout');
 		}		
-		$data = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal');
+		$data = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal prod');
 		$response = $this->redisclient->request($data);
 
 		if($response->status != "success"){

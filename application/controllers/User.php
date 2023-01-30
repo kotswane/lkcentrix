@@ -134,7 +134,7 @@ class User extends CI_Controller {
 									
 									$loggeinUserSubMenuData = $this->Report_type_model->getById($loggeinUserSubMenuDataIds);
 
-									$data = array('id'=>$login[0]->id,'site'=>'tracing portal');
+									$data = array('id'=>$login[0]->id,'site'=>'tracing portal prod');
 									$response = $this->redisclient->generate($data);
 									
 									if($response->status == "success"){
@@ -163,7 +163,7 @@ class User extends CI_Controller {
 				$data['errorSession'] = "Username and Password required";
 				if ($this->session->userdata('tokensession')){
 
-						$datax = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal');
+						$datax = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal prod');
 						$data['errorSession'] = $this->session->userdata('tokensession');
 						$response = $this->redisclient->remove($datax);
 						$this->session->sess_destroy();
@@ -274,7 +274,7 @@ class User extends CI_Controller {
 	
 	public function logout()
 	{
-		$datax = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal');
+		$datax = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal prod');
 		$response = $this->redisclient->remove($datax);
 		$data['logoutSession'] = "";
 		$data['errorSession'] = "Successfully logged out";

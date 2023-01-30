@@ -42,7 +42,7 @@ class Disclaimer extends CI_Controller {
 			 redirect('user/login');
 		}
 		
-		$data = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal');
+		$data = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal prod');
 		$response = $this->redisclient->request($data);
 
 		if($response->status != "success"){
@@ -58,7 +58,7 @@ class Disclaimer extends CI_Controller {
 			 redirect('user/login');
 		}
 		
-		$data = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal');
+		$data = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal prod');
 		$response = $this->redisclient->request($data);
 
 		if($response->status != "success"){

@@ -60,7 +60,7 @@
 			<?php if(is_object($consumerList->ConsumerDetails)){ ?>
             <tr>
               <td><?php echo $consumerList->ConsumerDetails->Reference;?></td>
-              <td><?php echo (is_object($consumerList->ConsumerDetails->FirstName)?"":$consumerList->ConsumerDetails->FirstName)." ".(is_object($consumerList->ConsumerDetails->SecondName)?"":$consumerList->ConsumerDetails->SecondName)." ".(object($consumerList->ConsumerDetails->Surname)?"":$consumerList->ConsumerDetails->Surname);?></td>
+              <td><?php echo (is_object($consumerList->ConsumerDetails->FirstName)?"":$consumerList->ConsumerDetails->FirstName)." ".(is_object($consumerList->ConsumerDetails->SecondName)?"":$consumerList->ConsumerDetails->SecondName)." ".(is_object($consumerList->ConsumerDetails->Surname)?"":$consumerList->ConsumerDetails->Surname);?></td>
               <td><?php echo $consumerList->ConsumerDetails->IDNo;?></td>
               <td><?php echo (($consumerList->ConsumerDetails->GenderInd == "M")?"Male":"Female");?></td>
               <td>

@@ -1,0 +1,312 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
+<head>
+    <title>Trace Report</title>
+</head>
+<body>
+<section layout:fragment="header">
+    <h1 th:if ="${traceReportRequest.subscriberInputDetails.subscriberName}" th:text = "${traceReportRequest.subscriberInputDetails.subscriberName}"></h1>
+<ol class="breadcrumb">
+    <li><a href="/lkcentrixreportservice/traceenquiry/id-search"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+    <li class="active">Trace Report</li>
+</ol>
+</section>
+<div layout:fragment="content">
+    <div class="box">
+            <div class="box-header with-border">
+            <h3 class="box-title" th:if ="${traceReportRequest.subscriberInputDetails}" th:text = "${traceReportRequest.subscriberInputDetails.enquiryType +' Report'}"></h3>
+           <div class="box-tools pull-right">
+           <div th:if="${traceReportRequest.subscriberInputDetails.enquiryType} =='Consumer Telephone Trace'">
+     <a th:href="@{/traceenquiry/downloadtelephonereport-pdf}">
+        <img th:src="@{/dist/img/pdf_icon.png}" height="35" width="35"/>
+        <span>Download PDF Document</span>
+    </a>
+</div>
+ <div th:if="${traceReportRequest.subscriberInputDetails.enquiryType} =='Consumer Address Trace'">
+     <a th:href="@{/traceenquiry/downloadaddressreport-pdf}">
+        <img th:src="@{/dist/img/pdf_icon.png}" height="35" width="35"/>
+        <span>Download PDF Document</span>
+    </a>
+</div>
+<div th:if="${traceReportRequest.subscriberInputDetails.enquiryType} =='Consumer Easy Trace'">
+     <a th:href="@{/traceenquiry/downloadfuzzyreport-pdf}">
+        <img th:src="@{/dist/img/pdf_icon.png}" height="35" width="35"/>
+        <span>Download PDF Document</span>
+    </a>
+</div>
+
+<div th:if="${traceReportRequest.subscriberInputDetails.enquiryType} == 'Consumer Trace'">
+    <a th:href="@{/traceenquiry/downloadidreport-pdf}">
+        <img th:src="@{/dist/img/pdf_icon.png}" height="35" width="35"/>
+        <span>Download PDF Document</span>
+    </a>
+</div>
+               
+			  <br clear="all" />
+            </div>
+        </div>
+        
+
+        <div class="box-body no-padding">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Enquiry Input Details</div>
+                <div class="panel-body">
+                    <div class="col">
+                      <h4><span class="label label-default"> Enquiry Date</span>&nbsp;&nbsp;<span th:text = "${traceReportRequest.subscriberInputDetails.enquiryDate}"></span></h4>
+                     <h4><span class="label label-default">Enquiry Type</span>&nbsp;&nbsp; <span th:text = "${traceReportRequest.subscriberInputDetails.enquiryType}"></span></h4>
+                     <h4><span class="label label-default">Subscriber Name</span>&nbsp;&nbsp; <span th:text = "${traceReportRequest.subscriberInputDetails.subscriberName}"></span></h4>
+                     <h4><span class="label label-default">Subscriber User Name</span>&nbsp;&nbsp; <span th:text = "${traceReportRequest.subscriberInputDetails.subscriberUserName}"></span></h4>
+                      <h4><span class="label label-default">Enquiry Input</span>&nbsp;&nbsp; <span th:text = "${traceReportRequest.subscriberInputDetails.enquiryInput}"></span></h4><br>
+                    </div>
+                </div>
+              </div>
+
+              <div class="panel panel-primary">
+                <div class="panel-heading">Personal Details Summary</div>
+                <div class="panel-body">
+                    <div class="col">
+                        <div class="col-xs-4 ">Reference No:&nbsp;&nbsp;<strong><span th:text = "${traceReportRequest.consumerDetail.referenceNo}"></span></strong></div>
+                        <div class="col-xs-4">ID No:&nbsp;&nbsp;<strong><span th:text = "${traceReportRequest.consumerDetail.idNo}"></span></strong></div>
+                        <div class="col-xs-4">Surname:&nbsp;&nbsp;<strong><span th:text = "${traceReportRequest.consumerDetail.surname}"></span></strong></div>
+                        <div class="col-xs-4">First Name:&nbsp;&nbsp;<strong><span th:text = "${traceReportRequest.consumerDetail.firstName}"></span></strong></div>
+                        <div class="col-xs-4">Second Name:&nbsp;&nbsp;<strong><span th:text = "${traceReportRequest.consumerDetail.secondName}"></span></strong></div>
+                        <div class="col-xs-4">Maiden Name:&nbsp;&nbsp;<strong><span th:text = "${traceReportRequest.consumerDetail.maidenName}"></span></strong></div>
+                        <div class="col-xs-4">Title:&nbsp;&nbsp;<strong><span th:text = "${traceReportRequest.consumerDetail.titleDesc}"></span></strong></div>
+                        <div class="col-xs-4">Gender:&nbsp;&nbsp;<strong><span th:text = "${traceReportRequest.consumerDetail.gender}"></span></strong></div>
+                        <div class="col-xs-4">Date of Birth:&nbsp;&nbsp;<strong><span th:text = "${traceReportRequest.consumerDetail.birthDate}"></span></strong></div>
+                        <div class="col-xs-4">Marital Status:&nbsp;&nbsp;<strong><span th:text = "${traceReportRequest.consumerDetail.maritalStatusDesc}"></span></strong></div>
+                        <div class="col-xs-4">External Reference No:&nbsp;&nbsp;<strong><span th:text = "${traceReportRequest.consumerDetail.externalReference}"></span></strong></div>
+                        <div class="col-xs-4">Passport or 2nd ID No:&nbsp;&nbsp;<strong><span th:text = "${traceReportRequest.consumerDetail.passportNo}"></span></strong></div>
+                        <div class="col-xs-4">Residential Address:&nbsp;&nbsp;<strong><span th:text = "${traceReportRequest.consumerDetail.residentialAddress}"></span></strong></div>
+                        <div class="col-xs-4">Postal Address:&nbsp;&nbsp;<strong><span th:text = "${traceReportRequest.consumerDetail.postalAddress}"></span></strong></div>
+                        <div class="col-xs-4">Telephone No. (H):&nbsp;&nbsp;<strong><span th:text = "${traceReportRequest.consumerDetail.homeTelephoneNo}"></span></strong></div>
+                        <div class="col-xs-4">Telephone No (W):&nbsp;&nbsp;<strong><span th:text = "${traceReportRequest.consumerDetail.workTelephoneNo}"></span></strong></div>
+                        <div class="col-xs-4">Cellular/Mobile:&nbsp;&nbsp;<strong><span th:text = "${traceReportRequest.consumerDetail.cellularNo}"></span></strong></div>
+                        <div class="col-xs-4">E-mail Address&nbsp;&nbsp;<strong><span th:text = "${traceReportRequest.consumerDetail.emailAddress}"></span></strong></div>
+                        <div class="col-xs-4">Current Employer&nbsp;&nbsp;<strong><span th:text = "${traceReportRequest.consumerDetail.employerDetail}"></span></strong></div>
+                    </div>
+                </div>
+              </div>
+              
+               <div class="panel panel-primary">
+            <div class="panel-heading">AKA Names</div>
+            <div class="panel-body">
+                <table class="table table-striped" th:if="${not #lists.isEmpty(traceReportRequest.akaNames)}">
+                    <tr>
+                        <th>Bureau UpdateDate</th>
+                        <th>Home Affairs Name</th>
+                    </tr>
+                    <tr th:each="row : ${traceReportRequest.akaNames}">
+                        <td th:text="${row.lastUpdateddate}"></td>
+                        <td th:text="${row.homeAffairsName}"></td>
+                   </tr>
+                </table>
+                 <div>
+                     <span th:if="${#lists.isEmpty(traceReportRequest.akaNames)}" th:text="${traceReportRequest.traceReportMessage.noAkaname}"></span>
+                </div>
+            </div>
+          </div>
+              
+              <div class="panel panel-primary">
+                <div class="panel-heading">Potential Fraud Indicators</div>
+                <div class="panel-body">
+                    <div class="col">
+                        <div class="col-xs-4 ">ID No. Verified Status:&nbsp;&nbsp;<strong><span th:text = "${traceReportRequest.consumerFraudIndicatorsSummary.homeAffairsVerificationYN}"></span></strong></div>
+                        <div class="col-xs-4">ID No. Deceased Status:&nbsp;&nbsp;<strong><span th:text = "${traceReportRequest.consumerFraudIndicatorsSummary.homeAffairsDeceasedStatus}"></span></strong></div>
+                        <div class="col-xs-4">ID No. Found on Fraud Database:&nbsp;&nbsp;<strong><span th:text = "${traceReportRequest.consumerFraudIndicatorsSummary.sAFPSListingYN}"></span></strong></div>
+                    </div>
+                </div>
+              </div>
+
+              <div class="panel panel-primary">
+                <div class="panel-heading">Address History</div>
+                <div class="panel-body">
+                    <table class="table table-striped" th:if="${not #lists.isEmpty(traceReportRequest.consumerAddressHistories)}">
+                        <tr>
+                            <th>Bureau UpdateDate</th>
+                            <th>Type</th>
+                             <th>Line1</th>
+                             <th>Line2</th>
+                             <th>Line3</th>
+                             <th>Line4</th>
+                             <th>Postal Code</th>
+                        </tr>
+                        <tr th:each="row : ${traceReportRequest.consumerAddressHistories}">
+                            <td th:text="${row.lastUpdatedDate}"></td>
+                            <td th:text="${row.addressType}"></td>
+                            <td th:text="${row.address1}"></td>
+                            <td th:text="${row.address2}"></td>
+                            <td th:text="${row.address3}"></td>
+                            <td th:text="${row.address4}"></td>
+                            <td th:text="${row.postalCode}"></td>
+                        </tr>
+                    </table>
+                    <span th:if="${#lists.isEmpty(traceReportRequest.consumerAddressHistories)}" th:text="${traceReportRequest.traceReportMessage.noAddress}"></span><br>
+                </div>
+              </div>
+
+              <div class="panel panel-primary">
+                <div class="panel-heading">Consumer Email History</div>
+                <div class="panel-body">
+                    <div  th:if="${not #lists.isEmpty(traceReportRequest.consumerEmailHistory)}">
+                        <div th:each="row : ${traceReportRequest.consumerEmailHistory}">
+                          Bureau UpdateDate <span th:text ="${row.lastUpdatedDate}"></span><br>
+                          E-mail Address <span th:text = "${row.emailAddress}"></span><br>
+                         </div>
+                         </div>
+                          <div>
+                         <span th:if="${#lists.isEmpty(traceReportRequest.consumerEmailHistory)}" th:text="${traceReportRequest.traceReportMessage.noEmail}"></span>
+                </div>
+              </div>
+           </div>
+
+           <div class="panel panel-primary">
+            <div class="panel-heading">Consumer Employment History</div>
+            <div class="panel-body">
+                <table class="table table-striped" th:if="${not #lists.isEmpty(traceReportRequest.consumerEmploymentHistory)}">
+                    <tr>
+                        <th>Bureau UpdateDate</th>
+                        <th>Employer</th>
+                        <th>Designation</th>
+                    </tr>
+                    <tr th:each="row : ${traceReportRequest.consumerEmploymentHistory}">
+                        <td th:text="${row.lastUpdatedDate}"></td>
+                        <td th:text="${row.employerDetail}"></td>
+                        <td th:text="${row.designation}"></td>
+                    </tr>
+                </table>
+                 <div>
+                     <span th:if="${#lists.isEmpty(traceReportRequest.consumerEmploymentHistory)}" th:text="${traceReportRequest.traceReportMessage.noEmployment}"></span>
+                </div>
+            </div>
+          </div>
+
+          <div class="panel panel-primary">
+            <div class="panel-heading">Contact No. History</div>
+            <div class="panel-body">
+                <table class="table table-striped" th:if="${not #lists.isEmpty(traceReportRequest.consumerTelephoneHistories)}">
+                    <tr>
+                        <th>Bureau UpdateDate</th>
+                        <th>Type</th>
+                        <th>Telephone No</th>
+                    </tr>
+                    <tr th:each="row : ${traceReportRequest.consumerTelephoneHistories}">
+                        <td th:text="${row.lastUpdatedDate}"></td>
+                        <td th:text="${row.telephoneType}"></td>
+                        <td th:text="${row.telephoneNo}"></td>
+                    </tr>
+                   
+                </table>
+                 <div>
+                <span th:if="${#lists.isEmpty(traceReportRequest.consumerTelephoneHistories)}" th:text="${traceReportRequest.traceReportMessage.noTelephone}"></span>
+                </div>
+          </div>
+         </div>
+         
+           <div class="panel panel-primary">
+                <div class="panel-heading">Telephone Linkages</div>
+                <div class="panel-body">
+                <!-- Consumer Telephone Linkage Cellular -->
+                <div class="panel panel-secondary">
+                <div class="panel-heading"><strong>Consumer Telephone Linkage Cellular</strong></div>
+                <div class="panel-body">
+                    <table class="table table-striped" th:if="${not #lists.isEmpty(traceReportRequest.consumerTelephoneLinkageCellulars)}">
+                        <tr>
+                             <th>Customer Id</th>
+                            <th>Name</th>
+                            <th>Cell No</th>
+                             <th>Work Tel</th>
+                             <th>Idno</th>
+                             <th>PassportNo</th>
+                        </tr>
+                        <tr th:each="row : ${traceReportRequest.consumerTelephoneLinkageCellulars}">
+                            <td th:text="${row.consumerId}"></td>
+                            <td th:text="${row.consumerName +' '+ row.surname}"></td>
+                            <td th:text="${row.cellularNo}"></td>
+                            <td th:text="${row.homeTelephone}"></td>
+                            <td th:text="${row.idNo}"></td>
+                            <td th:text="${row.passportNo}"></td>
+                        </tr>
+                    </table>
+                    <span th:if="${#lists.isEmpty(traceReportRequest.consumerTelephoneLinkageCellulars)}" th:text="${traceReportRequest.traceReportMessage.noCellphoneLink}"></span><br>
+                </div>
+              </div>
+                <!-- Consumer Telephone Linkage Work -->
+                 <div class="panel panel-secondary">
+                <div class="panel-heading"><strong>Consumer Telephone Linkage Work</strong></div>
+                <div class="panel-body">
+                    <table class="table table-striped" th:if="${not #lists.isEmpty(traceReportRequest.consumerTelephoneLinkageWorks)}">
+                        <tr>
+                             <th>Customer Id</th>
+                            <th>Name</th>
+                            <th>Cell No</th>
+                             <th>Work Tel</th>
+                             <th>Idno</th>
+                             <th>PassportNo</th>
+                        </tr>
+                        <tr th:each="row : ${traceReportRequest.consumerTelephoneLinkageWorks}">
+                            <td th:text="${row.consumerId}"></td>
+                            <td th:text="${row.consumerName +' '+ row.surname}"></td>
+                            <td th:text="${row.cellularNo}"></td>
+                            <td th:text="${row.homeTelephone}"></td>
+                            <td th:text="${row.idNo}"></td>
+                            <td th:text="${row.passportNo}"></td>
+                        </tr>
+                    </table>
+                    <span th:if="${#lists.isEmpty(traceReportRequest.consumerTelephoneLinkageCellulars)}" th:text="${traceReportRequest.traceReportMessage.noTelephoneLink}"></span><br>
+                </div>
+              </div>
+              <!-- Consumer Telephone Linkage Home -->
+                <div class="panel panel-secondary">
+                <div class="panel-heading"><strong>Consumer Telephone Linkage Home</strong></div>
+                <div class="panel-body">
+                    <table class="table table-striped" th:if="${not #lists.isEmpty(traceReportRequest.consumerTelephoneLinkageHomes)}">
+                        <tr>
+                             <th>Customer Id</th>
+                            <th>Name</th>
+                            <th>Cell No</th>
+                             <th>Work Tel</th>
+                             <th>Idno</th>
+                             <th>PassportNo</th>
+                        </tr>
+                        <tr th:each="row : ${traceReportRequest.consumerTelephoneLinkageHomes}">
+                            <td th:text="${row.consumerId}"></td>
+                            <td th:text="${row.consumerName +' '+ row.surname}"></td>
+                            <td th:text="${row.cellularNo}"></td>
+                            <td th:text="${row.homeTelephone}"></td>
+                            <td th:text="${row.idNo}"></td>
+                            <td th:text="${row.passportNo}"></td>
+                        </tr>
+                    </table>
+                    <span th:if="${#lists.isEmpty(traceReportRequest.consumerTelephoneLinkageHomes)}" th:text="${traceReportRequest.traceReportMessage.notHomeTelephone}"></span><br>
+                </div>
+              </div>
+                </div>
+                </div>
+                <div  th:if="${traceReportRequest.consumerPropertyInformationSummary}">
+             <div class="panel panel-primary">
+                <div class="panel-heading">Consumer Property Information Summary</div>
+                <div class="panel-body">
+                    <div class="col">
+                        <div class="col-xs-4 ">Total Property&nbsp;&nbsp;<strong><span th:if ="${traceReportRequest.consumerPropertyInformationSummary}"   th:text = "${traceReportRequest.consumerPropertyInformationSummary.totalProperty}"></span></strong></div>
+                        <div class="col-xs-4">Purchase Price&nbsp;&nbsp;<strong><span th:if ="${traceReportRequest.consumerPropertyInformationSummary}" th:text = "${'R'+traceReportRequest.consumerPropertyInformationSummary.purchasePrice}"></span></strong></div>
+                    </div>
+                </div>
+              </div>
+              </div>
+              <div  th:if="${traceReportRequest.consumerDirectorSummary}">
+              <div class="panel panel-primary">
+                <div class="panel-heading">Consumer Director Summary</div>
+                <div class="panel-body">
+                    <div class="col">
+                        <div class="col-xs-4 ">Number Of Company Director&nbsp;&nbsp;<strong><span th:if ="${traceReportRequest.consumerDirectorSummary}" th:text = "${traceReportRequest.consumerDirectorSummary.numberOfCompanyDirector}"></span></strong></div>
+                    </div>
+                </div>
+              </div>
+              </div>
+    </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout">
+<head>
+    <title>Address Search</title>
+</head>
+<body>
+<section layout:fragment="header">
+    <h1>LKCentrix Solutions PTY LTD</h1>
+    <ol class="breadcrumb">
+        <li><a href="/lkcentrixreportservice/traceenquiry/address-search" ><i class="fa fa-dashboard"></i> Dashboard</a></li><li>Trace Report</li>
+        <li class="active">Address Search</li>
+    </ol>
+</section>
+<div layout:fragment="content">
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Address Search</h3>
+            <div class="box-tools pull-right">
+                <a th:href="@{/traceenquiry/address-search}" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
+            </div>
+        </div>
+           <!-- Error Alert -->
+         <div class="alert alert-danger" th:if="${errorMessage}" th:text="${errorMessage}" role="alert"></div>
+		
+        <form data-toggle="validator" role="Address Search form" th:object="${addressRequest}" th:action="@{/traceenquiry/addressconsumer-list}" method="post">
+            <div class="box-body"><br>
+                 <ul class="nav nav-tabs">
+                    <li><a data-toggle="tab" href="#tab1">Residential Address</a></li>
+                    <li><a data-toggle="tab" href="#tab2">Postal</a></li>
+                  </ul><br/>
+                       <div class="form-group">
+                       <label class="col-form-label">Province</label>
+                    <select class="form-control" th:field="*{province}" id="listprovinces" required>
+					<option value="">Please Select Province</option>
+					<option th:each="province : ${provinces}" th:value="${province}" th:text="${province}" th:selected="${province}"></option>
+					</select>
+                 </div>
+                 <div class="form-group">
+                 <label class="col-form-label">City</label>
+                    <input type="text"  class="form-control" th:field="*{city}" id="city" placeholder="Enter City" />
+                 </div>
+                <div class="tab-content">
+                <!-- For Street Address -->
+                <div id="tab1" class="tab-pane fade in active">
+                        <br>
+                <div class="form-group">
+                <label class="col-form-label">Suburb</label>
+                    <input type="text"  class="form-control" th:field="*{suburb}" id="suburb" placeholder="Enter Suburb" />
+                 </div>
+                 <div class="form-group">
+                 <label class="col-form-label">Street Number</label>
+                    <input type="text"  class="form-control" th:field="*{streetNo}" id="streetNo" placeholder="Enter Street Number" />
+                 </div>
+                  <div class="form-group">
+                  <label class="col-form-label">Street Name</label>
+                   <input type="text"  class="form-control" th:field="*{streetNamePostalNo}" id="streetName" placeholder="Enter Street Name" />
+                 </div>
+                  <div class="form-group">
+                  <label class="col-form-label">Postal Code</label>
+                    <input type="text"  class="form-control" th:field="*{postalCode}" id="postalCode" placeholder="Ente Postal Code" />
+                 </div>
+                       <div class="form-group">
+                       <label class="col-form-label">Surname</label>
+                    <input type="text"  class="form-control" th:field="*{surname}" id="surname" placeholder="Enter Surname" />
+                 </div>  
+                 </div>
+                     <!-- For postal Address -->   
+                  <div id="tab2" class="tab-pane fade">
+                        <br>
+                  <div class="form-group">
+                  <label class="col-form-label">Suburb</label>
+                    <input type="text"  class="form-control" th:field="*{suburb}" id="suburb" placeholder="Enter Suburb" />
+                 </div>
+                 <div class="form-group">
+                 <label class="col-form-label">Street Name</label>
+                   <input type="text"  class="form-control" th:field="*{streetNamePostalNo}" id="streetName" placeholder="Enter Street Name" />
+                 </div>
+                   <div class="form-group">
+                   <label class="col-form-label">Postal Code</label>
+                    <input type="text"  class="form-control" th:field="*{postalCode}" id="postalCode" placeholder="Enter Postal Code" />
+                  </div>
+                  </div>
+                  
+                </div> 
+            <div class="box-footer">
+                <button class="btn btn-primary" type="submit"><i class="fa fa-search" aria-hidden="true"></i>&nbsp; Search</button>
+            </div>
+        </form>
+    </div>
+    <div th:if="${ not#lists.isEmpty(consumerList)}">
+      	 <h5><span><strong>Search Results List</strong></span></h5>
+          <table class="table table-striped">
+            <tr>
+            <th>Reference No</th>
+              <th>Names</th>
+              <th>Id Number</th>
+              <th>Details Viewed</th>
+              <th>View</th>
+            </tr>
+            <tr th:each="row : ${consumerList}">
+              <td th:text="${row.reference}"></td>
+              <td th:text="${row.consumerName}"></td>
+              <td th:text="${row.idNo}"></td>
+              <td th:text="${row.viewStatus}"></td>
+              <td>
+               <a type="button"  th:href="@{'/traceenquiry/view-addresstrace-search/'+${row.enquiryId}+'/'+${row.enquiryResultId}}"  class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;View</a> 
+              </td>
+            </tr>
+          </table>
+       </div>
+        <div>
+         <span th:if="${#lists.isEmpty(consumerList)}" th:text="${errorMessage}"></span>
+       </div>
+</div>
+</body>
+</html>

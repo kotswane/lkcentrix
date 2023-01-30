@@ -1,0 +1,48 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout">
+<head>
+    <title>Telephone Search</title>
+</head>
+<body>
+<section layout:fragment="header">
+    <h1>LKCentrix Solutions PTY LTD</h1>
+    <ol class="breadcrumb">
+        <li><a href="/lkcentrixreportservice/reports/id-verification" ><i class="fa fa-dashboard"></i> Dashboard</a></li><li>Verification Report</li>
+        <li class="active">ID Verification Client</li>
+    </ol>
+</section>
+<div layout:fragment="content">
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">ID Verification</h3>
+            <div class="box-tools pull-right">
+                <a th:href="@{/reports/id-verification}" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
+            </div>
+        </div>
+           <!-- Error Alert -->
+         <div class="alert alert-danger" th:if="${errorMessage}" th:text="${errorMessage}" role="alert"></div>
+		
+        <form data-toggle="validator" role="Id Verification form" th:object="${idVerificationRequest}" th:action="@{/verifications/idverification-list}" method="post">
+            <div class="box-body">
+                    <div class="form-group">
+                    <label for="Firstname">ID Number</label>
+                    <input type="text" required="true" class="form-control" th:field="*{idNumber}" id="idNumber" placeholder="Enter ID Number" maxlength="13" autofocus/>
+                 </div>
+                  <div class="form-group">
+                    <label class="col-form-label">Surname</label>
+                            <input type="text" class="form-control" th:field="*{surname}" id="surname" placeholder="Enter Surname"/>
+                        </div>
+                     <div class="form-group">
+                     <label class="col-form-label">First Name</label>
+                           <input type="text"  class="form-control"  th:field="*{firstName}" id="firstname" placeholder="Enter FirstName"/>
+                       </div>
+            </div>
+            <div class="box-footer">
+                <button class="btn btn-primary" type="submit"><i class="fa fa-search" aria-hidden="true"></i>&nbsp; Search</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

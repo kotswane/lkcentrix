@@ -13,7 +13,7 @@
 				
 		?>
         <li class="treeview">
-            <a href="#"><i class="fa fa-unlock"></i> <span><?php echo $reportData->report_name;?></span>
+            <a href="#"><i class="<?php echo $reportData->icon;?>"></i> <span><?php echo $reportData->report_name;?></span>
                 <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>

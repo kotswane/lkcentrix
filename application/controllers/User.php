@@ -81,11 +81,11 @@ class User extends CI_Controller {
 					}else{
 						
 						if($login[0]->isactive == 0){
-							$data['errorSession'] = "Incative account"; 
+							$data['errorSession'] = "Inactive account"; 
 							$this->load->view('login',$data);
 						}else{
 							$client = $this->mysoapclient->getClient();
-							$loginRequest = array("strUser"=>"LKcentrix_UAT","strPwd"=>"xds100");
+							$loginRequest = array("strUser"=>"LKC_LIVEWS","strPwd"=>"Aplitec01*$");
 							
 							$loginResponse = $client->Login($loginRequest);
 

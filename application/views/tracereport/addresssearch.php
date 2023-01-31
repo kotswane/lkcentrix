@@ -77,6 +77,7 @@
 			<input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" />
         </form>
     </div>
+
 	<?php
 	 if (count($consumerList['details']) > 0){
 	?>
@@ -99,12 +100,12 @@
 			?>
 			
             <tr>
-              <td><?php echo $consumerListValue['Reference'];?></td>
-              <td><?php echo $consumerListValue['Consumername'];?></td>
-              <td><?php echo $consumerListValue['IDno'];?></td>
+              <td><?php echo $consumerListValue->Reference;?></td>
+              <td><?php echo $consumerListValue->Consumername;?></td>
+              <td><?php echo $consumerListValue->IDno;?></td>
               <td><?php echo $consumerList['DetailsViewed'][$consumerListKey];?></td>
               <td>
-               <a type="button" onClick="fnRedirect('<?php echo site_url()?>/tracereport/customerdatalist/<?php echo $consumerListValue['EnquiryID'];?>/<?php echo $consumerListValue['EnquiryResultID'];?>')"  class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;View</a>              
+               <a type="button" onClick="fnRedirect('<?php echo site_url()?>/tracereport/customerdatalist/<?php echo $consumerListValue->EnquiryID;?>/<?php echo $consumerListValue->EnquiryResultID;?>')"  class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;View</a>              
 			  </td>
             </tr>
 			<?php }?>

@@ -297,7 +297,7 @@ class Tracereport extends CI_Controller {
 				}else{
 					$data["consumerList"]["details"] = array();
 					$objJsonDocument = json_encode($xml);
-					$arrOutput = json_decode($objJsonDocument, TRUE);
+					$arrOutput = json_decode($objJsonDocument);
 					$auditlog = array(
 						"auditlog_reportname"=>"tracereport",
 						"auditlog_userId"=>$this->session->userdata('userId'),
@@ -314,69 +314,71 @@ class Tracereport extends CI_Controller {
 						"auditlog_issuccess" => true
 					);
 					$this->Auditlog_model->save($auditlog);
-					foreach($arrOutput as $arrOutputListKey => $arrOutputListValue){
-
-						if (!is_array($arrOutputListValue)){
-							$data["consumerList"]["details"][]= $arrOutputListValue;
-							
-							$resp = $this->client->IsTicketValid($IsTicketValid);
-							if($resp->IsTicketValidResult != true || $resp->IsTicketValidResult ==""){
-								$this->session->set_userdata(array('tokensession' =>'Session expired, please login again'));
-								redirect('user/login');
-							}
-							$response = $this->client->AdminEnquiryResult(array(
-							'ConnectTicket' => $this->session->userdata('tokenId'),
-							'EnquiryResultID' => $arrOutputListValue['EnquiryResultID']));
-					
-							$auditlog = array(
-								"auditlog_reportname"=>"tracereport",
-								"auditlog_userId"=>$this->session->userdata('userId'),
-								"auditlog_reporttype"=>"addresssearch",
-								"auditlog_searchdata"=>json_encode(array(
-								'EnquiryResultID' => $arrOutputListValue['EnquiryResultID'])),
-								"auditlog_fnexecuted" => "AdminEnquiryResult",
-								"auditlog_issuccess" => true
-							);
-							$this->Auditlog_model->save($auditlog);
-					
-							$xml = simplexml_load_string($response->AdminEnquiryResultResult,"SimpleXMLElement");
-							$objJsonDocument = json_encode($xml);
-							$arrOutput = json_decode($objJsonDocument, TRUE);
-							$data["consumerList"]["DetailsViewed"][]= (($arrOutput["Result"]["DetailsViewedYN"]=="true")? "Yes":"No");
-						}else{
-
-								foreach($arrOutputListValue as $arrOutputListValueListKey => $arrOutputListValueListValue){
+					if(is_object($arrOutput->ConsumerDetails)){
+										
+								$data["consumerList"]["details"][]= $arrOutput->ConsumerDetails;
 								
-								$data["consumerList"]["details"][]= $arrOutputListValueListValue;
 								$resp = $this->client->IsTicketValid($IsTicketValid);
 								if($resp->IsTicketValidResult != true || $resp->IsTicketValidResult ==""){
 									$this->session->set_userdata(array('tokensession' =>'Session expired, please login again'));
 									redirect('user/login');
 								}
 								
+
 								$response = $this->client->AdminEnquiryResult(array(
 								'ConnectTicket' => $this->session->userdata('tokenId'),
-								'EnquiryResultID' => $arrOutputListValueListValue['EnquiryResultID']));
-								
+								'EnquiryResultID' => $arrOutput->ConsumerDetails->EnquiryResultID));
+						
+								 
+							 
 								$auditlog = array(
 									"auditlog_reportname"=>"tracereport",
 									"auditlog_userId"=>$this->session->userdata('userId'),
 									"auditlog_reporttype"=>"addresssearch",
 									"auditlog_searchdata"=>json_encode(array(
-									'EnquiryResultID' => $arrOutputListValueListValue['EnquiryResultID'])),
+									'EnquiryResultID' =>  $arrOutput->ConsumerDetails->EnquiryResultID)),
 									"auditlog_fnexecuted" => "AdminEnquiryResult",
 									"auditlog_issuccess" => true
 								);
 								$this->Auditlog_model->save($auditlog);
-								
+						
 								$xml = simplexml_load_string($response->AdminEnquiryResultResult,"SimpleXMLElement");
 								$objJsonDocument = json_encode($xml);
 								$arrOutput = json_decode($objJsonDocument, TRUE);
 								$data["consumerList"]["DetailsViewed"][]= (($arrOutput["Result"]["DetailsViewedYN"]=="true")? "Yes":"No");
-							}
+								
+						} else {
+								foreach($arrOutput->ConsumerDetails as $arrOutputListValueListKey => $arrOutputListValueListValue){
+									
+									
+									$data["consumerList"]["details"][]= $arrOutputListValueListValue;
+									$resp = $this->client->IsTicketValid($IsTicketValid);
+									if($resp->IsTicketValidResult != true || $resp->IsTicketValidResult ==""){
+										$this->session->set_userdata(array('tokensession' =>'Session expired, please login again'));
+										redirect('user/login');
+									}
+									
+									$response = $this->client->AdminEnquiryResult(array(
+									'ConnectTicket' => $this->session->userdata('tokenId'),
+									'EnquiryResultID' => $arrOutputListValueListValue->EnquiryResultID));
+									
+									$auditlog = array(
+										"auditlog_reportname"=>"tracereport",
+										"auditlog_userId"=>$this->session->userdata('userId'),
+										"auditlog_reporttype"=>"addresssearch",
+										"auditlog_searchdata"=>json_encode(array(
+										'EnquiryResultID' => $arrOutputListValueListValue->EnquiryResultID)),
+										"auditlog_fnexecuted" => "AdminEnquiryResult",
+										"auditlog_issuccess" => true
+									);
+									$this->Auditlog_model->save($auditlog);
+									
+									$xml = simplexml_load_string($response->AdminEnquiryResultResult,"SimpleXMLElement");
+									$objJsonDocument = json_encode($xml);
+									$arrOutput = json_decode($objJsonDocument, TRUE);
+									$data["consumerList"]["DetailsViewed"][]= (($arrOutput["Result"]["DetailsViewedYN"]=="true")? "Yes":"No");
+								}								
 						}
-						
-					}
 					
 				}
 				$data["content"] = "tracereport/addresssearch";

@@ -87,7 +87,8 @@
               <td><?php echo (!is_object($consumerListValue->IDNo)?$consumerListValue->IDNo:"");?></td>
               <td><?php echo $consumerList['DetailsViewed'][$consumerListKey];?></td>
               <td>
-               <a type="button"  href="<?php echo site_url()?>/tracereport/customerdatalist/<?php echo $consumerListValue->EnquiryID;?>/<?php echo $consumerListValue->EnquiryResultID;?>"  class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;View</a> 
+               <a type="button" onClick="fnRedirect('<?php echo site_url()?>/tracereport/customerdatalist/<?php echo $consumerListValue->EnquiryID;?>/<?php echo $consumerListValue->EnquiryResultID;?>')"  class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;View</a>
+			  
               </td>
             </tr>
 			<?php }?>
@@ -105,7 +106,8 @@ $(document).ready(function(){
         "order": []
     });
     $('#button-search').click(function() {
-       		$("#loadMe").modal({
+       	
+		$("#loadMe").modal({
 		  backdrop: "static", //remove ability to close modal with click
 		  keyboard: false, //remove option to close with keyboard
 		  show: true //Display loader!

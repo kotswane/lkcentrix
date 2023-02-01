@@ -21,7 +21,7 @@
 				<div class="alert alert-danger" role="alert"><?php echo $errorMessage;?></div>
 		   <?php }?>
 		
-        <form data-toggle="validator" role="Address Search form" action="<?php echo site_url();?>/tracereport/addresssearch" method="post" id="form-search">
+        <form data-toggle="validator" role="Address Search form" action="<?php echo site_url();?>/tracereport/addresssearch" method="post" id="form-search-addr">
             <div class="box-body"><br>
                  <ul class="nav nav-tabs">
                     <li><a data-toggle="tab" href="#tab1">Residential Address</a></li>
@@ -71,7 +71,7 @@
                   
                 </div> 
             <div class="box-footer">
-                <button class="btn btn-primary" type="button" id="button-search"><i class="fa fa-search" aria-hidden="true"></i>&nbsp; Search</button>
+                <button class="btn btn-primary" type="button" id="button-search-addr"><i class="fa fa-search" aria-hidden="true"></i>&nbsp; Search</button>
             </div>
 			<input type="hidden" name="postback" value="post"/>
 			<input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" />
@@ -116,12 +116,13 @@
 	
 </section>
 </body>
-<style>
+
 
 <script type="text/javascript">
+/*
 $(document).ready(function(){
 		$('#addresssearch_table').DataTable({
-        /* No ordering applied by DataTables during initialisation */
+        /* No ordering applied by DataTables during initialisation 
         "order": []
     });
 		$('#button-search').click(function() {
@@ -130,12 +131,31 @@ $(document).ready(function(){
 			  backdrop: "static", //remove ability to close modal with click
 			  keyboard: false, //remove option to close with keyboard
 			  show: true //Display loader!
-			});		
+			});	
+			
 		$('#form-search').submit();
+    });
+});*/
+
+$(document).ready(function(){
+	$('#addresssearch_table').DataTable({
+        /* No ordering applied by DataTables during initialisation */
+        "order": []
+    });
+	
+    $('#button-search-addr').click(function() {
+       	
+		$("#loadMe").modal({
+		  backdrop: "static", //remove ability to close modal with click
+		  keyboard: false, //remove option to close with keyboard
+		  show: true //Display loader!
+		});
+		$('#form-search-addr').submit();
     });
 });
 
-
+</script>
+<script>
 function fnRedirect(strVal){
 	
 		$("#loadMe").modal({

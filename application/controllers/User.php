@@ -137,7 +137,7 @@ class User extends CI_Controller {
 									$data = array('id'=>$login[0]->username,'site'=>'tracing portal prod');
 									$response = $this->redisclient->generate($data);
 									
-									if($response->status == "success"){
+									if($response == "success"){
 										$this->session->set_userdata(array(
 										'username' => $this->input->post("username"),
 										'isloggedin' => true,

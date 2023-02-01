@@ -10,6 +10,7 @@
 	   
 	   public function generate($data) {
 		 $postdata = json_encode(array("username"=>$data["id"],"site" => $data["site"]));
+		 $ch = curl_init(); 
 		 curl_setopt($ch, CURLOPT_URL, $this->url."generate"); 
 		 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		 curl_setopt( $ch, CURLOPT_POSTFIELDS, $postdata);

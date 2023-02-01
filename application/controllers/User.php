@@ -134,7 +134,7 @@ class User extends CI_Controller {
 									
 									$loggeinUserSubMenuData = $this->Report_type_model->getById($loggeinUserSubMenuDataIds);
 
-									$data = array('id'=>$login[0]->id,'site'=>'tracing portal prod');
+									$data = array('id'=>$login[0]->username,'site'=>'tracing portal prod');
 									$response = $this->redisclient->generate($data);
 									
 									if($response->status == "success"){

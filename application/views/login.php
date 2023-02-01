@@ -96,39 +96,106 @@
 <script src="<?php echo base_url();?>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- iCheck -->
 <script src="<?php echo base_url();?>plugins/iCheck/icheck.min.js"></script>
-<style>
-.spinner {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    margin-left: -50px; /* half width of the spinner gif */
-    margin-top: -50px; /* half height of the spinner gif */
-    text-align:center;
-    z-index:1234;
-    overflow: auto;
-    width: 200px; /* width of the spinner gif */
-    height: 102px; /*hight of the spinner gif +2px to fix IE8 issue */
-}
 
-</style>
 <script type="text/javascript">
 $(document).ready(function(){
     $('#button-search').click(function() {
-		$('#button-search').disabled = true;
-        $('#spinner').show();
+		$("#loadMe").modal({
+		  backdrop: "static", //remove ability to close modal with click
+		  keyboard: false, //remove option to close with keyboard
+		  show: true //Display loader!
+		});
 		$('#form-search').submit();
     });
 });
-</script>
 
-<script>
-  $(function () {
-    $('input').iCheck({
-      checkboxClass: 'icheckbox_square-blue',
-      radioClass: 'iradio_square-blue',
-      increaseArea: '20%' // optional
-    });
-  });
+$(function () {
+$('input').iCheck({
+  checkboxClass: 'icheckbox_square-blue',
+  radioClass: 'iradio_square-blue',
+  increaseArea: '20%' // optional
+});
+});
 </script>
+	<div class="modal fade" id="loadMe" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">
+	  <div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content">
+		  <div class="modal-body text-center">
+			<div class="loader"></div>
+			<div clas="loader-txt">
+			  <p>Please wait while loading</small></p>
+			</div>
+		  </div>
+		</div>
+	  </div>
+	</div>
 </body>
+<style>
+	.loader-txt {
+	  p {
+		font-size: 13px;
+		color: #666;
+		small {
+		  font-size: 11.5px;
+		  color: #999;
+		}
+	  }
+	}
+
+	/** MODAL STYLING **/
+
+	.modal-content {
+	  border-radius: 0px;
+	  box-shadow: 0 0 20px 8px rgba(0, 0, 0, 0.7);
+	}
+
+	.modal-backdrop.show {
+	  opacity: 0.75;
+	}
+
+	.loader {
+	  position: relative;
+	  text-align: center;
+	  margin: 15px auto 35px auto;
+	  z-index: 9999;
+	  display: block;
+	  width: 80px;
+	  height: 80px;
+	  border: 10px solid rgba(0, 0, 0, .3);
+	  border-radius: 50%;
+	  border-top-color: #000;
+	  animation: spin 1s ease-in-out infinite;
+	  -webkit-animation: spin 1s ease-in-out infinite;
+	}
+	
+	/** SPINNER CREATION **/
+
+.loader {
+  position: relative;
+  text-align: center;
+  margin: 15px auto 35px auto;
+  z-index: 9999;
+  display: block;
+  width: 80px;
+  height: 80px;
+  border: 10px solid rgba(0, 0, 0, .3);
+  border-radius: 50%;
+  border-top-color: #000;
+  animation: spin 1s ease-in-out infinite;
+  -webkit-animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+</style>
 </html>

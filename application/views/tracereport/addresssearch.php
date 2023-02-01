@@ -117,20 +117,6 @@
 </section>
 </body>
 <style>
-.spinner {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    margin-left: -50px; /* half width of the spinner gif */
-    margin-top: -50px; /* half height of the spinner gif */
-    text-align:center;
-    z-index:1234;
-    overflow: auto;
-    width: 200px; /* width of the spinner gif */
-    height: 102px; /*hight of the spinner gif +2px to fix IE8 issue */
-}
-
-</style>
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -139,14 +125,25 @@ $(document).ready(function(){
         "order": []
     });
 		$('#button-search').click(function() {
-        $('#spinner').show();
+        
+			$("#loadMe").modal({
+			  backdrop: "static", //remove ability to close modal with click
+			  keyboard: false, //remove option to close with keyboard
+			  show: true //Display loader!
+			});		
 		$('#form-search').submit();
     });
 });
 
 
 function fnRedirect(strVal){
-	$('#spinner').show();
+	
+		$("#loadMe").modal({
+		  backdrop: "static", //remove ability to close modal with click
+		  keyboard: false, //remove option to close with keyboard
+		  show: true //Display loader!
+		});
+		
 	location.href = strVal;
 }
 

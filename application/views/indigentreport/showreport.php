@@ -140,7 +140,7 @@
                         <div class="col-xs-4">Bracket:&nbsp;&nbsp;<strong><span><?php echo $report['ConsumerAffordability']['PredictedIncome'];?></span></strong></div>
                         <div class="col-xs-4">Confidence:&nbsp;&nbsp;<strong><span><?php echo $report['ConsumerScoring']['classification'];?></span></strong></div>
 						<div class="col-xs-4">Category:&nbsp;&nbsp;<strong><span><?php echo $report['ConsumerScoring']['RiskCategory'];?></span></strong></div>
-						<div class="col-xs-4">Exception:&nbsp;&nbsp;<strong><span><?php echo $report['ConsumerScoring']['Exception_Code'];?></span></strong></div>
+						<div class="col-xs-4">Exception:&nbsp;&nbsp;<strong><span><?php echo (is_array($report['ConsumerScoring']['Exception_Code'])?"":is_array($report['ConsumerScoring']['Exception_Code']));?></span></strong></div>
                     </div>
                 </div>
               </div>           <!-- directorship -->

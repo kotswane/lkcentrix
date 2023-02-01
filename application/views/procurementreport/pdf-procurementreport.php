@@ -197,7 +197,6 @@ Current Contact, Address, and Employment Info.</h5>
    
  <hr class="hr_rule"/>
  <div class="panel-heading"><strong>Commercial Score</strong>
-   <h5 class="subpanel-heading">&nbsp;</h5>
    <?php if($report->CommercialScoring){ ?>
 	<table class="table-list">
 		<tr class="border_bottom">

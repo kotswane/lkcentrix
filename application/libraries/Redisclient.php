@@ -48,8 +48,8 @@
 		 return $status;
 	   }
 	   
-	   private function prepareData($data){
-		   $data = array("username"=>$data["id"],"site" = $data["site"]);
+	   private function prepareData(){
+		   $data = array("username"=>$data["id"],"site" => $data["site"]);
 		   return json_encode($data);
 	   }
 	   

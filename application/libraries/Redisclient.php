@@ -9,11 +9,10 @@
 	   }
 	   
 	   public function generate($data) {
-		 $payload = json_encode($data);
-		 $ch = curl_init(); 
+		 $postdata = json_encode(array("username"=>$data["id"],"site" => $data["site"]));
 		 curl_setopt($ch, CURLOPT_URL, $this->url."generate"); 
 		 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		 curl_setopt( $ch, CURLOPT_POSTFIELDS, $this->prepareData($data));
+		 curl_setopt( $ch, CURLOPT_POSTFIELDS, $postdata);
 		 curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));		 
 		 $output = curl_exec($ch); 
 		 curl_close($ch);      
@@ -22,11 +21,11 @@
 	   }
 	   
 	   public function request($data){
-		 $payload = json_encode($data);
+		 $postdata = json_encode(array("username"=>$data["id"],"site" => $data["site"]));
 		 $ch = curl_init(); 
 		 curl_setopt($ch, CURLOPT_URL, $this->url."request"); 
 		 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		 curl_setopt( $ch, CURLOPT_POSTFIELDS, $this->prepareData($data));
+		 curl_setopt( $ch, CURLOPT_POSTFIELDS, $postdata);
 		 curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));		 
 		 $output = curl_exec($ch); 
 		 curl_close($ch);      
@@ -36,11 +35,11 @@
 	   
 	   
 	   public function remove($data){
-		 
+		 $postdata = json_encode(array("username"=>$data["id"],"site" => $data["site"]));
 		 $ch = curl_init(); 
 		 curl_setopt($ch, CURLOPT_URL, $this->url."remove"); 
 		 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		 curl_setopt( $ch, CURLOPT_POSTFIELDS, $this->prepareData($data));
+		 curl_setopt( $ch, CURLOPT_POSTFIELDS, $postdata);
 		 curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));		 
 		 $output = curl_exec($ch); 
 		 curl_close($ch);      
@@ -48,10 +47,6 @@
 		 return $status;
 	   }
 	   
-	   private function prepareData($data){
-		   $data = array("username"=>$data["id"],"site" => $data["site"]);
-		   return json_encode($data);
-	   }
 	   
 	}
 ?>

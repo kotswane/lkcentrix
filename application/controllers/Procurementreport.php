@@ -174,6 +174,7 @@ class Procurementreport extends CI_Controller {
 						
 						$objJsonDocument = json_encode($xml);
 						$data["consumerList"] = json_decode($objJsonDocument);
+						
 						$data["content"] = "procurementreport/companyname";
 						$this->load->view('site',$data);
 						

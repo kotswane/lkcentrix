@@ -198,6 +198,68 @@ Current Contact, Address, and Employment Info.</h5>
  <hr class="hr_rule"/>
  <div class="panel-heading"><strong>Commercial Score</strong>
    <h5 class="subpanel-heading">&nbsp;</h5>
+   <?php if($report->CommercialScoring){ ?>
+	<table class="table-list">
+		<tr class="border_bottom">
+			<td>
+				<table class="table-list">
+					<tr class="border_bottom">
+						 <td>Commercial ID</td>
+						 <td><?php echo $report->CommercialScoring->CommercialID;?></td>
+					</tr>
+					<tr class="border_bottom">
+						 <td>Score Date</td>
+						 <td><?php echo $report->CommercialScoring->ScoreDate;?></td>
+					</tr>
+					<tr class="border_bottom">
+						 <td>Final Score</td>
+						 <td><?php echo $report->CommercialScoring->FinalScore;?></td>
+					</tr>
+					<tr class="border_bottom">
+						 <td>Band</td>
+						 <td><?php echo $report->CommercialScoring->Band;?></td>
+					</tr>
+				 </table>
+			</td>
+			<td>
+				<table class="table-list">
+					<tr class="border_bottom">
+						 <td>Score</td>
+						 <td>Band / Message</td>
+					</tr>						
+					<tr class="border_bottom">
+						<td><?php echo $report->CommercialScoring->ScoreBandRange1;?></td>
+						<td><?php echo $report->CommercialScoring->Band_x002F_Message1;?></td>
+					</tr>
+					<tr class="border_bottom">
+						<td><?php echo $report->CommercialScoring->ScoreBandRange2;?></td>
+						<td><?php echo $report->CommercialScoring->Band_x002F_Message2;?></td>
+					</tr>
+					<tr class="border_bottom">
+						<td><?php echo $report->CommercialScoring->ScoreBandRange3;?></td>
+						<td><?php echo $report->CommercialScoring->Band_x002F_Message3;?></td>
+					</tr>
+					<tr class="border_bottom">
+						<td><?php echo $report->CommercialScoring->ScoreBandRange4;?></td>
+						<td><?php echo $report->CommercialScoring->Band_x002F_Message4;?></td>
+					</tr>
+					<tr class="border_bottom">
+						<td><?php echo $report->CommercialScoring->ScoreBandRange5;?></td>
+						<td><?php echo $report->CommercialScoring->Band_x002F_Message5;?></td>
+					</tr>
+					<tr class="border_bottom">
+						<td><?php echo $report->CommercialScoring->ScoreBandRange6;?></td>
+						<td><?php echo $report->CommercialScoring->Band_x002F_Message6;?></td>
+					</tr>
+					<tr class="border_bottom">
+						<td><?php echo $report->CommercialScoring->ScoreBandRange7;?></td>
+						<td><?php echo $report->CommercialScoring->Band_x002F_Message7;?></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+   <?php } ?>
   </div><br />
                      <!-- End of Address History-->				 
 <div class="col">

@@ -5,7 +5,7 @@
 	   private $url;
 	   
 	   function __construct() {
-		   $this->url = "http://ec2-13-246-207-3.af-south-1.compute.amazonaws.com:5000/api/";
+		   $this->url = "http://ec2-13-244-253-167.af-south-1.compute.amazonaws.com:5000/index.php/api/";
 	   }
 	   
 	   public function generate($data) {
@@ -34,10 +34,11 @@
 		 return $status;
 	   }
 	   
+	   
 	   public function remove($data){
 		 $payload = json_encode($data);
 		 $ch = curl_init(); 
-		 curl_setopt($ch, CURLOPT_URL, $this->url."delete"); 
+		 curl_setopt($ch, CURLOPT_URL, $this->url."remove"); 
 		 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		 curl_setopt( $ch, CURLOPT_POSTFIELDS, $payload);
 		 curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));		 

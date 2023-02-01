@@ -45,7 +45,7 @@ class Indigentreport extends CI_Controller {
 		if(!$this->session->userdata('agreed_tc_and_c')){
 			 redirect('user/logout');
 		}		
-		$data = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal prod');
+		$data = array('id'=>$this->session->userdata('username'),'site'=>'tracing portal prod');
 		$response = $this->redisclient->request($data);
 
 		if($response->status != "success"){
@@ -103,7 +103,7 @@ class Indigentreport extends CI_Controller {
 					
 					$auditlog = array(
 						"auditlog_reportname"=>"indigentreport",
-						"auditlog_userId"=>$this->session->userdata('userId'),
+						"auditlog_userId"=>$this->session->userdata('username'),
 						"auditlog_reporttype"=>"id-search",
 						"auditlog_searchdata"=>json_encode(array(
 						'IdNumber'=>$this->input->post('idno'),
@@ -127,7 +127,7 @@ class Indigentreport extends CI_Controller {
 					$data["consumerList"] = $arrOutput;
 					$auditlog = array(
 						"auditlog_reportname"=>"indigentreport",
-						"auditlog_userId"=>$this->session->userdata('userId'),
+						"auditlog_userId"=>$this->session->userdata('username'),
 						"auditlog_reporttype"=>"id-search",
 						"auditlog_searchdata"=>json_encode(array(
 						'IdNumber'=>$this->input->post('idno'),
@@ -153,7 +153,7 @@ class Indigentreport extends CI_Controller {
 		if(!$this->session->userdata('agreed_tc_and_c')){
 			 redirect('user/logout');
 		}		
-		$data = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal prod');
+		$data = array('id'=>$this->session->userdata('username'),'site'=>'tracing portal prod');
 		$response = $this->redisclient->request($data);
 
 		if($response->status != "success"){
@@ -194,7 +194,7 @@ class Indigentreport extends CI_Controller {
 			
 			$auditlog = array(
 			"auditlog_reportname"=>"indigentreport",
-			"auditlog_userId"=>$this->session->userdata('userId'),
+			"auditlog_userId"=>$this->session->userdata('username'),
 			"auditlog_reporttype"=>"id-search",
 			"auditlog_searchdata"=>json_encode(array( 
 			'ProductID' => 239, 
@@ -212,7 +212,7 @@ class Indigentreport extends CI_Controller {
 		}else {
 			$auditlog = array(
 			"auditlog_reportname"=>"indigentreport",
-			"auditlog_userId"=>$this->session->userdata('userId'),
+			"auditlog_userId"=>$this->session->userdata('username'),
 			"auditlog_reporttype"=>"id-search",
 			"auditlog_searchdata"=>json_encode(array(
 			'ProductID' => 239, 
@@ -243,7 +243,7 @@ class Indigentreport extends CI_Controller {
 				
 				$auditlog = array(
 				"auditlog_reportname"=>"indigentreport",
-				"auditlog_userId"=>$this->session->userdata('userId'),
+				"auditlog_userId"=>$this->session->userdata('username'),
 				"auditlog_reporttype"=>"id-search",
 				"auditlog_searchdata"=>json_encode(array('IdNumber' => $idnumber)),
 				"auditlog_fnexecuted" => "ConnectDirectorMatch",
@@ -257,7 +257,7 @@ class Indigentreport extends CI_Controller {
 
 				$auditlog = array(
 				"auditlog_reportname"=>"indigentreport",
-				"auditlog_userId"=>$this->session->userdata('userId'),
+				"auditlog_userId"=>$this->session->userdata('username'),
 				"auditlog_reporttype"=>"id-search",
 				"auditlog_searchdata"=>json_encode(array('IdNumber' => $idnumber)),
 				"auditlog_fnexecuted" => "ConnectDirectorMatch",
@@ -278,7 +278,7 @@ class Indigentreport extends CI_Controller {
 
 				$auditlog = array(
 				"auditlog_reportname"=>"indigentreport",
-				"auditlog_userId"=>$this->session->userdata('userId'),
+				"auditlog_userId"=>$this->session->userdata('username'),
 				"auditlog_reporttype"=>"id-search",
 				"auditlog_searchdata"=>json_encode(array(
 				'EnquiryID' => $arrOutput->DirectorDetails->EnquiryID,
@@ -305,7 +305,7 @@ class Indigentreport extends CI_Controller {
 		if(!$this->session->userdata('agreed_tc_and_c')){
 			 redirect('user/logout');
 		}
-		$data = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal prod');
+		$data = array('id'=>$this->session->userdata('username'),'site'=>'tracing portal prod');
 		$response = $this->redisclient->request($data);
 
 		if($response->status != "success"){
@@ -335,7 +335,7 @@ class Indigentreport extends CI_Controller {
 		$arrOutput = json_decode($objJsonDocument, TRUE);
 			$auditlog = array(
 			"auditlog_reportname"=>"indigentreport",
-			"auditlog_userId"=>$this->session->userdata('userId'),
+			"auditlog_userId"=>$this->session->userdata('username'),
 			"auditlog_reporttype"=>"id-search",
 			"auditlog_searchdata"=>json_encode(array(
 			'EnquiryID' => $enquiryID,
@@ -354,7 +354,7 @@ class Indigentreport extends CI_Controller {
 		if(!$this->session->userdata('agreed_tc_and_c')){
 			 redirect('user/logout');
 		}		
-		$data = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal prod');
+		$data = array('id'=>$this->session->userdata('username'),'site'=>'tracing portal prod');
 		$response = $this->redisclient->request($data);
 
 		if($response->status != "success"){

@@ -49,7 +49,7 @@ class Tracereport extends CI_Controller {
 		if(!$this->session->userdata('agreed_tc_and_c')){
 			 redirect('user/logout');
 		}
-		$data = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal prod');
+		$data = array('id'=>$this->session->userdata('username'),'site'=>'tracing portal prod');
 		$response = $this->redisclient->request($data);
 
 		if($response->status != "success"){
@@ -74,7 +74,7 @@ class Tracereport extends CI_Controller {
 		if(!$this->session->userdata('agreed_tc_and_c')){
 			 redirect('user/logout');
 		}		
-		$data = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal prod');
+		$data = array('id'=>$this->session->userdata('username'),'site'=>'tracing portal prod');
 		$response = $this->redisclient->request($data);
 
 		if($response->status != "success"){
@@ -135,7 +135,7 @@ class Tracereport extends CI_Controller {
 					
 					$auditlog = array(
 						"auditlog_reportname"=>"tracereport",
-						"auditlog_userId"=>$this->session->userdata('userId'),
+						"auditlog_userId"=>$this->session->userdata('username'),
 						"auditlog_reporttype"=>"id-search",
 						"auditlog_searchdata"=>json_encode(array(
 						'IdNumber'=>$this->input->post('idNumber'),
@@ -160,7 +160,7 @@ class Tracereport extends CI_Controller {
 
 					$auditlog = array(
 						"auditlog_reportname"=>"tracereport",
-						"auditlog_userId"=>$this->session->userdata('userId'),
+						"auditlog_userId"=>$this->session->userdata('username'),
 						"auditlog_reporttype"=>"id-search",
 						"auditlog_searchdata"=>json_encode(array(
 						'IdNumber'=>$this->input->post('idNumber'),
@@ -202,7 +202,7 @@ class Tracereport extends CI_Controller {
 		if(!$this->session->userdata('agreed_tc_and_c')){
 			 redirect('user/logout');
 		}		
-		$data = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal prod');
+		$data = array('id'=>$this->session->userdata('username'),'site'=>'tracing portal prod');
 		$response = $this->redisclient->request($data);
 
 		if($response->status != "success"){
@@ -273,7 +273,7 @@ class Tracereport extends CI_Controller {
 					
 					$auditlog = array(
 						"auditlog_reportname"=>"tracereport",
-						"auditlog_userId"=>$this->session->userdata('userId'),
+						"auditlog_userId"=>$this->session->userdata('username'),
 						"auditlog_reporttype"=>"addresssearch",
 						"auditlog_searchdata"=>json_encode(array(
 						'Province' => $this->input->post('listprovinces'),
@@ -300,7 +300,7 @@ class Tracereport extends CI_Controller {
 					$arrOutput = json_decode($objJsonDocument);
 					$auditlog = array(
 						"auditlog_reportname"=>"tracereport",
-						"auditlog_userId"=>$this->session->userdata('userId'),
+						"auditlog_userId"=>$this->session->userdata('username'),
 						"auditlog_reporttype"=>"addresssearch",
 						"auditlog_searchdata"=>json_encode(array(
 						'Province' => $this->input->post('listprovinces'),
@@ -333,7 +333,7 @@ class Tracereport extends CI_Controller {
 							 
 								$auditlog = array(
 									"auditlog_reportname"=>"tracereport",
-									"auditlog_userId"=>$this->session->userdata('userId'),
+									"auditlog_userId"=>$this->session->userdata('username'),
 									"auditlog_reporttype"=>"addresssearch",
 									"auditlog_searchdata"=>json_encode(array(
 									'EnquiryResultID' =>  $arrOutput->ConsumerDetails->EnquiryResultID)),
@@ -364,7 +364,7 @@ class Tracereport extends CI_Controller {
 									
 									$auditlog = array(
 										"auditlog_reportname"=>"tracereport",
-										"auditlog_userId"=>$this->session->userdata('userId'),
+										"auditlog_userId"=>$this->session->userdata('username'),
 										"auditlog_reporttype"=>"addresssearch",
 										"auditlog_searchdata"=>json_encode(array(
 										'EnquiryResultID' => $arrOutputListValueListValue->EnquiryResultID)),
@@ -399,7 +399,7 @@ class Tracereport extends CI_Controller {
 		if(!$this->session->userdata('agreed_tc_and_c')){
 			 redirect('user/logout');
 		}		
-		$data = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal prod');
+		$data = array('id'=>$this->session->userdata('username'),'site'=>'tracing portal prod');
 		$response = $this->redisclient->request($data);
 
 		if($response->status != "success"){
@@ -470,7 +470,7 @@ class Tracereport extends CI_Controller {
 					$data["consumerList"]["details"] = array();				
 					$auditlog = array(
 						"auditlog_reportname"=>"tracereport",
-						"auditlog_userId"=>$this->session->userdata('userId'),
+						"auditlog_userId"=>$this->session->userdata('username'),
 						"auditlog_reporttype"=>"telephonesearch",
 						"auditlog_searchdata"=>json_encode(array(
 						'TelephoneCode' => $code,
@@ -487,7 +487,7 @@ class Tracereport extends CI_Controller {
 					
 					$auditlog = array(
 						"auditlog_reportname"=>"tracereport",
-						"auditlog_userId"=>$this->session->userdata('userId'),
+						"auditlog_userId"=>$this->session->userdata('username'),
 						"auditlog_reporttype"=>"telephonesearch",
 						"auditlog_searchdata"=>json_encode(array(
 						'TelephoneCode' => $code,
@@ -509,7 +509,7 @@ class Tracereport extends CI_Controller {
 							
 							$auditlog = array(
 								"auditlog_reportname"=>"tracereport",
-								"auditlog_userId"=>$this->session->userdata('userId'),
+								"auditlog_userId"=>$this->session->userdata('username'),
 								"auditlog_reporttype"=>"telephonesearch",
 								"auditlog_searchdata"=>json_encode(array(
 								'EnquiryResultID' => $arrOutputListValueListValue->EnquiryResultID)),
@@ -531,7 +531,7 @@ class Tracereport extends CI_Controller {
 
 							$auditlog = array(
 								"auditlog_reportname"=>"tracereport",
-								"auditlog_userId"=>$this->session->userdata('userId'),
+								"auditlog_userId"=>$this->session->userdata('username'),
 								"auditlog_reporttype"=>"telephonesearch",
 								"auditlog_searchdata"=>json_encode(array(
 								'EnquiryResultID' => $arrOutput->ConsumerDetails->EnquiryResultID)),
@@ -563,7 +563,7 @@ class Tracereport extends CI_Controller {
 		if(!$this->session->userdata('agreed_tc_and_c')){
 			 redirect('user/logout');
 		}		
-		$data = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal prod');
+		$data = array('id'=>$this->session->userdata('username'),'site'=>'tracing portal prod');
 		$response = $this->redisclient->request($data);
 
 		if($response->status != "success"){
@@ -595,7 +595,7 @@ class Tracereport extends CI_Controller {
 		
 		$auditlog = array(
 			"auditlog_reportname"=>"tracereport",
-			"auditlog_userId"=>$this->session->userdata('userId'),
+			"auditlog_userId"=>$this->session->userdata('username'),
 			"auditlog_reporttype"=>"id-search",
 			"auditlog_searchdata"=>json_encode(array(
 				'EnquiryID' => $enquiryID,
@@ -616,7 +616,7 @@ class Tracereport extends CI_Controller {
 		if(!$this->session->userdata('agreed_tc_and_c')){
 			 redirect('user/logout');
 		}
-		$data = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal prod');
+		$data = array('id'=>$this->session->userdata('username'),'site'=>'tracing portal prod');
 		$response = $this->redisclient->request($data);
 
 		if($response->status != "success"){
@@ -666,7 +666,7 @@ class Tracereport extends CI_Controller {
 		if(!$this->session->userdata('agreed_tc_and_c')){
 			 redirect('user/logout');
 		}		
-		$data = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal prod');
+		$data = array('id'=>$this->session->userdata('username'),'site'=>'tracing portal prod');
 		$response = $this->redisclient->request($data);
 
 		if($response->status != "success"){

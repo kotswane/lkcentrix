@@ -54,7 +54,7 @@ class Procurementreport extends CI_Controller {
 		if(!$this->session->userdata('agreed_tc_and_c')){
 			 redirect('user/logout');
 		}
-		$data = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal prod');
+		$data = array('id'=>$this->session->userdata('username'),'site'=>'tracing portal prod');
 		$response = $this->redisclient->request($data);
 
 		if($response->status != "success"){
@@ -113,7 +113,7 @@ class Procurementreport extends CI_Controller {
 				} else {
 					
 					
-					$ref = $this->session->userdata('userId')."-".uniqid()."-".rand(10,100);
+					$ref = $this->session->userdata('username')."-".uniqid()."-".rand(10,100);
 					$response = $this->client->ConnectBusinessMatch(array(
 						'Reg1' => '',
 						'Reg2' => '',
@@ -130,7 +130,7 @@ class Procurementreport extends CI_Controller {
 						
 						$auditlog = array(
 						"auditlog_reportname"=>"procurementreport",
-						"auditlog_userId"=>$this->session->userdata('userId'),
+						"auditlog_userId"=>$this->session->userdata('username'),
 						"auditlog_reporttype"=>"companyname",
 						"auditlog_searchdata"=>json_encode(array(
 						'Reg1' => '',
@@ -158,7 +158,7 @@ class Procurementreport extends CI_Controller {
 						
 						$auditlog = array(
 						"auditlog_reportname"=>"procurementreport",
-						"auditlog_userId"=>$this->session->userdata('userId'),
+						"auditlog_userId"=>$this->session->userdata('username'),
 						"auditlog_reporttype"=>"companyname",
 						"auditlog_searchdata"=>json_encode(array(
 						'Reg1' => '',
@@ -194,7 +194,7 @@ class Procurementreport extends CI_Controller {
 		if(!$this->session->userdata('agreed_tc_and_c')){
 			 redirect('user/logout');
 		}
-		$data = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal prod');
+		$data = array('id'=>$this->session->userdata('username'),'site'=>'tracing portal prod');
 		$response = $this->redisclient->request($data);
 
 		if($response->status != "success"){
@@ -244,7 +244,7 @@ class Procurementreport extends CI_Controller {
 					redirect('user/login');
 				}
 			
-			   $ref = $this->session->userdata('userId')."-".uniqid()."-".rand(10,100);
+			   $ref = $this->session->userdata('username')."-".uniqid()."-".rand(10,100);
 				$regnumb = explode("/",$this->input->post('companyregistrationno'));
 				if(count($regnumb) < 3){
 					$data["errorMessage"] = "invalid Company Registration Number Format, please use the correct formr eg. 2222/444426/12";
@@ -274,7 +274,7 @@ class Procurementreport extends CI_Controller {
 						
 						$auditlog = array(
 						"auditlog_reportname"=>"procurementreport",
-						"auditlog_userId"=>$this->session->userdata('userId'),
+						"auditlog_userId"=>$this->session->userdata('username'),
 						"auditlog_reporttype"=>"companyregistrationno",
 						"auditlog_searchdata"=>json_encode(array(
 						'Reg1' => $regnumb[0],
@@ -295,7 +295,7 @@ class Procurementreport extends CI_Controller {
 					
 						$auditlog = array(
 						"auditlog_reportname"=>"procurementreport",
-						"auditlog_userId"=>$this->session->userdata('userId'),
+						"auditlog_userId"=>$this->session->userdata('username'),
 						"auditlog_reporttype"=>"companyregistrationno",
 						"auditlog_searchdata"=>json_encode(array(
 						'Reg1' => $regnumb[0],
@@ -331,7 +331,7 @@ class Procurementreport extends CI_Controller {
 		if(!$this->session->userdata('agreed_tc_and_c')){
 			 redirect('user/logout');
 		}
-		$data = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal prod');
+		$data = array('id'=>$this->session->userdata('username'),'site'=>'tracing portal prod');
 		$response = $this->redisclient->request($data);
 
 		if($response->status != "success"){
@@ -390,7 +390,7 @@ class Procurementreport extends CI_Controller {
 			
 			$auditlog = array(
 			"auditlog_reportname"=>"procurementreport",
-			"auditlog_userId"=>$this->session->userdata('userId'),
+			"auditlog_userId"=>$this->session->userdata('username'),
 			"auditlog_reporttype"=>"id-search",
 			"auditlog_searchdata"=>json_encode(array( 
 			'ProductID' => 239, 
@@ -402,7 +402,7 @@ class Procurementreport extends CI_Controller {
 		}else {
 			$auditlog = array(
 			"auditlog_reportname"=>"procurementreport",
-			"auditlog_userId"=>$this->session->userdata('userId'),
+			"auditlog_userId"=>$this->session->userdata('username'),
 			"auditlog_reporttype"=>"id-search",
 			"auditlog_searchdata"=>json_encode(array(
 			'ProductID' => 239, 
@@ -423,7 +423,7 @@ class Procurementreport extends CI_Controller {
 		if(!$this->session->userdata('agreed_tc_and_c')){
 			 redirect('user/logout');
 		}		
-		$data = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal prod');
+		$data = array('id'=>$this->session->userdata('username'),'site'=>'tracing portal prod');
 		$response = $this->redisclient->request($data);
 
 		if($response->status != "success"){
@@ -454,7 +454,7 @@ class Procurementreport extends CI_Controller {
 		
 		$auditlog = array(
 			"auditlog_reportname"=>"procurementreport",
-			"auditlog_userId"=>$this->session->userdata('userId'),
+			"auditlog_userId"=>$this->session->userdata('username'),
 			"auditlog_reporttype"=> $type,
 			"auditlog_searchdata"=>json_encode(array(
 				'EnquiryID' => $enquiryID,
@@ -475,7 +475,7 @@ class Procurementreport extends CI_Controller {
 		if(!$this->session->userdata('agreed_tc_and_c')){
 			 redirect('user/logout');
 		}		
-		$data = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal prod');
+		$data = array('id'=>$this->session->userdata('username'),'site'=>'tracing portal prod');
 		$response = $this->redisclient->request($data);
 
 		if($response->status != "success"){
@@ -522,7 +522,7 @@ class Procurementreport extends CI_Controller {
 					
 					$auditlog = array(
 						"auditlog_reportname"=>"tracereport",
-						"auditlog_userId"=>$this->session->userdata('userId'),
+						"auditlog_userId"=>$this->session->userdata('username'),
 						"auditlog_reporttype"=>"id-search",
 						"auditlog_searchdata"=>json_encode(array(
 						'IdNumber'=>$id,
@@ -547,7 +547,7 @@ class Procurementreport extends CI_Controller {
 
 					$auditlog = array(
 						"auditlog_reportname"=>"tracereport",
-						"auditlog_userId"=>$this->session->userdata('userId'),
+						"auditlog_userId"=>$this->session->userdata('username'),
 						"auditlog_reporttype"=>"id-search",
 						"auditlog_searchdata"=>json_encode(array(
 						'IdNumber'=>$id,
@@ -571,7 +571,7 @@ class Procurementreport extends CI_Controller {
 		if(!$this->session->userdata('agreed_tc_and_c')){
 			 redirect('user/logout');
 		}		
-		$data = array('id'=>$this->session->userdata('userId'),'site'=>'tracing portal prod');
+		$data = array('id'=>$this->session->userdata('username'),'site'=>'tracing portal prod');
 		$response = $this->redisclient->request($data);
 
 		if($response->status != "success"){
@@ -602,7 +602,7 @@ class Procurementreport extends CI_Controller {
 		
 		$auditlog = array(
 			"auditlog_reportname"=>"tracereport",
-			"auditlog_userId"=>$this->session->userdata('userId'),
+			"auditlog_userId"=>$this->session->userdata('username'),
 			"auditlog_reporttype"=>"id-search",
 			"auditlog_searchdata"=>json_encode(array(
 				'EnquiryID' => $enquiryID,

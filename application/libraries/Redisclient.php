@@ -6,6 +6,7 @@
 	   
 	   function __construct() {
 		   $this->url = "http://ec2-13-244-253-167.af-south-1.compute.amazonaws.com:5000/index.php/api/";
+		   #$this->url = "http://localhost:5001/index.php/api/";
 	   }
 	   
 	   public function generate($data) {
@@ -17,8 +18,9 @@
 		 curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));		 
 		 $output = curl_exec($ch); 
 		 curl_close($ch);      
-		 $status= json_decode($output);		 
-		 return $status->status;
+		 $status= json_decode($output);		
+ 
+		 return $status;
 	   }
 	   
 	   public function request($data){
@@ -31,7 +33,7 @@
 		 $output = curl_exec($ch); 
 		 curl_close($ch);      
 		 $status= json_decode($output);		 
-		 return $status->status;
+		 return $status;
 	   }
 	   
 	   
@@ -45,7 +47,7 @@
 		 $output = curl_exec($ch); 
 		 curl_close($ch);      
 		 $status= json_decode($output);		 
-		 return $status->status;
+		 return $status;
 	   }
 	   
 	   

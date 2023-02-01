@@ -98,7 +98,7 @@ YOURSELF LIABLE FOR PROSECUTION.</p>
 							</tr>					
 							<tr>
 								<td colspan="2">
-									<button class="btn btn-primary" type="submit" id="button-search"><i class="fa fa-save" aria-hidden="true"></i>&nbsp; Continue</button>
+									<button class="btn btn-primary" type="button" id="button-submt"><i class="fa fa-save" aria-hidden="true"></i>&nbsp; Continue</button>
 								</td>
 							</tr>
 						</table>
@@ -114,7 +114,100 @@ YOURSELF LIABLE FOR PROSECUTION.</p>
         <strong>Copyright &copy; 2022 LKCentrix Solutions.</strong>
     </footer>
 </div>
-
+	<div class="modal fade" id="loadMe" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">
+	  <div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content">
+		  <div class="modal-body text-center">
+			<div class="loader"></div>
+			<div clas="loader-txt">
+			  <p>Please wait while loading</small></p>
+			</div>
+		  </div>
+		</div>
+	  </div>
+	</div>
 
 </body>
+<style>
+	.loader-txt {
+	  p {
+		font-size: 13px;
+		color: #666;
+		small {
+		  font-size: 11.5px;
+		  color: #999;
+		}
+	  }
+	}
+
+	/** MODAL STYLING **/
+
+	.modal-content {
+	  border-radius: 0px;
+	  box-shadow: 0 0 20px 8px rgba(0, 0, 0, 0.7);
+	}
+
+	.modal-backdrop.show {
+	  opacity: 0.75;
+	}
+
+	.loader {
+	  position: relative;
+	  text-align: center;
+	  margin: 15px auto 35px auto;
+	  z-index: 9999;
+	  display: block;
+	  width: 80px;
+	  height: 80px;
+	  border: 10px solid rgba(0, 0, 0, .3);
+	  border-radius: 50%;
+	  border-top-color: #000;
+	  animation: spin 1s ease-in-out infinite;
+	  -webkit-animation: spin 1s ease-in-out infinite;
+	}
+	
+	/** SPINNER CREATION **/
+
+.loader {
+  position: relative;
+  text-align: center;
+  margin: 15px auto 35px auto;
+  z-index: 9999;
+  display: block;
+  width: 80px;
+  height: 80px;
+  border: 10px solid rgba(0, 0, 0, .3);
+  border-radius: 50%;
+  border-top-color: #000;
+  animation: spin 1s ease-in-out infinite;
+  -webkit-animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+</style>
+<script>
+$(document).ready(function(){
+    $('#button-submt').click(function() {
+		
+		$("#loadMe").modal({
+		  backdrop: "static", //remove ability to close modal with click
+		  keyboard: false, //remove option to close with keyboard
+		  show: true //Display loader!
+		});
+		
+		$('#form-search').submit();
+    });
+});
+</script>
 </html>

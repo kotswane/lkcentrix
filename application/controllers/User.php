@@ -136,7 +136,6 @@ class User extends CI_Controller {
 
 									$data = array('id'=>$login[0]->username,'site'=>'tracing portal prod');
 									$responseApi = $this->redisclient->generate($data);
-									var_dump($responseApi->status);
 									
 									if($responseApi->status == "success"){
 										$this->session->set_userdata(array(

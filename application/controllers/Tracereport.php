@@ -108,9 +108,9 @@ class Tracereport extends CI_Controller {
 				$data["content"] = "tracereport/id-search";
 				$this->load->view('site',$data);
 			} else {
-				if(!$this->input->post('idNumber')){
+				/*if(!$this->input->post('idNumber')){
 					redirect('tracereport/id-search');
-				}
+				}*/
 				
 				$IsTicketValid = array("XDSConnectTicket"=>$this->session->userdata('tokenId'));
 			

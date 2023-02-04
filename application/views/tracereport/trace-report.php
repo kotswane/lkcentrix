@@ -4,10 +4,9 @@
 </head>
 <body>
 <section class="content-header">
-
+<pre>
 <?php if(is_object($report['details'])){
-	$report =$report['details'];
-	
+	$report = $report['details'];
 		if($report->SubscriberInputDetails->SubscriberName){
 			?>
 				<h1><?php echo $report->SubscriberInputDetails->SubscriberName;?></h1>
@@ -290,7 +289,8 @@
                 <div class="panel panel-secondary">
                 <div class="panel-heading"><strong>Consumer Telephone Linkage Cellular</strong></div>
                 <div class="panel-body">
-					<?php if($report->ConsumerTelephoneLinkageCellular){?>
+					<?php 
+					if($report->ConsumerTelephoneLinkageCellular){?>
                     <table class="table table-striped"id="ConsumerTelephoneLinkageCellular">
 						<thead>
                         <tr>

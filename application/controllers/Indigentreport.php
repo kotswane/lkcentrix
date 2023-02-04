@@ -33,6 +33,7 @@ class Indigentreport extends CI_Controller {
 			 redirect('user/logout');
 		}		
 		$this->load->model("Auditlog_model");
+		$this->load->model("SearchHistory_model");
 		$this->reports = $this->Report_model->list_reports();
 		$this->reports_type = $this->Report_type_model->list_reports_type();	
 	 }
@@ -99,11 +100,25 @@ class Indigentreport extends CI_Controller {
 				
 				$xml = simplexml_load_string($responseConsumer->ConnectConsumerMatchResult);
 				
+				$searchHistory = array(
+						"reportname"=>"indigentreport",
+						"userId"=>$this->session->userdata('userId'),
+						"reporttype"=>"id-search",
+						"searchdata"=>json_encode(array(
+						'IdNumber'=>$this->input->post('idno'),
+						'ProductId' => 132,
+						'EnquiryReason' => 'Consumer Trace'
+						)),
+						"fnexecuted" => "ConnectConsumerMatch"
+				);
+				
+				$this->SearchHistory_model->create($searchHistory);
+				
 				if ($xml->Error || $xml->NotFound){
 					
 					$auditlog = array(
 						"auditlog_reportname"=>"indigentreport",
-						"auditlog_userId"=>$this->session->userdata('username'),
+						"auditlog_userId"=>$this->session->userdata('userId'),
 						"auditlog_reporttype"=>"id-search",
 						"auditlog_searchdata"=>json_encode(array(
 						'IdNumber'=>$this->input->post('idno'),
@@ -127,7 +142,7 @@ class Indigentreport extends CI_Controller {
 					$data["consumerList"] = $arrOutput;
 					$auditlog = array(
 						"auditlog_reportname"=>"indigentreport",
-						"auditlog_userId"=>$this->session->userdata('username'),
+						"auditlog_userId"=>$this->session->userdata('userId'),
 						"auditlog_reporttype"=>"id-search",
 						"auditlog_searchdata"=>json_encode(array(
 						'IdNumber'=>$this->input->post('idno'),
@@ -194,7 +209,7 @@ class Indigentreport extends CI_Controller {
 			
 			$auditlog = array(
 			"auditlog_reportname"=>"indigentreport",
-			"auditlog_userId"=>$this->session->userdata('username'),
+			"auditlog_userId"=>$this->session->userdata('userId'),
 			"auditlog_reporttype"=>"id-search",
 			"auditlog_searchdata"=>json_encode(array( 
 			'ProductID' => 239, 
@@ -212,7 +227,7 @@ class Indigentreport extends CI_Controller {
 		}else {
 			$auditlog = array(
 			"auditlog_reportname"=>"indigentreport",
-			"auditlog_userId"=>$this->session->userdata('username'),
+			"auditlog_userId"=>$this->session->userdata('userId'),
 			"auditlog_reporttype"=>"id-search",
 			"auditlog_searchdata"=>json_encode(array(
 			'ProductID' => 239, 
@@ -243,7 +258,7 @@ class Indigentreport extends CI_Controller {
 				
 				$auditlog = array(
 				"auditlog_reportname"=>"indigentreport",
-				"auditlog_userId"=>$this->session->userdata('username'),
+				"auditlog_userId"=>$this->session->userdata('userId'),
 				"auditlog_reporttype"=>"id-search",
 				"auditlog_searchdata"=>json_encode(array('IdNumber' => $idnumber)),
 				"auditlog_fnexecuted" => "ConnectDirectorMatch",
@@ -257,7 +272,7 @@ class Indigentreport extends CI_Controller {
 
 				$auditlog = array(
 				"auditlog_reportname"=>"indigentreport",
-				"auditlog_userId"=>$this->session->userdata('username'),
+				"auditlog_userId"=>$this->session->userdata('userId'),
 				"auditlog_reporttype"=>"id-search",
 				"auditlog_searchdata"=>json_encode(array('IdNumber' => $idnumber)),
 				"auditlog_fnexecuted" => "ConnectDirectorMatch",
@@ -278,7 +293,7 @@ class Indigentreport extends CI_Controller {
 
 				$auditlog = array(
 				"auditlog_reportname"=>"indigentreport",
-				"auditlog_userId"=>$this->session->userdata('username'),
+				"auditlog_userId"=>$this->session->userdata('userId'),
 				"auditlog_reporttype"=>"id-search",
 				"auditlog_searchdata"=>json_encode(array(
 				'EnquiryID' => $arrOutput->DirectorDetails->EnquiryID,
@@ -335,7 +350,7 @@ class Indigentreport extends CI_Controller {
 		$arrOutput = json_decode($objJsonDocument, TRUE);
 			$auditlog = array(
 			"auditlog_reportname"=>"indigentreport",
-			"auditlog_userId"=>$this->session->userdata('username'),
+			"auditlog_userId"=>$this->session->userdata('userId'),
 			"auditlog_reporttype"=>"id-search",
 			"auditlog_searchdata"=>json_encode(array(
 			'EnquiryID' => $enquiryID,

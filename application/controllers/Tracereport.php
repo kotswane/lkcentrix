@@ -37,6 +37,7 @@ class Tracereport extends CI_Controller {
 
 		$this->load->model("Province_model");
 		$this->load->model("Auditlog_model");
+		$this->load->model("SearchHistory_model");
 		$this->reports = $this->Report_model->list_reports();
 		$this->reports_type = $this->Report_type_model->list_reports_type();
 		
@@ -131,11 +132,26 @@ class Tracereport extends CI_Controller {
 				
 				$xml = simplexml_load_string($response->ConnectConsumerMatchResult);
 
+				$searchHistory = array(
+						"reportname"=>"tracereport",
+						"userId"=>$this->session->userdata('userId'),
+						"reporttype"=>"id-search",
+						"searchdata"=>json_encode(array(
+						'IdNumber'=>$this->input->post('idNumber'),
+						'ConnectTicket'=>$this->session->userdata('tokenId'),
+						'ProductId' => 2,
+						'EnquiryReason' => 'Consumer Trace'
+						)),
+						"fnexecuted" => "ConnectConsumerMatch"
+				);
+				
+				$this->SearchHistory_model->create($searchHistory); 
+				
 				if ($xml->Error || $xml->NotFound){
 					
 					$auditlog = array(
 						"auditlog_reportname"=>"tracereport",
-						"auditlog_userId"=>$this->session->userdata('username'),
+						"auditlog_userId"=>$this->session->userdata('userId'),
 						"auditlog_reporttype"=>"id-search",
 						"auditlog_searchdata"=>json_encode(array(
 						'IdNumber'=>$this->input->post('idNumber'),
@@ -160,7 +176,7 @@ class Tracereport extends CI_Controller {
 
 					$auditlog = array(
 						"auditlog_reportname"=>"tracereport",
-						"auditlog_userId"=>$this->session->userdata('username'),
+						"auditlog_userId"=>$this->session->userdata('userId'),
 						"auditlog_reporttype"=>"id-search",
 						"auditlog_searchdata"=>json_encode(array(
 						'IdNumber'=>$this->input->post('idNumber'),
@@ -268,12 +284,29 @@ class Tracereport extends CI_Controller {
 					'Surname' => $this->input->post('surname')));
 					
 				$xml = simplexml_load_string($response->ConnectAddressMatchResult,"SimpleXMLElement");
+				$searchHistory = array(
+						"reportname"=>"tracereport",
+						"userId"=>$this->session->userdata('userId'),
+						"reporttype"=>"addresssearch",
+						"searchdata"=>json_encode(array(
+						'Province' => $this->input->post('listprovinces'),
+						'Suburb' => $this->input->post('suburb'), 
+						'City' => $this->input->post('city'), 
+						'PostalMatch' => true,
+						'ConnectTicket' => $this->session->userdata('tokenId'), 
+						'StreetName_PostalNo' => $this->input->post('streetName'), 
+						'PostalCode' => $this->input->post('postalCode'), 
+						'StreetNo' => $this->input->post('streetNo'), 
+						'Surname' => $this->input->post('surname'))),
+						"fnexecuted" => "ConnectConsumerMatch"
+				);
 				
+				$this->SearchHistory_model->create($searchHistory);				
 				if ($xml->Error || $xml->NotFound){
 					
 					$auditlog = array(
 						"auditlog_reportname"=>"tracereport",
-						"auditlog_userId"=>$this->session->userdata('username'),
+						"auditlog_userId"=>$this->session->userdata('userId'),
 						"auditlog_reporttype"=>"addresssearch",
 						"auditlog_searchdata"=>json_encode(array(
 						'Province' => $this->input->post('listprovinces'),
@@ -300,7 +333,7 @@ class Tracereport extends CI_Controller {
 					$arrOutput = json_decode($objJsonDocument);
 					$auditlog = array(
 						"auditlog_reportname"=>"tracereport",
-						"auditlog_userId"=>$this->session->userdata('username'),
+						"auditlog_userId"=>$this->session->userdata('userId'),
 						"auditlog_reporttype"=>"addresssearch",
 						"auditlog_searchdata"=>json_encode(array(
 						'Province' => $this->input->post('listprovinces'),
@@ -333,7 +366,7 @@ class Tracereport extends CI_Controller {
 							 
 								$auditlog = array(
 									"auditlog_reportname"=>"tracereport",
-									"auditlog_userId"=>$this->session->userdata('username'),
+									"auditlog_userId"=>$this->session->userdata('userId'),
 									"auditlog_reporttype"=>"addresssearch",
 									"auditlog_searchdata"=>json_encode(array(
 									'EnquiryResultID' =>  $arrOutput->ConsumerDetails->EnquiryResultID)),
@@ -364,7 +397,7 @@ class Tracereport extends CI_Controller {
 									
 									$auditlog = array(
 										"auditlog_reportname"=>"tracereport",
-										"auditlog_userId"=>$this->session->userdata('username'),
+										"auditlog_userId"=>$this->session->userdata('userId'),
 										"auditlog_reporttype"=>"addresssearch",
 										"auditlog_searchdata"=>json_encode(array(
 										'EnquiryResultID' => $arrOutputListValueListValue->EnquiryResultID)),
@@ -463,14 +496,25 @@ class Tracereport extends CI_Controller {
 				
 
 				$xml = simplexml_load_string($response->ConnectTelephoneMatchResult,"SimpleXMLElement");
-			
+				$searchHistory = array(
+						"reportname"=>"tracereport",
+						"userId"=>$this->session->userdata('userId'),
+						"reporttype"=>"telephonesearch",
+						"searchdata"=>json_encode(array(
+						'TelephoneCode' => $code,
+						'ConnectTicket' => $this->session->userdata('tokenId'),
+						'TelephoneNo' => $number)),
+						"fnexecuted" => "ConnectConsumerMatch"
+				);
+				
+				$this->SearchHistory_model->create($searchHistory);				
 				if ($xml->NotFound || $xml->Error){
 					
 					$data["errorMessage"] = (($xml->NotFound)?$xml->NotFound:$xml->Error);
 					$data["consumerList"]["details"] = array();				
 					$auditlog = array(
 						"auditlog_reportname"=>"tracereport",
-						"auditlog_userId"=>$this->session->userdata('username'),
+						"auditlog_userId"=>$this->session->userdata('userId'),
 						"auditlog_reporttype"=>"telephonesearch",
 						"auditlog_searchdata"=>json_encode(array(
 						'TelephoneCode' => $code,
@@ -487,7 +531,7 @@ class Tracereport extends CI_Controller {
 					
 					$auditlog = array(
 						"auditlog_reportname"=>"tracereport",
-						"auditlog_userId"=>$this->session->userdata('username'),
+						"auditlog_userId"=>$this->session->userdata('userId'),
 						"auditlog_reporttype"=>"telephonesearch",
 						"auditlog_searchdata"=>json_encode(array(
 						'TelephoneCode' => $code,
@@ -509,7 +553,7 @@ class Tracereport extends CI_Controller {
 							
 							$auditlog = array(
 								"auditlog_reportname"=>"tracereport",
-								"auditlog_userId"=>$this->session->userdata('username'),
+								"auditlog_userId"=>$this->session->userdata('userId'),
 								"auditlog_reporttype"=>"telephonesearch",
 								"auditlog_searchdata"=>json_encode(array(
 								'EnquiryResultID' => $arrOutputListValueListValue->EnquiryResultID)),
@@ -531,7 +575,7 @@ class Tracereport extends CI_Controller {
 
 							$auditlog = array(
 								"auditlog_reportname"=>"tracereport",
-								"auditlog_userId"=>$this->session->userdata('username'),
+								"auditlog_userId"=>$this->session->userdata('userId'),
 								"auditlog_reporttype"=>"telephonesearch",
 								"auditlog_searchdata"=>json_encode(array(
 								'EnquiryResultID' => $arrOutput->ConsumerDetails->EnquiryResultID)),
@@ -595,7 +639,7 @@ class Tracereport extends CI_Controller {
 		
 		$auditlog = array(
 			"auditlog_reportname"=>"tracereport",
-			"auditlog_userId"=>$this->session->userdata('username'),
+			"auditlog_userId"=>$this->session->userdata('userId'),
 			"auditlog_reporttype"=>"id-search",
 			"auditlog_searchdata"=>json_encode(array(
 				'EnquiryID' => $enquiryID,

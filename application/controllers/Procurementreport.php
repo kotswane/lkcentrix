@@ -42,6 +42,7 @@ class Procurementreport extends CI_Controller {
 			redirect('user/login');
 		}
 		$this->load->model("Auditlog_model");
+		$this->load->model("SearchHistory_model");
 		$this->reports = $this->Report_model->list_reports();
 		$this->reports_type = $this->Report_type_model->list_reports_type();	
 	 }
@@ -125,12 +126,29 @@ class Procurementreport extends CI_Controller {
 						'ConnectTicket' => $this->session->userdata('tokenId')));
 
 					$xml = simplexml_load_string($response->ConnectBusinessMatchResult,"SimpleXMLElement");
-	
+					
+					$searchHistory = array(
+							"reportname"=>"procurementreport",
+							"userId"=>$this->session->userdata('userId'),
+							"reporttype"=>"companyname",
+							"searchdata"=>json_encode(array(
+							'Reg1' => '',
+							'Reg2' => '',
+							'Reg3' => '',
+							'BusinessName' => $this->input->post('companyname'),
+							'VatNo' => '',
+							'SolePropIDNo' => '',
+							'YourReference' => $ref,
+							'ConnectTicket' => $this->session->userdata('tokenId'))),
+							"fnexecuted" => "ConnectBusinessMatch"
+					);
+					
+					$this->SearchHistory_model->create($searchHistory);	
 					if ($xml->NotFound || $xml->Error){
 						
 						$auditlog = array(
 						"auditlog_reportname"=>"procurementreport",
-						"auditlog_userId"=>$this->session->userdata('username'),
+						"auditlog_userId"=>$this->session->userdata('userId'),
 						"auditlog_reporttype"=>"companyname",
 						"auditlog_searchdata"=>json_encode(array(
 						'Reg1' => '',
@@ -158,7 +176,7 @@ class Procurementreport extends CI_Controller {
 						
 						$auditlog = array(
 						"auditlog_reportname"=>"procurementreport",
-						"auditlog_userId"=>$this->session->userdata('username'),
+						"auditlog_userId"=>$this->session->userdata('userId'),
 						"auditlog_reporttype"=>"companyname",
 						"auditlog_searchdata"=>json_encode(array(
 						'Reg1' => '',
@@ -265,6 +283,25 @@ class Procurementreport extends CI_Controller {
 					
 
 					$xml = simplexml_load_string($response->ConnectBusinessMatchResult,"SimpleXMLElement");
+					
+					$searchHistory = array(
+							"reportname"=>"procurementreport",
+							"userId"=>$this->session->userdata('userId'),
+							"reporttype"=>"companyregistrationno",
+							"searchdata"=>json_encode(array(
+							'Reg1' => $regnumb[0],
+							'Reg2' => $regnumb[1],
+							'Reg3' => $regnumb[2],
+							'BusinessName' => '',
+							'VatNo' => '',
+							'SolePropIDNo' => '',
+							'YourReference' => $ref,
+							'ConnectTicket' => $this->session->userdata('tokenId'))),
+							"fnexecuted" => "ConnectBusinessMatch"
+					);
+					
+					$this->SearchHistory_model->create($searchHistory);	
+					
 					if ($xml->NotFound || $xml->Error){
 						
 						if ($xml->Error){
@@ -275,7 +312,7 @@ class Procurementreport extends CI_Controller {
 						
 						$auditlog = array(
 						"auditlog_reportname"=>"procurementreport",
-						"auditlog_userId"=>$this->session->userdata('username'),
+						"auditlog_userId"=>$this->session->userdata('userId'),
 						"auditlog_reporttype"=>"companyregistrationno",
 						"auditlog_searchdata"=>json_encode(array(
 						'Reg1' => $regnumb[0],
@@ -296,7 +333,7 @@ class Procurementreport extends CI_Controller {
 					
 						$auditlog = array(
 						"auditlog_reportname"=>"procurementreport",
-						"auditlog_userId"=>$this->session->userdata('username'),
+						"auditlog_userId"=>$this->session->userdata('userId'),
 						"auditlog_reporttype"=>"companyregistrationno",
 						"auditlog_searchdata"=>json_encode(array(
 						'Reg1' => $regnumb[0],
@@ -391,7 +428,7 @@ class Procurementreport extends CI_Controller {
 			
 			$auditlog = array(
 			"auditlog_reportname"=>"procurementreport",
-			"auditlog_userId"=>$this->session->userdata('username'),
+			"auditlog_userId"=>$this->session->userdata('userId'),
 			"auditlog_reporttype"=>"id-search",
 			"auditlog_searchdata"=>json_encode(array( 
 			'ProductID' => 239, 
@@ -403,7 +440,7 @@ class Procurementreport extends CI_Controller {
 		}else {
 			$auditlog = array(
 			"auditlog_reportname"=>"procurementreport",
-			"auditlog_userId"=>$this->session->userdata('username'),
+			"auditlog_userId"=>$this->session->userdata('userId'),
 			"auditlog_reporttype"=>"id-search",
 			"auditlog_searchdata"=>json_encode(array(
 			'ProductID' => 239, 
@@ -455,7 +492,7 @@ class Procurementreport extends CI_Controller {
 		
 		$auditlog = array(
 			"auditlog_reportname"=>"procurementreport",
-			"auditlog_userId"=>$this->session->userdata('username'),
+			"auditlog_userId"=>$this->session->userdata('userId'),
 			"auditlog_reporttype"=> $type,
 			"auditlog_searchdata"=>json_encode(array(
 				'EnquiryID' => $enquiryID,
@@ -523,7 +560,7 @@ class Procurementreport extends CI_Controller {
 					
 					$auditlog = array(
 						"auditlog_reportname"=>"tracereport",
-						"auditlog_userId"=>$this->session->userdata('username'),
+						"auditlog_userId"=>$this->session->userdata('userId'),
 						"auditlog_reporttype"=>"id-search",
 						"auditlog_searchdata"=>json_encode(array(
 						'IdNumber'=>$id,
@@ -548,7 +585,7 @@ class Procurementreport extends CI_Controller {
 
 					$auditlog = array(
 						"auditlog_reportname"=>"tracereport",
-						"auditlog_userId"=>$this->session->userdata('username'),
+						"auditlog_userId"=>$this->session->userdata('userId'),
 						"auditlog_reporttype"=>"id-search",
 						"auditlog_searchdata"=>json_encode(array(
 						'IdNumber'=>$id,
@@ -603,7 +640,7 @@ class Procurementreport extends CI_Controller {
 		
 		$auditlog = array(
 			"auditlog_reportname"=>"tracereport",
-			"auditlog_userId"=>$this->session->userdata('username'),
+			"auditlog_userId"=>$this->session->userdata('userId'),
 			"auditlog_reporttype"=>"id-search",
 			"auditlog_searchdata"=>json_encode(array(
 				'EnquiryID' => $enquiryID,

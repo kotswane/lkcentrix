@@ -33,6 +33,7 @@ class Dashboard extends CI_Controller {
 			 redirect('user/logout');
 		}		
 		$this->load->model("Auditlog_model");
+		$this->load->model("SearchHistory_model");
 		$this->reports = $this->Report_model->list_reports();
 		$this->reports_type = $this->Report_type_model->list_reports_type();	
 	 }
@@ -55,6 +56,21 @@ class Dashboard extends CI_Controller {
 		$data["reports_type"] = $this->reports_type;
 		$data["reports"] = $this->reports;
 		
+		if($this->input->post("start-date") && $this->input->post("end-date")){
+			$sdate = $this->input->post("start-date")." 00:00:00";
+			$edate = $this->input->post("end-date")." 23:59:59";
+			
+			$data["title"] = "Total Count Per Report between ".$this->input->post("start-date")." and ".$this->input->post("end-date");
+			$data["overviewReportLastSevenDays"] = $this->SearchHistory_model->getOverViewReportDateRange($this->session->userdata('userId'),$sdate,$edate);
+			$data["detailedReportLastSevenDays"] = $this->SearchHistory_model->getDetailedReportDateRange($this->session->userdata('userId'),$sdate,$edate);
+			$data["totalLastSevenDay"] = $this->SearchHistory_model->getTotalDateRange($this->session->userdata('userId'),$sdate,$edate);
+			
+		}else{
+			$data["title"] = "Total Count Per Report For Last 7 Days";
+			$data["overviewReportLastSevenDays"] = $this->SearchHistory_model->getOverViewReportLastSevenDays($this->session->userdata('userId'));
+			$data["detailedReportLastSevenDays"] = $this->SearchHistory_model->getDetailedReportLastSevenDays($this->session->userdata('userId'));
+			$data["totalLastSevenDay"] = $this->SearchHistory_model->getTotalLastSevenDays($this->session->userdata('userId'));
+		}
 		$data["content"] = "dashboard/index";
 		$this->load->view('site',$data);
 	}

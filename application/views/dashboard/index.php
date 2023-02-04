@@ -43,7 +43,7 @@
 
 				  <div class="form-group">
 					<div class="col-lg-4">
-					  <button type="button" id="bt-date-search" class="btn btn-primary">search</button>
+					  <button type="button" id="btn-date-search" class="btn btn-primary">search</button>
 					</div>
 				  </div>
 				
@@ -395,7 +395,7 @@
   
 $(document).ready(function(){
 
-    $('#bbt-date-search').click(function() {
+    $('#btn-date-search').click(function() {
        	
 		$("#loadMe").modal({
 		  backdrop: "static", //remove ability to close modal with click

@@ -43,7 +43,7 @@
 
 				  <div class="form-group">
 					<div class="col-lg-4">
-					  <button type="submit" class="btn btn-primary">search</button>
+					  <button type="button" id="bt-date-search" class="btn btn-primary">search</button>
 					</div>
 				  </div>
 				
@@ -391,6 +391,20 @@
       options: stackedBarChartOptions
     })
   }) */
+  
+  
+$(document).ready(function(){
+
+    $('#bbt-date-search').click(function() {
+       	
+		$("#loadMe").modal({
+		  backdrop: "static", //remove ability to close modal with click
+		  keyboard: false, //remove option to close with keyboard
+		  show: true //Display loader!
+		});
+		$('#form-search-date').submit();
+    });
+});
 </script>
 </body>
 </html>

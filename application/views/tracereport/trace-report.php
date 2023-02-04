@@ -4,7 +4,6 @@
 </head>
 <body>
 <section class="content-header">
-<pre>
 <?php if(is_object($report['details'])){
 	$report = $report['details'];
 		if($report->SubscriberInputDetails->SubscriberName){

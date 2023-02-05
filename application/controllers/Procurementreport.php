@@ -98,7 +98,12 @@ class Procurementreport extends CI_Controller {
 			$output = curl_exec($ch); 
 			curl_close($ch);      
 			 
-			$status = json_decode($output, true);			
+			$status = json_decode($output, true);	
+
+			if ($this->input->post("fromlist")=="back"){
+				$status['success'] = true;
+			}	
+			
 			if ($status['success'] == false){
 				$data['errorMessage'] = 'Sorry Recaptcha Unsuccessful!!';
 				$data["content"] = "procurementreport/companyname";
@@ -124,6 +129,7 @@ class Procurementreport extends CI_Controller {
 					$this->load->view('site',$data);
 				} else {
 					
+					$this->session->set_userdata(array("searchstring" => $this->input->post('companyname')));
 					
 					$ref = $this->session->userdata('username')."-".uniqid()."-".rand(10,100);
 					$response = $this->client->ConnectBusinessMatch(array(
@@ -266,8 +272,11 @@ class Procurementreport extends CI_Controller {
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
 			$output = curl_exec($ch); 
 			curl_close($ch);      
-			 
-			$status = json_decode($output, true);			
+			$status = json_decode($output, true);
+			if ($this->input->post("fromlist")=="back"){
+				$status['success'] = true;
+			}
+						
 			if ($status['success'] == false){
 				$data['errorMessage'] = 'Sorry Recaptcha Unsuccessful!!';
 				$data["content"] = "procurementreport/companyregistrationno";
@@ -352,7 +361,7 @@ class Procurementreport extends CI_Controller {
 						$this->load->view('site',$data);
 						
 					}else{
-					
+						$this->session->set_userdata(array("searchstring" => $this->input->post('companyregistrationno')));
 						$auditlog = array(
 						"auditlog_reportname"=>"procurementreport",
 						"auditlog_userId"=>$this->session->userdata('userId'),
@@ -407,22 +416,30 @@ class Procurementreport extends CI_Controller {
 		$data["errorMessage"] = "";
 
 		$response = $this->getSearchData($this->uri->segment(3), $this->uri->segment(4),$this->uri->segment(5));
-		$data['content'] = "procurementreport/customerdatalist";
 		$data['report'] = $response;
+		$data['proc_menu']=$this->uri->segment(5);
+		if($this->uri->segment(5)=="companyregistrationno"){
+			$data["hiddenField"]= '<input type="hidden" name ="companyregistrationno" value="'.$this->session->userdata('searchstring').'" />';
+		}else if($this->uri->segment(5)=="companyname") {
+			$data["hiddenField"]= '<input type="hidden" name ="companyname" value="'.$this->session->userdata('searchstring').'" />';
+		}
 		$data['personaldetails']['details'] = array();
+		
 		if(!$response->NotFound || !$xml->response){
-			
-			if(is_array($response->CommercialActivePrincipalInformation)){
-				foreach($response->CommercialActivePrincipalInformation as $CommercialActivePrincipalInformation){
-				  $data['personaldetails']['details'][$CommercialActivePrincipalInformation->IDNo] = $this->getConsumerMatch($CommercialActivePrincipalInformation->IDNo);			  
+			if($response->CommercialActivePrincipalInformation){
+				if(is_array($response->CommercialActivePrincipalInformation)){
+					foreach($response->CommercialActivePrincipalInformation as $CommercialActivePrincipalInformation){
+					  $data['personaldetails']['details'][$CommercialActivePrincipalInformation->IDNo] = $this->getConsumerMatch($CommercialActivePrincipalInformation->IDNo,$this->uri->segment(5));			  
+					}
+				}else{
+					$data['personaldetails']['details'][$response->CommercialActivePrincipalInformation->IDNo]=$this->getConsumerMatch($response->CommercialActivePrincipalInformation->IDNo,$this->uri->segment(5));
 				}
-			}else{
-				$data['personaldetails']['details'][$response->CommercialActivePrincipalInformation->IDNo]=$this->getConsumerMatch($response->CommercialActivePrincipalInformation->IDNo);
 			}
 			
 		}
 	
 		$this->session->set_userdata(array('report' =>$data['report']));
+		$data['content'] = "procurementreport/customerdatalist";
 		$this->load->view('site',$data);
 	}
 	
@@ -555,75 +572,75 @@ class Procurementreport extends CI_Controller {
 		}
 	}
 	
-	private function getConsumerMatch($id){
+	private function getConsumerMatch($id,$type){
 		if(!$this->session->userdata('agreed_tc_and_c')){
 			 redirect('user/logout');
 		}		
-				$IsTicketValid = array("XDSConnectTicket"=>$this->session->userdata('tokenId'));
+		$IsTicketValid = array("XDSConnectTicket"=>$this->session->userdata('tokenId'));
+	
+		$this->client = $this->mysoapclient->getClient();
+		$this->latestclient = $this->mysoapclient->getClientlatest();
+		$resp = $this->client->IsTicketValid($IsTicketValid);
+		if($resp->IsTicketValidResult != true || $resp->IsTicketValidResult ==""){
+			$this->session->set_userdata(array('tokensession' =>'Session expired, please login again'));
+			redirect('user/login');
+		}
+		
+		$response = $this->client->ConnectConsumerMatch(array(
+		'IdNumber'=>$id,
+		'ConnectTicket'=>$this->session->userdata('tokenId'),
+		'ProductId' => 2,
+		'EnquiryReason' => 'Consumer Trace'
+		));
+		
+		$xml = simplexml_load_string($response->ConnectConsumerMatchResult);
+
+		if ($xml->Error || $xml->NotFound){
 			
-				$this->client = $this->mysoapclient->getClient();
-				$this->latestclient = $this->mysoapclient->getClientlatest();
-				$resp = $this->client->IsTicketValid($IsTicketValid);
-				if($resp->IsTicketValidResult != true || $resp->IsTicketValidResult ==""){
-					$this->session->set_userdata(array('tokensession' =>'Session expired, please login again'));
-					redirect('user/login');
-				}
-				
-				$response = $this->client->ConnectConsumerMatch(array(
+			$auditlog = array(
+				"auditlog_reportname"=>"procurementreport",
+				"auditlog_userId"=>$this->session->userdata('userId'),
+				"auditlog_reporttype"=>$type,
+				"auditlog_searchdata"=>json_encode(array(
 				'IdNumber'=>$id,
-				'ConnectTicket'=>$this->session->userdata('tokenId'),
 				'ProductId' => 2,
-				'EnquiryReason' => 'Consumer Trace'
-				));
-				
-				$xml = simplexml_load_string($response->ConnectConsumerMatchResult);
+				'EnquiryReason' => 'Consumer Trace')),
+				"auditlog_fnexecuted" => "ConnectConsumerMatch",
+				"auditlog_issuccess" => false
+			);
+			$this->Auditlog_model->save($auditlog);
+		
+			if($xml->Error){
+				$data["errorMessage"] = $xml->Error[0];
+			}else{
+				$data["errorMessage"] = $xml->NotFound;
+			}
+			#$data["content"] = "procurementreport/".$type;
+			#$this->load->view('site',$data);
+		}else {
+			
+			$objJsonDocument = json_encode($xml);
+			$arrOutput = json_decode($objJsonDocument, TRUE);
 
-				if ($xml->Error || $xml->NotFound){
-					
-					$auditlog = array(
-						"auditlog_reportname"=>"tracereport",
-						"auditlog_userId"=>$this->session->userdata('userId'),
-						"auditlog_reporttype"=>"id-search",
-						"auditlog_searchdata"=>json_encode(array(
-						'IdNumber'=>$id,
-						'ProductId' => 2,
-						'EnquiryReason' => 'Consumer Trace')),
-						"auditlog_fnexecuted" => "ConnectConsumerMatch",
-						"auditlog_issuccess" => false
-					);
-					$this->Auditlog_model->save($auditlog);
-				
-					if($xml->Error){
-						$data["errorMessage"] = $xml->Error[0];
-					}else{
-						$data["errorMessage"] = $xml->NotFound;
-					}
-					$data["content"] = "tracereport/id-search";
-					$this->load->view('site',$data);
-				}else {
-					
-					$objJsonDocument = json_encode($xml);
-					$arrOutput = json_decode($objJsonDocument, TRUE);
-
-					$auditlog = array(
-						"auditlog_reportname"=>"tracereport",
-						"auditlog_userId"=>$this->session->userdata('userId'),
-						"auditlog_reporttype"=>"id-search",
-						"auditlog_searchdata"=>json_encode(array(
-						'IdNumber'=>$id,
-						'ProductId' => 2,
-						'EnquiryReason' => 'Consumer Trace')),
-						"auditlog_fnexecuted" => "ConnectConsumerMatch",
-						"auditlog_issuccess" => true
-					);
-					$this->Auditlog_model->save($auditlog);
-					
-					return $this->getSearchDataConsumer($arrOutput['ConsumerDetails']['EnquiryID'], $arrOutput['ConsumerDetails']['EnquiryResultID']);
-										
-				}
+			$auditlog = array(
+				"auditlog_reportname"=>"procurementreport",
+				"auditlog_userId"=>$this->session->userdata('userId'),
+				"auditlog_reporttype"=>$type,
+				"auditlog_searchdata"=>json_encode(array(
+				'IdNumber'=>$id,
+				'ProductId' => 2,
+				'EnquiryReason' => 'Consumer Trace')),
+				"auditlog_fnexecuted" => "ConnectConsumerMatch",
+				"auditlog_issuccess" => true
+			);
+			$this->Auditlog_model->save($auditlog);
+			
+			return $this->getSearchDataConsumer($arrOutput['ConsumerDetails']['EnquiryID'], $arrOutput['ConsumerDetails']['EnquiryResultID'],$type);
+								
+		}
 	}
 	
-	private function getSearchDataConsumer($enquiryID, $enquiryResultID){
+	private function getSearchDataConsumer($enquiryID, $enquiryResultID,$type){
 		
 		if(!$this->session->userdata('username')){
 			 redirect('user/login');
@@ -661,9 +678,9 @@ class Procurementreport extends CI_Controller {
 		$arrOutput = json_decode($objJsonDocument);
 		
 		$auditlog = array(
-			"auditlog_reportname"=>"tracereport",
+			"auditlog_reportname"=>"procurementreport",
 			"auditlog_userId"=>$this->session->userdata('userId'),
-			"auditlog_reporttype"=>"id-search",
+			"auditlog_reporttype"=>$type,
 			"auditlog_searchdata"=>json_encode(array(
 				'EnquiryID' => $enquiryID,
 				'EnquiryResultID' => $enquiryResultID, 

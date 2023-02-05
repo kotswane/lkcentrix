@@ -5,10 +5,6 @@
 <body>
 <section class="content-header">
     <h1>LKCentrix Solutions PTY LTD</h1>
-    <ol class="breadcrumb">
-        <li><a href="<?php echo site_url();?>/indigentreport/idsearch"><i class="fa fa-dashboard"></i> Dashboard</a></li><li>Indigent Report</li>
-        <li class="active">ID Search</li>
-    </ol>
 </section>
 <section class="content">
     <div class="box">
@@ -27,6 +23,16 @@
 					 <a href="<?php echo site_url();?>/indigentreport/downloadidreport">
 						<img src="<?php echo base_url();?>dist/img/pdf_icon.png" height="35" width="35"/>
 						<span>Download PDF Document</span>
+					</a>
+				</div>		
+			
+			<br clear="all" />
+            </div>
+           <div class="box-tools pull-left">
+	
+				<div>
+					 <a href="<?php echo site_url();?>/indigentreport/idsearch" class="btn btn-primary btn-block">
+						<span class="fa fa-step-backward">&nbsp;&nbsp;back&nbsp;&nbsp;</span>
 					</a>
 				</div>		
 			
@@ -151,20 +157,27 @@
 				<?php if($directorship){ ?>
 				   <?php if(is_object($directorship)){ ?>
                     <div class="col">
-                        <div class="col-xs-4">Company Name:&nbsp;&nbsp;<strong><span><?php echo (is_object($directorship->CommercialName)?"":$directorship->CommercialName);?></span></strong></div>
-                        <div class="col-xs-4">Registration Number:&nbsp;&nbsp;<strong><span><?php echo (is_object($directorship->RegistrationNo)?"":$directorship->RegistrationNo);?></span></strong></div>
-                        <div class="col-xs-4">Director Status:&nbsp;&nbsp;<strong><span><?php echo (is_object($directorship->DirectorStatus)?"":$directorship->DirectorStatus);?></span></strong></div>
-						<div class="col-xs-4">Company Status:&nbsp;&nbsp;<strong><span><?php echo (is_object($directorship->CommercialStatus)?"":$directorship->CommercialStatus);?></span></strong></div>
-                    </div>
+						<div class="row">
+							<div class="col-xs-3">Company Name:&nbsp;&nbsp;<strong><span><?php echo (is_object($directorship->CommercialName)?"":$directorship->CommercialName);?></span></strong></div>
+							<div class="col-xs-3">Registration Number:&nbsp;&nbsp;<strong><span><?php echo (is_object($directorship->RegistrationNo)?"":$directorship->RegistrationNo);?></span></strong></div>
+							<div class="col-xs-3">Director Status:&nbsp;&nbsp;<strong><span><?php echo (is_object($directorship->DirectorStatus)?"":$directorship->DirectorStatus);?></span></strong></div>
+							<div class="col-xs-3">Company Status:&nbsp;&nbsp;<strong><span><?php echo (is_object($directorship->CommercialStatus)?"":$directorship->CommercialStatus);?></span></strong></div>
+						</div>
+						<hr class="hr-line"/>
+					</div>
+					
 					<?php } else { 
 						foreach($directorship as $director){
 						?>
 						<div class="col">
-							<div class="col-xs-4">Company Name:&nbsp;&nbsp;<strong><span><?php echo (is_object($director->CommercialName)?"":$director->CommercialName);?></span></strong></div>
-							<div class="col-xs-4">Registration Number:&nbsp;&nbsp;<strong><span><?php echo (is_object($director->RegistrationNo)?"":$director->RegistrationNo);?></span></strong></div>
-							<div class="col-xs-4">Director Status:&nbsp;&nbsp;<strong><span><?php echo (is_object($director->DirectorStatus)?"":$director->DirectorStatus);?></span></strong></div>
-							<div class="col-xs-4">Company Status:&nbsp;&nbsp;<strong><span><?php echo (is_object($director->CommercialStatus)?"":$director->CommercialStatus);?></span></strong></div>
-						</div>						
+							<div class="row">
+								<div class="col-xs-3">Company Name:&nbsp;&nbsp;<strong><span><?php echo (is_object($director->CommercialName)?"":$director->CommercialName);?></span></strong></div>
+								<div class="col-xs-3">Registration Number:&nbsp;&nbsp;<strong><span><?php echo (is_object($director->RegistrationNo)?"":$director->RegistrationNo);?></span></strong></div>
+								<div class="col-xs-3">Director Status:&nbsp;&nbsp;<strong><span><?php echo (is_object($director->DirectorStatus)?"":$director->DirectorStatus);?></span></strong></div>
+								<div class="col-xs-3">Company Status:&nbsp;&nbsp;<strong><span><?php echo (is_object($director->CommercialStatus)?"":$director->CommercialStatus);?></span></strong></div>
+							</div>	
+							<hr class="hr-line"/>
+						</div>
 						<?php } 
 					}?>
 				<?php } else {?>

@@ -18,23 +18,33 @@
 			<?php
 		}
 	?>
-	<ol class="breadcrumb">
-		<li class="active">Procurement Report</li>
-	</ol>
 </section>
 <div class="content">
     <div class="box">
         <div class="box-header with-border">
-		   <h3 class="box-title">Procurement Report</h3>
-           <div class="box-tools pull-right">
-			<div>
-				 <a href="<?php echo site_url();?>/procurementreport/downloadidreport">
-					<img src="<?php echo base_url();?>dist/img/pdf_icon.png" height="35" width="35"/>
-					<span>Download PDF Document</span>
-				</a>
-			</div>	
-			<br clear="all" />
-            </div>
+			   <h3 class="box-title">Procurement Report</h3><br/><br/>
+			   <div class="box-tools pull-right">
+					<div>
+						 <a href="<?php echo site_url();?>/procurementreport/downloadidreport">
+							<img src="<?php echo base_url();?>dist/img/pdf_icon.png" height="35" width="35"/>
+							<span>Download PDF Document</span>
+						</a>
+					</div>	
+					<br clear="all" />
+				</div>
+				<div class="box-tools pull-left">
+					<form action="<?php echo site_url()."/procurementreport/".$proc_menu;?>" method="post" id="form-search-procs">
+						<div>
+							 <a class="btn btn-primary" id="btn-proc-back">
+								<li class="fa fa-step-backward">&nbsp;&nbsp;back&nbsp;&nbsp;</li>
+							</a>
+						</div>
+						<?php echo $hiddenField; ?>
+						<input type="hidden" name ="fromlist" value="back" />
+						<input type="hidden" name ="postback" value="post" />
+					</form>	
+				 <br clear="all" />
+				</div>  
         </div>
         
 
@@ -2091,6 +2101,17 @@ $(document).ready(function(){
         /* No ordering applied by DataTables during initialisation */
         "order": []
     });
+	
+	$('#btn-proc-back').click(function() {
+       	
+		$("#loadMe").modal({
+		  backdrop: "static", //remove ability to close modal with click
+		  keyboard: false, //remove option to close with keyboard
+		  show: true //Display loader!
+		});
+		$('#form-search-procs').submit();
+    });
 });
+
 </script>
 </html>

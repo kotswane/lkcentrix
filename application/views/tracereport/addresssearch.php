@@ -5,10 +5,7 @@
 <body>
 <section class="content-header">
     <h1>LKCentrix Solutions PTY LTD</h1>
-    <ol class="breadcrumb">
-        <li><a href="<?php echo site_url();?>/tracereport" ><i class="fa fa-dashboard"></i> Dashboard</a></li><li>Trace Report</li>
-        <li class="active">Address Search</li>
-    </ol>
+
 </section>
 <section class="content">
     <div class="box">

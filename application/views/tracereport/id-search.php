@@ -5,18 +5,11 @@
 <body>
 <section class="content-header">
     <h1>LKCentrix Solutions PTY LTD</h1>
-    <ol class="breadcrumb">
-        <li><a href="<?php echo site_url();?>/tracereport/idsearch" ><i class="fa fa-dashboard"></i> Dashboard</a></li><li>Trace Report</li>
-        <li class="active">ID Search</li>
-    </ol>
 </section>
 <section class="content">
     <div class="box">
         <div class="box-header with-border">
             <h3 class="box-title">ID Search</h3>
-            <div class="box-tools pull-right">
-                <a href="<?php echo site_url();?>/tracereport/idsearch" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
-            </div>
         </div>
            <!-- Error Alert -->
   

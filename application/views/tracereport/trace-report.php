@@ -12,24 +12,25 @@
 			<?php
 		}
 	?>
-	<ol class="breadcrumb">
-		<li><a href="/dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-		<li class="active">Trace Report</li>
-	</ol>
 </section>
 <div class="content">
     <div class="box">
         <div class="box-header with-border">
            	<?php
+			
 				if($report->SubscriberInputDetails->EnquiryType =='Consumer Telephone Trace'){
+					$backMenu = "tracereport/idsearch";
 					?>
 						<h3 class="box-title"><?php echo $report->SubscriberInputDetails->EnquiryType." Report";?></h3>
 					<?php
 				}
 			?>
+			
            <div class="box-tools pull-right">
 		   <?php
-				if($report->SubscriberInputDetails->EnquiryType =='Consumer Telephone Trace'){?>
+				if($report->SubscriberInputDetails->EnquiryType =='Consumer Telephone Trace'){
+					$backMenu = "tracereport/telephonesearch";
+					?>
 				<div>
 					 <a href="<?php echo site_url();?>/tracereport/downloadidreport">
 						<img src="<?php echo base_url();?>dist/img/pdf_icon.png" height="35" width="35"/>
@@ -47,7 +48,9 @@
 				</div>		
 			<?php
 				}
-				if($report->SubscriberInputDetails->EnquiryType =='Consumer Address Trace'){?>
+				if($report->SubscriberInputDetails->EnquiryType =='Consumer Address Trace'){
+					$backMenu = "tracereport/addresssearch";
+					?>
 				<div>
 					 <a href="<?php echo site_url();?>/tracereport/downloadidreport">
 						<img src="<?php echo base_url();?>dist/img/pdf_icon.png" height="35" width="35"/>
@@ -56,7 +59,9 @@
 				</div>		
 			<?php
 				}
-				if($report->SubscriberInputDetails->EnquiryType =='Consumer Trace'){?>
+				if($report->SubscriberInputDetails->EnquiryType =='Consumer Trace'){
+					$backMenu = "tracereport/idsearch";
+				?>
 				<div>
 					 <a href="<?php echo site_url();?>/tracereport/downloadidreport">
 						<img src="<?php echo base_url();?>dist/img/pdf_icon.png" height="35" width="35"/>
@@ -65,8 +70,8 @@
 				</div>
 				<?php 
 			} ?>
-			<br clear="all" />
             </div>
+
         </div>
         
 
@@ -463,10 +468,7 @@
 			<?php
 		}
 	?>
-	<ol class="breadcrumb">
-		<li><a href="/dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-		<li class="active">Trace Report</li>
-	</ol>
+
 </section>
 <div class="content">
     <div class="box">
@@ -480,7 +482,8 @@
 			?>
            <div class="box-tools pull-right">
 		   <?php
-				if($report->SubscriberInputDetails->EnquiryType =='Consumer Telephone Trace'){?>
+				if($report->SubscriberInputDetails->EnquiryType =='Consumer Telephone Trace'){
+					$backMenu = "tracereport/telephonesearch";?>
 				<div>
 					 <a href="<?php echo site_url();?>/tracereport/downloadidreport">
 						<img src="<?php echo base_url();?>dist/img/pdf_icon.png" height="35" width="35"/>
@@ -489,7 +492,8 @@
 				</div>		
 			<?php
 				}
-				if($report->SubscriberInputDetails->EnquiryType =='Consumer Easy Trace'){?>
+				if($report->SubscriberInputDetails->EnquiryType =='Consumer Easy Trace'){
+					$backMenu = "tracereport/idsearch";?>
 				<div>
 					 <a href="<?php echo site_url();?>/tracereport/downloadidreport">
 						<img src="<?php echo base_url();?>dist/img/pdf_icon.png" height="35" width="35"/>
@@ -498,7 +502,8 @@
 				</div>		
 			<?php
 				}
-				if($report->SubscriberInputDetails->EnquiryType =='Consumer Address Trace'){?>
+				if($report->SubscriberInputDetails->EnquiryType =='Consumer Address Trace'){
+					$backMenu = "tracereport/addresssearch";?>
 				<div>
 					 <a href="<?php echo site_url();?>/tracereport/downloadidreport">
 						<img src="<?php echo base_url();?>dist/img/pdf_icon.png" height="35" width="35"/>
@@ -507,7 +512,8 @@
 				</div>		
 			<?php
 				}
-				if($report->SubscriberInputDetails->EnquiryType =='Consumer Trace'){?>
+				if($report->SubscriberInputDetails->EnquiryType =='Consumer Trace'){
+					$backMenu = "tracereport/idsearch";?>
 				<div>
 					 <a href="<?php echo site_url();?>/tracereport/downloadidreport">
 						<img src="<?php echo base_url();?>dist/img/pdf_icon.png" height="35" width="35"/>
@@ -517,6 +523,14 @@
 				<?php 
 			} ?>
 			<br clear="all" />
+            </div>
+           <div class="box-tools pull-left">
+				<div>
+					 <a href="<?php echo site_url()."/".$backMenu;?>" class="btn btn-primary">
+						<li class="fa fa-step-backward">&nbsp;&nbsp;back&nbsp;&nbsp;</li>
+					</a>
+				</div>		
+			 <br clear="all" />
             </div>
         </div>
         

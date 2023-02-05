@@ -20,7 +20,6 @@
 			return $query->result();
 		}
 		
-		//$this->db->where_in('emp_name', $names);
 		
 		public function getRoleResourceInList($list){
 			

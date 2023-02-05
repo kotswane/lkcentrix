@@ -34,17 +34,23 @@ class Roleresource extends CI_Controller {
 		$this->reports = $this->Report_model->list_reports();
 		$this->reports_type = $this->Report_type_model->list_reports_type();	
 	}
-	 
-	public function index()
-	{
-			$data['errorSession'] = "username and password required"; 
-			$this->load->view('login',$data);
-	}
+
 	
 	public function create(){
 		if(!$this->session->userdata('username')){
 			 redirect('user/login');
 		}
+		
+		$hasAccess = $this->checkpermission->hasAccess($this->session->userdata('usermenu'),$this->session->userdata('submenu'),'roleresource','create');
+
+		if($hasAccess->hasAccessToController === true && $hasAccess->hasAccessToFunction === false){
+			$data["content"] = 'permissions/access_denied';
+			return $this->load->view('site',$data);
+		}else if($hasAccess->hasAccessToController === false && $hasAccess->hasAccessToFunction === false){
+			$data["content"] = 'permissions/access_denied';
+			return $this->load->view('site',$data);
+		}
+		
 		if(!$this->session->userdata('agreed_tc_and_c')){
 			 redirect('user/logout');
 		}

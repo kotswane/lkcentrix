@@ -47,13 +47,15 @@
     <div>
       	 <h5><span><strong>Search Results List</strong></span></h5>
           <table class="table table-striped" id="companyname_table">
-            <tr>
+            <thead>
+			<tr>
               <th>Reference Number</th>
               <th>Business Name</th>
               <th>Registration Number</th>
               <th>View</th>
             </tr>
-
+			</thead>
+			<tbody>
             <tr>
               <td><?php echo $consumerList->Reference;?></td>
               <td><?php echo $consumerList->Businessname;?></td>
@@ -62,14 +64,13 @@
                <a type="button" onClick="fnRedirect('<?php echo site_url()?>/procurementreport/customerdatalist/<?php echo $consumerList->EnquiryID;?>/<?php echo $consumerList->EnquiryResultID;?>/<?php echo $companyregistrationno;?>')"  class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;View</a>              
 			  </td>
             </tr>
-
+			</tbody>
           </table>
        </div>
 	<?php } ?>
     </div>
 </section>
 </body>
-<script src="<?php echo base_url();?>bower_components/jquery/dist/jquery.min.js"></script>
 
 <script type="text/javascript">
 $(document).ready(function(){

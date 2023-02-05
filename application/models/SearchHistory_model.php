@@ -41,5 +41,11 @@
 			$query=$this->db->query($sql);
 			return $query->result();
 		}
+		
+		public function findByUser($userId)
+        {
+                $query = $this->db->get_where('search_history', array('userId' => $userId));
+				return $query->result();
+        }
 	}
 ?>

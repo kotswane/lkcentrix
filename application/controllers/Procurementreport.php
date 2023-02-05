@@ -155,8 +155,7 @@ class Procurementreport extends CI_Controller {
 							'BusinessName' => $this->input->post('companyname'),
 							'VatNo' => '',
 							'SolePropIDNo' => '',
-							'YourReference' => $ref,
-							'ConnectTicket' => $this->session->userdata('tokenId'))),
+							'YourReference' => $ref)),
 							"fnexecuted" => "ConnectBusinessMatch"
 					);
 					
@@ -326,8 +325,7 @@ class Procurementreport extends CI_Controller {
 							'BusinessName' => '',
 							'VatNo' => '',
 							'SolePropIDNo' => '',
-							'YourReference' => $ref,
-							'ConnectTicket' => $this->session->userdata('tokenId'))),
+							'YourReference' => $ref)),
 							"fnexecuted" => "ConnectBusinessMatch"
 					);
 					

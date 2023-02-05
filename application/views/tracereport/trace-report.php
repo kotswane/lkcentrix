@@ -21,7 +21,7 @@
 				if($report->SubscriberInputDetails->EnquiryType =='Consumer Telephone Trace'){
 					$backMenu = "tracereport/idsearch";
 					?>
-						<h3 class="box-title"><?php echo $report->SubscriberInputDetails->EnquiryType." Report";?></h3>
+						<h3 class="box-title">&nbsp;&nbsp;<?php echo $report->SubscriberInputDetails->EnquiryType." Report";?></h3>
 					<?php
 				}
 			?>
@@ -476,7 +476,7 @@
            	<?php
 				if($report->SubscriberInputDetails->EnquiryType =='Consumer Telephone Trace'){
 					?>
-						<h3 class="box-title"><?php echo $report->SubscriberInputDetails->EnquiryType." Report";?></h3>
+						<h3 class="box-title">&nbsp;&nbsp;<?php echo $report->SubscriberInputDetails->EnquiryType." Report";?></h3>
 					<?php
 				}
 			?>
@@ -578,6 +578,17 @@
  
               <div class="panel panel-primary">
                 <div class="panel-heading">Potential Fraud Indicators</div>
+                <div class="panel-body">
+                    <div class="col">
+                        <div class="col-xs-4 ">ID No. Verified Status:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->ConsumerFraudIndicatorsSummary->HomeAffairsVerificationYN)?"":$report->ConsumerFraudIndicatorsSummary->HomeAffairsVerificationYN);?></span></strong></div>
+                        <div class="col-xs-4">ID No. Deceased Status:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->ConsumerFraudIndicatorsSummary->HomeAffairsDeceasedStatus)?"":$report->ConsumerFraudIndicatorsSummary->HomeAffairsDeceasedStatus);?></span></strong></div>
+                        <div class="col-xs-4">ID No. Found on Fraud Database:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->ConsumerFraudIndicatorsSummary->SAFPSListingYN)?"":$report->ConsumerFraudIndicatorsSummary->SAFPSListingYN);?></span></strong></div>
+                    </div>
+                </div>
+              </div>
+			  
+              <div class="panel panel-primary">
+                <div class="panel-heading">Debt Summary</div>
                 <div class="panel-body">
                     <div class="col">
                         <div class="col-xs-4 ">ID No. Verified Status:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->ConsumerFraudIndicatorsSummary->HomeAffairsVerificationYN)?"":$report->ConsumerFraudIndicatorsSummary->HomeAffairsVerificationYN);?></span></strong></div>

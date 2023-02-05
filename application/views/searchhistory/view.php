@@ -28,10 +28,11 @@
           <table class="table table-striped" id="search_history_table">
 		    <thead>
             <tr>
-              <th>Report Name</th>
-              <th>Report Type</th>
-              <th>Date Time</th>
+              <th nowrap>Report Name</th>
+              <th nowrap>Report Type</th>
+              <th nowrap>Date Time</th>
               <th>Search Data</th>
+             <!-- <th>View</th> -->
             </tr>
 			</thead>
 			<tbody>
@@ -40,10 +41,13 @@
 			?>
 			
             <tr>
-              <td><?php echo $consumerListValue->auditlog_reportname;?></td>
-              <td><?php echo $consumerListValue->auditlog_reporttype;?></td>
-              <td><?php echo $consumerListValue->auditlog_datetime;?></td>
-              <td><?php echo $consumerListValue->auditlog_searchdata;?></td>
+              <td nowrap><?php echo $consumerListValue->reportname;?></td>
+              <td nowrap><?php echo $consumerListValue->reporttype;?></td>
+              <td nowrap><?php echo $consumerListValue->created;?></td>
+              <td><?php echo $consumerListValue->searchdata;?></td>
+             <!-- <td>
+               <a type="button"  class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;View</a>              
+			  </td>-->
             </tr>
 			<?php } ?>
 			<t/body>

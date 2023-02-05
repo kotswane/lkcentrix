@@ -86,7 +86,6 @@ class User extends CI_Controller {
 						}else{
 							$client = $this->mysoapclient->getClient();
 							$loginRequest = array("strUser"=>"LKC_LIVEWS","strPwd"=>"Aplitec01*$");
-							
 							$loginResponse = $client->Login($loginRequest);
 
 							if ($loginResponse->LoginResult == "UserNotFound" || $loginResponse->LoginResult == "NotAuthenticated"){

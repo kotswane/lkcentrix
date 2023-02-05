@@ -150,7 +150,6 @@ class Tracereport extends CI_Controller {
 						"reporttype"=>"id-search",
 						"searchdata"=>json_encode(array(
 						'IdNumber'=>$this->input->post('idNumber'),
-						'ConnectTicket'=>$this->session->userdata('tokenId'),
 						'ProductId' => 2,
 						'EnquiryReason' => 'Consumer Trace'
 						)),
@@ -303,8 +302,7 @@ class Tracereport extends CI_Controller {
 					'ConnectTicket' => $this->session->userdata('tokenId'), 
 					'StreetName_PostalNo' => $this->input->post('streetName'), 
 					'PostalCode' => $this->input->post('postalCode'), 
-					'StreetNo' => $this->input->post('streetNo'), 
-					'Surname' => $this->input->post('surname')));
+					'StreetNo' => $this->input->post('streetNo')));
 					
 				$xml = simplexml_load_string($response->ConnectAddressMatchResult,"SimpleXMLElement");
 				$searchHistory = array(
@@ -316,11 +314,9 @@ class Tracereport extends CI_Controller {
 						'Suburb' => $this->input->post('suburb'), 
 						'City' => $this->input->post('city'), 
 						'PostalMatch' => true,
-						'ConnectTicket' => $this->session->userdata('tokenId'), 
 						'StreetName_PostalNo' => $this->input->post('streetName'), 
 						'PostalCode' => $this->input->post('postalCode'), 
-						'StreetNo' => $this->input->post('streetNo'), 
-						'Surname' => $this->input->post('surname'))),
+						'StreetNo' => $this->input->post('streetNo'))),
 						"fnexecuted" => "ConnectConsumerMatch"
 				);
 				
@@ -536,7 +532,6 @@ class Tracereport extends CI_Controller {
 						"reporttype"=>"telephonesearch",
 						"searchdata"=>json_encode(array(
 						'TelephoneCode' => $code,
-						'ConnectTicket' => $this->session->userdata('tokenId'),
 						'TelephoneNo' => $number)),
 						"fnexecuted" => "ConnectConsumerMatch"
 				);

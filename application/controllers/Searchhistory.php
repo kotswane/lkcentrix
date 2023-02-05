@@ -63,14 +63,14 @@ class Searchhistory extends CI_Controller {
 		}
 
 
-		$this->load->model("Auditlog_model");
+		$this->load->model("SearchHistory_model");
 		$data["reports_type"] = $this->reports_type;
 		$data["reports"] = $this->reports;		
 		$data["successFlash"] = "";
 		$data["infoFlash"] = "";
 		$data["errorFlash"] = "";
 		$data["errorMessage"] = "";
-		$data["consumerList"] = $this->Auditlog_model->findByUser($this->session->userdata('username'));
+		$data["consumerList"] = $this->SearchHistory_model->findByUser($this->session->userdata('userId'));
 		$data["content"] = "searchhistory/view";
 		$this->load->view('site',$data);
 	}

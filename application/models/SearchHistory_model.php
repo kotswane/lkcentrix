@@ -2,6 +2,8 @@
 	class SearchHistory_model extends CI_Model {
 		
 		public function create($data){
+			$this->db->reconnect();
+			//$this->db->query("SET GLOBAL max_allowed_packet=1073741824;");
 			$this->db->insert('search_history',$data);
 			return (($this->db->insert_id()>0)?true:false);
 		}
@@ -45,6 +47,12 @@
 		public function findByUser($userId)
         {
                 $query = $this->db->get_where('search_history', array('userId' => $userId));
+				return $query->result();
+        }
+		
+		public function findById($id)
+        {
+                $query = $this->db->get_where('search_history', array('id' => $id));
 				return $query->result();
         }
 	}

@@ -115,7 +115,8 @@ class Tracereport extends CI_Controller {
 			$output = curl_exec($ch); 
 			curl_close($ch);      
 			 
-			$status= json_decode($output, true);			
+			$status= json_decode($output, true);	
+			
 			if ($status['success'] == false){
 				$data['errorMessage'] = 'Sorry Recaptcha Unsuccessful!!';
 				$data["content"] = "tracereport/id-search";
@@ -143,20 +144,9 @@ class Tracereport extends CI_Controller {
 				));
 				
 				$xml = simplexml_load_string($response->ConnectConsumerMatchResult);
-
-				$searchHistory = array(
-						"reportname"=>"tracereport",
-						"userId"=>$this->session->userdata('userId'),
-						"reporttype"=>"id-search",
-						"searchdata"=>json_encode(array(
-						'IdNumber'=>$this->input->post('idNumber'),
-						'ProductId' => 2,
-						'EnquiryReason' => 'Consumer Trace'
-						)),
-						"fnexecuted" => "ConnectConsumerMatch"
-				);
 				
-				$this->SearchHistory_model->create($searchHistory); 
+				$this->session->set_userdata(array('searchdata' => array('IdNumber'=>$this->input->post('idNumber'),'ProductId' => 2,'EnquiryReason' => 'Consumer Trace')));
+				$this->session->set_userdata(array('reporttype' => 'id-search'));
 				
 				if ($xml->Error || $xml->NotFound){
 					
@@ -208,7 +198,17 @@ class Tracereport extends CI_Controller {
 						}
 					
 					}
-
+				
+					$searchdataArray =(array)$data['report'];
+					$searchHistory = array(
+							"reportname"=>"tracereport",
+							"userId"=>$this->session->userdata('userId'),
+							"searchdata"=>json_encode($this->session->userdata('searchdata')),
+							"outputdata" => json_encode($searchdataArray),
+							"reporttype" => $this->session->userdata('reporttype')
+					);
+					
+					$this->SearchHistory_model->create($searchHistory);
 					$this->session->set_userdata(array('report' =>$data['report']));
 					$data["content"] = "tracereport/trace-report";
 					$this->load->view('site',$data);
@@ -305,22 +305,7 @@ class Tracereport extends CI_Controller {
 					'StreetNo' => $this->input->post('streetNo')));
 					
 				$xml = simplexml_load_string($response->ConnectAddressMatchResult,"SimpleXMLElement");
-				$searchHistory = array(
-						"reportname"=>"tracereport",
-						"userId"=>$this->session->userdata('userId'),
-						"reporttype"=>"addresssearch",
-						"searchdata"=>json_encode(array(
-						'Province' => $this->input->post('listprovinces'),
-						'Suburb' => $this->input->post('suburb'), 
-						'City' => $this->input->post('city'), 
-						'PostalMatch' => true,
-						'StreetName_PostalNo' => $this->input->post('streetName'), 
-						'PostalCode' => $this->input->post('postalCode'), 
-						'StreetNo' => $this->input->post('streetNo'))),
-						"fnexecuted" => "ConnectConsumerMatch"
-				);
-				
-				$this->SearchHistory_model->create($searchHistory);				
+			
 				if ($xml->Error || $xml->NotFound){
 					
 					$auditlog = array(
@@ -366,6 +351,18 @@ class Tracereport extends CI_Controller {
 						"auditlog_issuccess" => true
 					);
 					$this->Auditlog_model->save($auditlog);
+					
+					$this->session->set_userdata(array('searchdata' => array(
+						'Province' => $this->input->post('listprovinces'),
+						'Suburb' => $this->input->post('suburb'), 
+						'City' => $this->input->post('city'), 
+						'PostalMatch' => true,
+						'StreetName_PostalNo' => $this->input->post('streetName'), 
+						'PostalCode' => $this->input->post('postalCode'), 
+						'StreetNo' => $this->input->post('streetNo'))));
+						
+					$this->session->set_userdata(array('reporttype' => 'addresssearch'));
+					
 					if(is_object($arrOutput->ConsumerDetails)){
 										
 								$data["consumerList"]["details"][]= $arrOutput->ConsumerDetails;
@@ -524,19 +521,11 @@ class Tracereport extends CI_Controller {
 					'ConnectTicket' => $this->session->userdata('tokenId'),
 					'TelephoneNo' => $number));
 				
-
-				$xml = simplexml_load_string($response->ConnectTelephoneMatchResult,"SimpleXMLElement");
-				$searchHistory = array(
-						"reportname"=>"tracereport",
-						"userId"=>$this->session->userdata('userId'),
-						"reporttype"=>"telephonesearch",
-						"searchdata"=>json_encode(array(
-						'TelephoneCode' => $code,
-						'TelephoneNo' => $number)),
-						"fnexecuted" => "ConnectConsumerMatch"
-				);
 				
-				$this->SearchHistory_model->create($searchHistory);				
+				$this->session->set_userdata(array('searchdata' => array('TelephoneCode' => $code,'TelephoneNo' => $number)));
+				$this->session->set_userdata(array('reporttype'=>'telephonesearch'));
+				$xml = simplexml_load_string($response->ConnectTelephoneMatchResult,"SimpleXMLElement");
+			
 				if ($xml->NotFound || $xml->Error){
 					
 					$data["errorMessage"] = (($xml->NotFound)?$xml->NotFound:$xml->Error);
@@ -655,7 +644,6 @@ class Tracereport extends CI_Controller {
 		}
 		
 
-		
 		$response = $this->client->ConnectGetResult(array(
 				'EnquiryID' => $enquiryID,
 				'EnquiryResultID' => $enquiryResultID, 
@@ -713,6 +701,20 @@ class Tracereport extends CI_Controller {
 		$response = $this->getSearchData($this->uri->segment(3), $this->uri->segment(4));
 		$data['report'] = $response;
 		$this->session->set_userdata(array('report' =>$data['report']));
+		
+		$searchdataArray =(array)$data['report'];
+		$searchHistory = array(
+				"reportname"=>"tracereport",
+				"userId"=>$this->session->userdata('userId'),
+				"searchdata"=>json_encode($this->session->userdata('searchdata')),
+				"outputdata" => json_encode($searchdataArray),
+				"reporttype" => $this->session->userdata('reporttype')
+		);
+		
+		$this->SearchHistory_model->create($searchHistory);
+					
+		$this->session->unset_userdata('searchdata');
+		$this->session->unset_userdata('reporttype');
 		$data["content"] = "tracereport/trace-report";
 		$this->load->view('site',$data);
 		

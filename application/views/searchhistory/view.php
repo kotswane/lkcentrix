@@ -32,12 +32,14 @@
               <th nowrap>Report Type</th>
               <th nowrap>Date Time</th>
               <th>Search Data</th>
-             <!-- <th>View</th> -->
+              <th>View</th>
             </tr>
 			</thead>
 			<tbody>
 			<?php 
 				foreach($consumerList as $consumerListKey => $consumerListValue){
+				$formActionUrl = "searchhistory/".$consumerListValue->reportname;
+				
 			?>
 			
             <tr>
@@ -45,9 +47,12 @@
               <td nowrap><?php echo $consumerListValue->reporttype;?></td>
               <td nowrap><?php echo $consumerListValue->created;?></td>
               <td><?php echo $consumerListValue->searchdata;?></td>
-             <!-- <td>
-               <a type="button"  class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;View</a>              
-			  </td>-->
+              <td>
+				<form data-toggle="validator" role="ID Search form" id="form-search-<?php echo $consumerListValue->id;?>" action="<?php echo site_url()."/".$formActionUrl;?>" method="post">
+					<input type="hidden" name="page" value="<?php echo $consumerListValue->id;?>"/>
+					<a type="button" class="btn btn-primary" onClick="loadPage(<?php echo $consumerListValue->id;?>);"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;View</a>
+				</form>
+			  </td>
             </tr>
 			<?php } ?>
 			<t/body>
@@ -63,5 +68,15 @@ $(document).ready(function(){
         "order": []
     });
 });
+
+function loadPage(page){
+	$("#loadMe").modal({
+		  backdrop: "static", //remove ability to close modal with click
+		  keyboard: false, //remove option to close with keyboard
+		  show: true //Display loader!
+		});      
+		
+	$('#form-search-'+page).submit();
+}
 </script>
 </html>

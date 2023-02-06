@@ -110,20 +110,7 @@ class Indigentreport extends CI_Controller {
 				));
 				
 				$xml = simplexml_load_string($responseConsumer->ConnectConsumerMatchResult);
-				
-				$searchHistory = array(
-						"reportname"=>"indigentreport",
-						"userId"=>$this->session->userdata('userId'),
-						"reporttype"=>"id-search",
-						"searchdata"=>json_encode(array(
-						'IdNumber'=>$this->input->post('idno'),
-						'ProductId' => 132,
-						'EnquiryReason' => 'Consumer Trace'
-						)),
-						"fnexecuted" => "ConnectConsumerMatch"
-				);
-				
-				$this->SearchHistory_model->create($searchHistory);
+			
 				
 				if ($xml->Error || $xml->NotFound){
 					
@@ -164,6 +151,10 @@ class Indigentreport extends CI_Controller {
 						"auditlog_issuccess" => true
 					);
 					$this->Auditlog_model->save($auditlog);
+					
+					$this->session->set_userdata(array('searchdata' => array('IdNumber'=>$this->input->post('idno'),'ProductId' => 132,'EnquiryReason' => 'Consumer Trace')));
+					$this->session->set_userdata(array('reporttype'=>'id-search'));
+				
 				}
 				
 			}
@@ -319,6 +310,18 @@ class Indigentreport extends CI_Controller {
 				$arrOutput = json_decode($objJsonDocument);
 				$data['directorship'] = $arrOutput->ConsumerDirectorShipLink;
 				$this->session->set_userdata(array('directorship' =>$data['directorship']));
+				
+				$searchdataArray = array("directorship" => $data['directorship'], 'familyData' => $data['familyData'], 'report' => $data['report']);
+				
+				$searchHistory = array(
+						"reportname"=>"indigentreport",
+						"userId"=>$this->session->userdata('userId'),
+						"searchdata"=>json_encode($this->session->userdata('searchdata')),
+						"outputdata" => json_encode($searchdataArray),
+						"reporttype" => $this->session->userdata('reporttype')
+				);
+		
+				$this->SearchHistory_model->create($searchHistory);
 			}
 			$data["content"] = "indigentreport/showreport";
 			$this->load->view('site',$data);

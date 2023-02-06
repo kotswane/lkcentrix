@@ -1158,7 +1158,7 @@
 												<table class="table">
 													<tr>
 														 <td><strong><span>Employer Name</strong></span></td>
-														 <td><?php echo $employer;?></td>
+														 <td><?php echo (is_object($employer)?"":$employer);?></td>
 													</tr>
 													<tr>
 														 <td><strong><span>Director Indicator</strong></span></td>
@@ -1285,7 +1285,7 @@
 												<table class="table">
 													<tr>
 														 <td><strong><span>Employer Name</strong></span></td>
-														 <td><?php echo $employer;?></td>
+														 <td><?php echo (is_object($employer)?"":$employer);?></td>
 													</tr>
 													<tr>
 														 <td><strong><span>Director Indicator</strong></span></td>

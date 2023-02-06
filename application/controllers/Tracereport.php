@@ -197,19 +197,19 @@ class Tracereport extends CI_Controller {
 						"auditlog_issuccess" => true
 					);
 					$this->Auditlog_model->save($auditlog);
-					$data['report']['details'] = array();
+					$data['report'] = array();
 					if(is_object($arrOutput->ConsumerDetails)){
 						$response = $this->getSearchData($arrOutput->ConsumerDetails->EnquiryID, $arrOutput->ConsumerDetails->EnquiryResultID);
-						$data['report']['details'][] = $response;
+						$data['report'] = $response;
 					}else{ 
 						foreach($arrOutput->ConsumerDetails as $ConsumerDetails){
 							
-							$data['report']['details'][] = $this->getSearchData($ConsumerDetails->EnquiryID, $ConsumerDetails->EnquiryResultID);
+							$data['report'] = $this->getSearchData($ConsumerDetails->EnquiryID, $ConsumerDetails->EnquiryResultID);
 						}
 					
 					}
 
-					$this->session->set_userdata(array('report' =>$data['report']['details']));
+					$this->session->set_userdata(array('report' =>$data['report']));
 					$data["content"] = "tracereport/trace-report";
 					$this->load->view('site',$data);
 				}
@@ -711,7 +711,7 @@ class Tracereport extends CI_Controller {
 		$data["reports_type"] = $this->reports_type;
 		$data["reports"] = $this->reports;
 		$response = $this->getSearchData($this->uri->segment(3), $this->uri->segment(4));
-		$data['report']['details'][] = $response;
+		$data['report'] = $response;
 		$this->session->set_userdata(array('report' =>$data['report']));
 		$data["content"] = "tracereport/trace-report";
 		$this->load->view('site',$data);
@@ -749,7 +749,7 @@ class Tracereport extends CI_Controller {
 
 		try{
 			ob_clean();
-			$data['report']['details'][] = $this->session->userdata('report');
+			$data['report'] = $this->session->userdata('report');
 			$this->load->library('pdf');
 			$html = $this->load->view('tracereport/pdf-trace-report',$data, true);
 			$this->pdf->createPDF($html, "customer-tracereport-".time(), true);

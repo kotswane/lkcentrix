@@ -7,20 +7,16 @@
 <body>
 
 <div>
-     <div>
-     <img src="<?php echo base_url();?>/pdf-resources/images/logo.jpg" style="width: 150px;height: 65px;text-align: left;" alt="logo" /> 
-	 
-	 <h3 class="box-title" style="text-align: right;"><?php echo $report->SubscriberInputDetails->EnquiryType." Report";?></h3>
-     <div style="text-align: right;">
-            <span><small>Bedfordview Corporate park,</small></span>
-                <span><small>4 Skeen BLVD, Bedfordview,</small></span>
-                <span><small>2001</small></span>
-               <span><small>+27 (11) 568 8322</small></span>
-                <span><small>+27 (78) 498 7504</small></span>
+     <div class="title-head">
+	 <img src="<?php echo base_url();?>/pdf-resources/images/logo.png" alt="logo" style="width: 730px;"/> 
      </div>
+	 
+	 <div>
+	 <h3 class="box-title" style="text-align: right;"><?php echo $report->SubscriberInputDetails->EnquiryType." Report";?></h3>
      </div>
      
 </div>
+
      <!-- Start of  Enquiry Input Details-->
    <hr class="hr_rule"/>
    <div class="title-head"><strong>Enquiry Input Details</strong>

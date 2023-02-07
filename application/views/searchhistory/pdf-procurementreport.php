@@ -9,13 +9,11 @@
      <div class="title-head">
 	 <img src="<?php echo base_url();?>/pdf-resources/images/logo.png" alt="logo" style="width: 730px;"/> 
      </div>
-	 
 	 <div>
 	 <h3 class="box-title" style="text-align: right;">Procurement Report</h3>
      </div>
      
 </div>
-
      <!-- Start of  Enquiry Input Details-->
    <hr class="hr_rule"/>
    <div class="panel-heading"><strong>Enquiry Input Details</strong>

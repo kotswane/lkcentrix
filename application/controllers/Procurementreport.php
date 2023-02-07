@@ -144,22 +144,6 @@ class Procurementreport extends CI_Controller {
 
 					$xml = simplexml_load_string($response->ConnectBusinessMatchResult,"SimpleXMLElement");
 					
-					$searchHistory = array(
-							"reportname"=>"procurementreport",
-							"userId"=>$this->session->userdata('userId'),
-							"reporttype"=>"companyname",
-							"searchdata"=>json_encode(array(
-							'Reg1' => '',
-							'Reg2' => '',
-							'Reg3' => '',
-							'BusinessName' => $this->input->post('companyname'),
-							'VatNo' => '',
-							'SolePropIDNo' => '',
-							'YourReference' => $ref)),
-							"fnexecuted" => "ConnectBusinessMatch"
-					);
-					
-					$this->SearchHistory_model->create($searchHistory);	
 					if ($xml->NotFound || $xml->Error){
 						
 						$auditlog = array(
@@ -314,22 +298,6 @@ class Procurementreport extends CI_Controller {
 
 					$xml = simplexml_load_string($response->ConnectBusinessMatchResult,"SimpleXMLElement");
 					
-					$searchHistory = array(
-							"reportname"=>"procurementreport",
-							"userId"=>$this->session->userdata('userId'),
-							"reporttype"=>"companyregistrationno",
-							"searchdata"=>json_encode(array(
-							'Reg1' => $regnumb[0],
-							'Reg2' => $regnumb[1],
-							'Reg3' => $regnumb[2],
-							'BusinessName' => '',
-							'VatNo' => '',
-							'SolePropIDNo' => '',
-							'YourReference' => $ref)),
-							"fnexecuted" => "ConnectBusinessMatch"
-					);
-					
-					$this->SearchHistory_model->create($searchHistory);	
 					
 					if ($xml->NotFound || $xml->Error){
 						
@@ -436,6 +404,17 @@ class Procurementreport extends CI_Controller {
 			
 		}
 	
+		$searchdataArray =(array)$data['report'];
+		$searchHistory = array(
+				"reportname"=>"procurementreport",
+				"userId"=>$this->session->userdata('userId'),
+				"searchdata"=>$this->session->userdata('searchstring'),
+				"outputdata" => json_encode($searchdataArray),
+				"reporttype" => $this->uri->segment(5)
+		);
+		
+		$this->SearchHistory_model->create($searchHistory);
+		
 		$this->session->set_userdata(array('report' =>$data['report']));
 		$data['content'] = "procurementreport/customerdatalist";
 		$this->load->view('site',$data);

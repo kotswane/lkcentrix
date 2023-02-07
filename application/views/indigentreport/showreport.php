@@ -39,10 +39,9 @@
 			<br clear="all" />
             </div>
         </div>
-     <pre>
+
 	 <?php 
- print_r($familyData);
- die();
+
 		 if(is_array($familyData->Consumer) > 0){
 			 $myData = $familyData->Consumer[0]->RealTimeIDV;
 			 $theirData = $familyData->Consumer[1]->RealTimeIDV;

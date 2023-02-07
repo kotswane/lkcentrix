@@ -1225,6 +1225,11 @@
 											 <td><strong><span>Consumer Score</strong></span></td>
 											 <td><?php echo (is_object($report->CommercialActivePrincipalInformation->ConsumerScore)?"":$report->CommercialActivePrincipalInformation->ConsumerScore);?></td>
 										</tr>
+										<tr>
+											<tr>
+												<td colspan="2"><button class="btn btn-primary" type="button" onClick="getSpouseDetails('<?php echo $IdNumber;?>');"><i class="fa fa-search" aria-hidden="true"></i>&nbsp; View Spouse Details</button></td>
+											</tr>										
+										</tr>
 									 </table>	
 								</div>
 							</div>
@@ -1346,14 +1351,18 @@
 													</tr>
 												</table>
 											</td>
+											
 											<td>
 												<table class="table">
 													<tr>
 														 <td><strong><span>Consumer Score</strong></span></td>
 														 <td><?php echo (is_object($CommercialActivePrincipalInformation->ConsumerScore)?"":$CommercialActivePrincipalInformation->ConsumerScore);?></td>
 													</tr>
+													<tr>
+														<td colspan="2"><button class="btn btn-primary" type="button" onClick="getSpouseDetails('<?php echo $IdNumber;?>');"><i class="fa fa-search" aria-hidden="true"></i>&nbsp; View Spouse Details</button></td>
+													</tr>
 												</table>
-											</td>
+											</td>											
 										</tr>
 									 </table>	
 								</div>
@@ -2110,5 +2119,23 @@ $(document).ready(function(){
     });
 });
 
+function getSpouseDetails(strId){
+	$("#loadMe").modal({
+      backdrop: "static", //remove ability to close modal with click
+      keyboard: false, //remove option to close with keyboard
+      show: true //Display loader!
+    });	
+	
+	
+	$.post("<?php echo site_url();?>/procurementreport/getspousedetails",
+	  {
+		idnumber: strId
+	  },
+	  function(data, status){
+		  $("#loadMe").modal('hide');
+		  $("#loadSpouse").html(data);
+		  $("#loaddata").modal();
+	  });
+}
 </script>
 </html>

@@ -2128,16 +2128,16 @@ function getSpouseDetails(strId){
       show: true //Display loader!
     });	
 	
-	
-		$.post("<?php echo site_url();?>/procurementreport/getspousedetails",
-		  {
-			idnumber: strId
-		  },
-		  function(data, status){
-			  $("#loadMe").modal('hide');
-			  $("#loadSpouse").html(data);
-			  $("#loaddata").modal();
-		  });
+
+	$.post("<?php echo site_url();?>/procurementreport/getspousedetails",
+	  {
+		idnumber: strId
+	  },
+	  function(data, status){
+		  $("#loadMe").modal('hide');
+		  $("#loadSpouse").html(data);
+		  $("#loaddata").modal();
+	  });
 }
 
 </script>

@@ -2135,7 +2135,6 @@ function getSpouseDetails(strId){
 		  },
 		  function(data, status){
 			  $("#loadMe").modal('hide');
-			  alert(data);
 			  $("#loadSpouse").html(data);
 			  $("#loaddata").modal();
 		  });

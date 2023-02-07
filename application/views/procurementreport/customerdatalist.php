@@ -1157,7 +1157,7 @@
 												<table class="table">
 													<tr>
 														 <td><strong><span>Employer Name</strong></span></td>
-														 <td><?php echo (is_object($employer)?"":$employer);?></td>
+														 <td><?php echo (string)$employer;?></td>
 													</tr>
 													<tr>
 														 <td><strong><span>Director Indicator</strong></span></td>
@@ -1236,9 +1236,10 @@
 								</div>
 							</div>
 							<?php } else { 
-	
-									foreach($report->CommercialActivePrincipalInformation as $CommercialActivePrincipalInformation){  
 									
+									foreach($report->CommercialActivePrincipalInformation as $CommercialActivePrincipalInformation){  
+									 
+						
 										$employer = "";
 										if($personaldetails['details'][$CommercialActivePrincipalInformation->IDNo]){
 											$employer = $personaldetails['details'][$CommercialActivePrincipalInformation->IDNo]->ConsumerDetail->EmployerDetail;
@@ -1291,7 +1292,7 @@
 												<table class="table">
 													<tr>
 														 <td><strong><span>Employer Name</strong></span></td>
-														 <td><?php echo (is_object($employer)?"":$employer);?></td>
+														 <td><?php echo (string)$employer;?> </td>
 													</tr>
 													<tr>
 														 <td><strong><span>Director Indicator</strong></span></td>

@@ -1371,19 +1371,9 @@ if(is_object($report->CommercialBankCodeHistory)){
 		</td>
 	</tr>
  </table>
- <hr class="hr-line"/> 
-<?php } 
-	} 
-} else { ?>
-<span>Commercial Active Director Information Not Found</span><br>
-<?php } ?>
-
-</div>
-</div>
-
-
-<div class="col">
- <div class="panel-heading"><strong>Active Director Address History</strong></div>
+ <!-- ActiveDirectorAddressHistory -->
+ <div class="col">
+ <div class="panel-heading"><strong>Address History</strong></div>
  <hr class="hr-line"/>
 <?php if($report->ActiveDirectorAddressHistory){?>
 <table class="table-list">
@@ -1398,18 +1388,24 @@ if(is_object($report->CommercialBankCodeHistory)){
 </tr>
 <?php 
  if(!is_object($report->ActiveDirectorAddressHistory)){
-	foreach($report->ActiveDirectorAddressHistory as $ActiveDirectorAddressHistory){ ?>
-	<tr class="border_bottom">
-		<td><?php echo (is_object($ActiveDirectorAddressHistory->AddressTypeInd)?"":$ActiveDirectorAddressHistory->AddressTypeInd);?></td>
-		<td><?php echo (is_object($ActiveDirectorAddressHistory->Address1)?"":$ActiveDirectorAddressHistory->Address1);?></td>
-		<td><?php echo (is_object($ActiveDirectorAddressHistory->Address2)?"":$ActiveDirectorAddressHistory->Address2);?></td>
-		<td><?php echo (is_object($ActiveDirectorAddressHistory->Address3)?"":$ActiveDirectorAddressHistory->Address3);?></td>
-		<td><?php echo (is_object($ActiveDirectorAddressHistory->Address4)?"":$ActiveDirectorAddressHistory->Address4);?></td>
-		<td><?php echo (is_object($ActiveDirectorAddressHistory->PostalCode)?"":$ActiveDirectorAddressHistory->PostalCode);?></td>
-		<td><?php echo (is_object($ActiveDirectorAddressHistory->CreatedOnDate)?"":$ActiveDirectorAddressHistory->CreatedOnDate);?></td>
-	</tr>
-	<?php } 
- } else {?>
+	foreach($report->ActiveDirectorAddressHistory as $ActiveDirectorAddressHistory){ 
+
+	if($CommercialActivePrincipalInformation->DirectorID == $ActiveDirectorAddressHistory->DirectorID){
+		?>
+		<tr class="border_bottom">
+			<td><?php echo (is_object($ActiveDirectorAddressHistory->AddressTypeInd)?"":$ActiveDirectorAddressHistory->AddressTypeInd);?></td>
+			<td><?php echo (is_object($ActiveDirectorAddressHistory->Address1)?"":$ActiveDirectorAddressHistory->Address1);?></td>
+			<td><?php echo (is_object($ActiveDirectorAddressHistory->Address2)?"":$ActiveDirectorAddressHistory->Address2);?></td>
+			<td><?php echo (is_object($ActiveDirectorAddressHistory->Address3)?"":$ActiveDirectorAddressHistory->Address3);?></td>
+			<td><?php echo (is_object($ActiveDirectorAddressHistory->Address4)?"":$ActiveDirectorAddressHistory->Address4);?></td>
+			<td><?php echo (is_object($ActiveDirectorAddressHistory->PostalCode)?"":$ActiveDirectorAddressHistory->PostalCode);?></td>
+			<td><?php echo (is_object($ActiveDirectorAddressHistory->CreatedOnDate)?"":$ActiveDirectorAddressHistory->CreatedOnDate);?></td>
+		</tr>
+		<?php }
+	}	
+ } else {
+	 if($CommercialActivePrincipalInformation->DirectorID == $report->ActiveDirectorAddressHistory->DirectorID){
+	 ?>
 	<tr class="border_bottom">
 		<td><?php echo (is_object($report->ActiveDirectorAddressHistory->AddressTypeInd)?"":$report->ActiveDirectorAddressHistory->AddressTypeInd);?></td>
 		<td><?php echo (is_object($report->ActiveDirectorAddressHistory->Address1)?"":$report->ActiveDirectorAddressHistory->Address1);?></td>
@@ -1419,15 +1415,19 @@ if(is_object($report->CommercialBankCodeHistory)){
 		<td><?php echo (is_object($report->ActiveDirectorAddressHistory->PostalCode)?"":$report->ActiveDirectorAddressHistory->PostalCode);?></td>
 		<td><?php echo (is_object($report->ActiveDirectorAddressHistory->CreatedOnDate)?"":$report->ActiveDirectorAddressHistory->CreatedOnDate);?></td>
 	</tr>							 
- <?php } ?>		 
+ <?php } else { ?>
+	 <tr><td colspan="7">Address History Not Found</td></tr>
+ <?php }
+ }?>		 
 </table>
-<?php } else { ?>
-<span>Active Director Address History Not Found</span><br>
 <?php } ?>
 </div><br />
-
-<div class="col">
- <div class="panel-heading"><strong>Active Director Contact History</strong></div>
+ <!-- ActiveDirectorAddressHistory -->
+ 
+ 
+ <!-- ActiveDirectorContactHistory -->
+ <div class="col">
+ <div class="panel-heading"><strong>Contact History</strong></div>
 <hr class="hr-line"/>
 <?php if($report->ActiveDirectorContactHistory){ ?>
  <table class="table-list">
@@ -1439,7 +1439,9 @@ if(is_object($report->CommercialBankCodeHistory)){
 	</tr>
 	<?php 
 	if(!is_object($report->ActiveDirectorContactHistory)){
-		foreach($report->ActiveDirectorContactHistory as $ActiveDirectorContactHistory){ ?>
+		foreach($report->ActiveDirectorContactHistory as $ActiveDirectorContactHistory){ 
+			if ($CommercialActivePrincipalInformation->DirectorID == $ActiveDirectorContactHistory->DirectorID){
+		?>
 		<tr class="border_bottom">
 			<td><?php echo (is_object($ActiveDirectorContactHistory->BureauUpdate)?"":$ActiveDirectorContactHistory->BureauUpdate);?></td>
 			<td><?php echo (is_object($ActiveDirectorContactHistory->Captureddate)?"":$ActiveDirectorContactHistory->Captureddate);?></td>
@@ -1447,30 +1449,60 @@ if(is_object($report->CommercialBankCodeHistory)){
 			<td><?php echo (is_object($ActiveDirectorContactHistory->Detail)?"":$ActiveDirectorContactHistory->Detail);?></td>								
 		</tr>
 		<?php }
-	} else { ?>
+		}
+	} else { 
+	  if($CommercialActivePrincipalInformation->DirectorID == $report->ActiveDirectorContactHistory->DirectorID){
+		?>
 		<tr class="border_bottom">
 			<td><?php echo (is_object($report->ActiveDirectorContactHistory->BureauUpdate)?"":$report->ActiveDirectorContactHistory->BureauUpdate);?></td>
 			<td><?php echo (is_object($report->ActiveDirectorContactHistory->Captureddate)?"":$report->ActiveDirectorContactHistory->Captureddate);?></td>
 			<td><?php echo (is_object($report->ActiveDirectorContactHistory->ContactType)?"":$report->ActiveDirectorContactHistory->ContactType);?></td>
 			<td><?php echo (is_object($report->ActiveDirectorContactHistory->Detail)?"":$report->ActiveDirectorContactHistory->Detail);?></td>						
 		</tr>							
-	<?php } ?>
+		<?php } else {?> 
+		<tr><td colspan="4">ContactHistory Not Found</td></tr>
+	<?php } 
+	}?>
 </table>
 <?php } else { ?>
-<span>Active Director Contact History Not Found</span><br>
+<span>Contact History Not Found</span><br>
 <?php } ?>
-</div><br/>	
-
+</div><br/>
+<!-- ActiveDirectorContactHistory -->
+ 
+ 
+<!-- Adverse Information -->
 <div class="col">
 <div class="panel-heading"><strong>Adverse Information</strong></div>
 <hr class="hr-line"/>
-<div class="panel-heading">Payment Notifications - (No Data Available)</div>
+</div>
+ <!-- Adverse Information -->
+ 
+ 
+ <!-- Payment Notifications -->
+<div class="col">
+<div class="panel-heading"><strong>Payment Notifications - (No Data Available)</strong></div>
 <hr class="hr-line"/>
-<div class="panel-heading">Default Listing - (No Data Available)</div>
+</div>
+ <!-- Payment Notifications -->
+ 
+  <!-- Payment Notifications -->
+<div class="col">
+<div class="panel-heading"><strong>Default Listing - (No Data Available)</strong></div>
 <hr class="hr-line"/>
-<?php if($report->DirectorJudgments){ ?>
+</div>
+ <!-- Payment Notifications -->
+ 
+   <!-- DirectorJudgments -->
+<div class="col">
+<div class="panel-heading"><strong>Default Listing - (No Data Available)</strong></div>
+<hr class="hr-line"/>
+</div>
+ <!-- DirectorJudgments -->
+
+ <?php if($report->DirectorJudgments){ ?>
 <div class="panel-heading">Judgments</div>						
-<?php if(is_object($report->DirectorJudgments)){
+<?php if(is_object($report->DirectorJudgments) && ($CommercialActivePrincipalInformation->DirectorID == $report->DirectorJudgments->DirectorID)){
 		  $name = "";
 		  if(!is_object($report->DirectorJudgments->FirstName)){
 			  $name = $report->DirectorJudgments->FirstName;
@@ -1542,6 +1574,7 @@ if(is_object($report->CommercialBankCodeHistory)){
 	</table>
 <?php } else { 
 	foreach($report->DirectorJudgments as $DirectorJudgments){
+		if($CommercialActivePrincipalInformation->DirectorID == $DirectorJudgments->DirectorID){
 		  $name = "";
 		  if(!is_object($DirectorJudgments->FirstName)){
 			  $name = $DirectorJudgments->FirstName;
@@ -1612,19 +1645,21 @@ if(is_object($report->CommercialBankCodeHistory)){
 		 </tr>
 	</table>
  <hr class="hr-line"/>	
-	<?php }
+	<?php } }
 } 
  } else { ?>
-		<span>Judgment Not Found</span><br>
-<?php } ?>
-
 		
-
-<?php if($report->DirectorDebtReview){ ?>
+		<span>Judgment Not Found</span><br>
+		<hr class="hr-line"/>	
+<?php } ?>
+ <!-- DirectorJudgments -->
+ 
+ <!-- DirectorDebtReview -->
+ <?php if($report->DirectorDebtReview){ ?>
 <div class="col">
 <div class="panel-heading"><strong>Debt Review</strong></div>
 <hr class="hr-line"/>
-<?php if(is_object($report->DirectorDebtReview)){ ?>
+<?php if(is_object($report->DirectorDebtReview) && ($CommercialActivePrincipalInformation->DirectorID == $report->DirectorDebtReview->DirectorID)){ ?>
 		<table class="table-list">
 			<tr class="border_bottom">
 				<td>
@@ -1686,7 +1721,10 @@ if(is_object($report->CommercialBankCodeHistory)){
 				</td>
 			 </tr>
 		</table>
-	<?php } else { ?>
+	<?php } else { 
+		foreach($report->DirectorDebtReview as $DirectorDebtReview){
+		if($CommercialActivePrincipalInformation->DirectorID == $DirectorDebtReview->DirectorID){ 
+	?>
 	<table class="table-list">
 		<tr class="border_bottom">
 			<td>
@@ -1749,19 +1787,21 @@ if(is_object($report->CommercialBankCodeHistory)){
 		 </tr>
 	</table>
 </div>	
-	<?php }
+		<?php } }
+	}
 } else { ?>
 <span>Debt Review Not Found</span><br>
 <?php } ?>
-	
-</div>
+ <!-- DirectorDebtReview -->
 
-<div class="col">
-<div class="panel-heading">Active Director Business interests</div>
-<hr class="hr-line"/>
+ <!-- ActiveDirectorCurrentBusinessinterests -->
+
 <?php if($report->ActiveDirectorCurrentBusinessinterests){ 
-		if(is_object($report->ActiveDirectorCurrentBusinessinterests)){ ?>
-				<div class="panel-heading"> Active Director Current Business interests-1 of 1<br>
+		if(is_object($report->ActiveDirectorCurrentBusinessinterests) && ($CommercialActivePrincipalInformation->DirectorID == $report->ActiveDirectorCurrentBusinessinterests->DirectorID)){ ?>
+		<div class="col">
+				<hr class="hr-line"/>
+				<div class="panel-heading">Current Business interests
+				 <hr class="hr-line"/>
 					<?php echo (is_object($report->ActiveDirectorCurrentBusinessinterests->CommercialName)?"":$report->ActiveDirectorCurrentBusinessinterests->CommercialName);?>
 				</div>
 				<table class="table-list">
@@ -1817,10 +1857,15 @@ if(is_object($report->CommercialBankCodeHistory)){
 						</td>
 					</tr>
 				 </table>
+				</div>
 		<?php } else { 
-				foreach($report->ActiveDirectorCurrentBusinessinterests as $ActiveDirectorCurrentBusinessinterests){  ?>
+				foreach($report->ActiveDirectorCurrentBusinessinterests as $ActiveDirectorCurrentBusinessinterests){  
+				if($CommercialActivePrincipalInformation->DirectorID == $ActiveDirectorCurrentBusinessinterests->DirectorID){
+				?>
+				<div class="col">
 				<hr class="hr-line"/>
-				<div class="panel-heading"> Active Director Current Business interests-<?php echo ++$count." of ".count($report->ActiveDirectorCurrentBusinessinterests);?><br>
+				<div class="panel-heading"><strong>Current Business interests</strong>
+				<hr class="hr-line"/>
 					<?php echo (is_object($ActiveDirectorCurrentBusinessinterests->CommercialName)?"":$ActiveDirectorCurrentBusinessinterests->CommercialName);?>
 				</div>
 				<table class="table-list">
@@ -1875,21 +1920,25 @@ if(is_object($report->CommercialBankCodeHistory)){
 						</td>
 					</tr>
 				 </table>
+				 </div>
 				  <hr class="hr-line"/>
 		 <?php }
 	}	
- } else { 
+} }else { 
 		?>	
-	<span>Active Director Current Business Interests Not Found</span><br>
+	<span><strong>Current Business Interests Not Found</strong></span><br>
 <?php }?>
 </div>
-		 
-<div class="col">
-<div class="panel-heading">Active Director Previous Business interests</div>
+ <!-- ActiveDirectorCurrentBusinessinterests -->
+ 
+ 
+ <!-- ActiveDirectorPreviousBusinessinterests -->
+ <div class="col">
+<div class="panel-heading"><strong>Previous Business interests</strong></div>
 <hr class="hr-line"/>
 <?php if($report->ActiveDirectorPreviousBusinessinterests){ 
-if(is_object($report->ActiveDirectorPreviousBusinessinterests)){ ?>
-		<div class="panel-heading"> Active Director Previous Business interests-1 of 1<br>
+if(is_object($report->ActiveDirectorPreviousBusinessinterests) && ($CommercialActivePrincipalInformation->DirectorID == $report->ActiveDirectorPreviousBusinessinterests->DirectorID)){ ?>
+		<div class="panel-heading">Previous Business interests: 
 			<?php echo (is_object($report->ActiveDirectorPreviousBusinessinterests->CommercialName)?"":$report->ActiveDirectorPreviousBusinessinterests->CommercialName);?>
 		</div>
 		<table class="table-list">
@@ -1946,8 +1995,10 @@ if(is_object($report->ActiveDirectorPreviousBusinessinterests)){ ?>
 			</tr>
 		 </table>
 <?php } else { 
-		foreach($report->ActiveDirectorPreviousBusinessinterests as $ActiveDirectorPreviousBusinessinterests){  ?>
-		<div class="panel-heading"> Active Director Previous Business interests-<?php echo ++$count." of ".count($report->ActiveDirectorPreviousBusinessinterests);?><br>
+		foreach($report->ActiveDirectorPreviousBusinessinterests as $ActiveDirectorPreviousBusinessinterests){  
+		if ($CommercialActivePrincipalInformation->DirectorID == $ActiveDirectorPreviousBusinessinterests->DirectorID){
+		?>
+		<div class="panel-heading">Previous Business interests: 
 			<?php echo (is_object($ActiveDirectorPreviousBusinessinterests->CommercialName)?"":$ActiveDirectorPreviousBusinessinterests->CommercialName);?>
 		</div>
 		<table class="table-list">
@@ -2003,13 +2054,35 @@ if(is_object($report->ActiveDirectorPreviousBusinessinterests)){ ?>
 			</tr>
 		 </table>
 		  <hr class="hr-line"/>
-			 <?php }
+		<?php } }
 		}	
 	 } else { 
 			?>	
-		<span>Active Director Previous Business Interests Not Found</span><br>
+		<span>Previous Business Interests Not Found</span>
+		
 	<?php }?>
 </div> 
+ <!-- ActiveDirectorPreviousBusinessinterests -->
+ 
+<?php } 
+	} 
+} else { ?>
+<span>Commercial Active Director Information Not Found</span><br>
+<?php } ?>
+
+</div>
+</div>
+	
+
+
+
+
+	
+
+
+
+		 
+
 	
 </body>
 </html>

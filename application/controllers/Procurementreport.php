@@ -462,7 +462,9 @@ class Procurementreport extends CI_Controller {
 			"auditlog_fnexecuted" => "ConnectGetFamilyIDPhotoVerification",
 			"auditlog_issuccess" => false);
 			$this->Auditlog_model->save($auditlog);
-			print json_encode(array('status' => "error", 'message' => $error));
+			
+			print "<div class='alert alert-danger'><p>".$error."</p></div>";
+			return;
 		}else {
 			$auditlog = array(
 			"auditlog_reportname"=>"procurementreport",

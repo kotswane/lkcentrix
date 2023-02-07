@@ -25,7 +25,7 @@
 			   <h3 class="box-title">Procurement Report</h3><br/><br/>
 			   <div class="box-tools pull-right">
 					<div>
-						 <a href="<?php echo site_url();?>/procurementreport/downloadidreport">
+						 <a href="<?php echo site_url();?>/searchhistory/downloadidreportproc">
 							<img src="<?php echo base_url();?>dist/img/pdf_icon.png" height="35" width="35"/>
 							<span>Download PDF Document</span>
 						</a>
@@ -33,7 +33,7 @@
 					<br clear="all" />
 				</div>
 				<div class="box-tools pull-left">
-					<form action="<?php echo site_url()."/procurementreport/".$proc_menu;?>" method="post" id="form-search-procs">
+					<form action="<?php echo site_url()."/searchhistory/view";?>" method="post" id="form-search-procs">
 						<div>
 							 <a class="btn btn-primary" id="btn-proc-back">
 								<li class="fa fa-step-backward">&nbsp;&nbsp;back&nbsp;&nbsp;</li>

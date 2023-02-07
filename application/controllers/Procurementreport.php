@@ -488,7 +488,7 @@ class Procurementreport extends CI_Controller {
 			
 					if($consumer->RealTimeIDV->HASpouseID == $idnumber){
 						
-								$table="<table>
+								$table="<table class='table table-striped'
 								  <tr>
 									<td>Spouse Name</td>
 									<td>".$consumer->RealTimeIDV->HANames."</td>

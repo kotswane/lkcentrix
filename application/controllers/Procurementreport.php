@@ -420,10 +420,14 @@ class Procurementreport extends CI_Controller {
 		$this->load->view('site',$data);
 	}
 	
-	private function getSpouseDetails($idnumber){
+	public function getspousedetails(){
 		if(!$this->session->userdata('agreed_tc_and_c')){
 			 redirect('user/logout');
 		}		
+		
+		$idnumber = $this->input->post("idnumber");
+		
+		
 		$IsTicketValid = array("XDSConnectTicket"=>$this->session->userdata('tokenId'));
 		$resp = $this->client->IsTicketValid($IsTicketValid);
 		if($resp->IsTicketValidResult != true || $resp->IsTicketValidResult ==""){
@@ -442,6 +446,12 @@ class Procurementreport extends CI_Controller {
 	
 		if ($xml->Error || $xml->NotFound){
 			
+			$error = "";
+			if ($xml->Error){
+				$error = $xml->Error;
+			}else if($xml->NotFound){
+				$error = $xml->NotFound;
+			}
 			$auditlog = array(
 			"auditlog_reportname"=>"procurementreport",
 			"auditlog_userId"=>$this->session->userdata('userId'),
@@ -452,7 +462,7 @@ class Procurementreport extends CI_Controller {
 			"auditlog_fnexecuted" => "ConnectGetFamilyIDPhotoVerification",
 			"auditlog_issuccess" => false);
 			$this->Auditlog_model->save($auditlog);
-			return new stdClass();
+			print json_encode(array('status' => "error", 'message' => $error));
 		}else {
 			$auditlog = array(
 			"auditlog_reportname"=>"procurementreport",
@@ -466,7 +476,41 @@ class Procurementreport extends CI_Controller {
 			$this->Auditlog_model->save($auditlog);
 			
 			$objJsonDocument = json_encode($xml);
-			return json_decode($objJsonDocument);
+			$familyData = json_decode($objJsonDocument);
+			
+		
+			if(is_array($familyData->Consumer) > 0){
+
+				
+				foreach($familyData->Consumer as $consumer){
+					
+			
+			
+					if($consumer->RealTimeIDV->HASpouseID == $idnumber){
+						
+								$table="<table>
+								  <tr>
+									<td>Spouse Name</td>
+									<td>".$consumer->RealTimeIDV->HANames."</td>
+								   </tr>
+								   	<tr>
+									<td>Spouse Surname</td>
+									<td>".$consumer->RealTimeIDV->HASurname."</td>
+								   </tr>
+								   	<tr>
+										<td>ID Number</td>
+										<td>".$consumer->RealTimeIDV->HAIDNO."</td>
+								   </tr>
+								 </table>";
+						print $table;
+						return;
+					}
+				}
+			 }else{
+				 print "<div class='text-center'><p>SINGLE</p></div>";
+			 }
+			
+			
 		}
 	}
 	

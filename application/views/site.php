@@ -90,9 +90,20 @@
 		<div class="modal-content">
 		  <div class="modal-body text-center">
 			<div class="loader"></div>
-			<div clas="loader-txt">
+			<div class="loader-txt">
 			  <p>Please wait while loading</small></p>
 			</div>
+		  </div>
+		</div>
+	  </div>
+	</div>
+	
+	<div class="modal fade" id="loaddata" tabindex="-1" role="dialog" aria-labelledby="loadDataLabel">
+	  <div class="modal-dialog modal-md role="document">
+		<div class="modal-content">
+		  <div class="modal-body" id="loadSpouse">
+			
+			
 		  </div>
 		</div>
 	  </div>

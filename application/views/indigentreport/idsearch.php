@@ -103,8 +103,7 @@ function fnRedirect(strVal){
       keyboard: false, //remove option to close with keyboard
       show: true //Display loader!
     });	
-	
-	
+
 	location.href = strVal;
 }
 

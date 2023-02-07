@@ -608,11 +608,7 @@
 					<?php } ?>
                 </div>
               </div>
-
-
-
-						
-							
+	
 						<?php if($report->CommercialJudgment){ ?>
 						   <div class="panel panel-primary">
 							<div class="panel-heading">Judgments</div>
@@ -1114,6 +1110,8 @@
 										$employer = $personaldetails['details'][$report->CommercialActivePrincipalInformation->IDNo]->ConsumerDetail->EmployerDetail;
 									}
 									
+									$IdNumber = (is_object($report->CommercialActivePrincipalInformation->IDNo)?"":$report->CommercialActivePrincipalInformation->IDNo);
+									
 									?>
 									<div class="panel panel-primary">
 								    <div class="panel-heading"> Active Director-1 of 1<br>
@@ -1126,7 +1124,7 @@
 												<table class="table">
 													<tr>
 														 <td><strong><span>ID Number</strong></span></td>
-														 <td><?php echo (is_object($report->CommercialActivePrincipalInformation->IDNo)?"":$report->CommercialActivePrincipalInformation->IDNo);?></td>
+														 <td><?php echo $IdNumber;?></td>
 													</tr>
 													<tr>
 														 <td><strong><span>Fullname</strong></span></td>
@@ -1219,7 +1217,7 @@
 													<tr>	
 														<td><strong><span>Director Status Date</strong></span></td>
 														<td><?php echo (is_object($report->CommercialActivePrincipalInformation->DirectorStatusDate)?"":$report->CommercialActivePrincipalInformation->DirectorStatusDate);?></td>
-													</tr>
+													</tr>							
 			
 												</table>
 											</td>
@@ -1227,6 +1225,11 @@
 										<tr>
 											 <td><strong><span>Consumer Score</strong></span></td>
 											 <td><?php echo (is_object($report->CommercialActivePrincipalInformation->ConsumerScore)?"":$report->CommercialActivePrincipalInformation->ConsumerScore);?></td>
+										</tr>
+										<tr>
+											<tr>
+												<td colspan="2"><button class="btn btn-primary" type="button" onClick="getSpouseDetails('<?php echo $IdNumber;?>');"><i class="fa fa-search" aria-hidden="true"></i>&nbsp; View Spouse Details</button></td>
+											</tr>										
 										</tr>
 									 </table>	
 								</div>
@@ -1240,6 +1243,8 @@
 											$employer = $personaldetails['details'][$CommercialActivePrincipalInformation->IDNo]->ConsumerDetail->EmployerDetail;
 										}
 										
+										$IdNumber = (is_object($CommercialActivePrincipalInformation->IDNo)?"":$CommercialActivePrincipalInformation->IDNo);
+										
 									?>
 									<div class="panel panel-primary">
 								    <div class="panel-heading"> Active Director-<?php echo ++$count." of ".count($report->CommercialActivePrincipalInformation);?><br>
@@ -1252,7 +1257,7 @@
 												<table class="table">
 													<tr>
 														 <td><strong><span>ID Number</strong></span></td>
-														 <td><?php echo (is_object($CommercialActivePrincipalInformation->IDNo)?"":$CommercialActivePrincipalInformation->IDNo);?></td>
+														 <td><?php echo $IdNumber;?></td>
 													</tr>
 													<tr>
 														 <td><strong><span>Fullname</strong></span></td>
@@ -1354,6 +1359,9 @@
 													<tr>
 														 <td><strong><span>Consumer Score</strong></span></td>
 														 <td><?php echo (is_object($CommercialActivePrincipalInformation->ConsumerScore)?"":$CommercialActivePrincipalInformation->ConsumerScore);?></td>
+													</tr>
+													<tr>
+														<td colspan="2"><button class="btn btn-primary" type="button" onClick="getSpouseDetails('<?php echo $IdNumber;?>');"><i class="fa fa-search" aria-hidden="true"></i>&nbsp; View Spouse Details</button></td>
 													</tr>
 												</table>
 											</td>
@@ -2112,6 +2120,26 @@ $(document).ready(function(){
 		$('#form-search-procs').submit();
     });
 });
+
+function getSpouseDetails(strId){
+	$("#loadMe").modal({
+      backdrop: "static", //remove ability to close modal with click
+      keyboard: false, //remove option to close with keyboard
+      show: true //Display loader!
+    });	
+	
+	
+		$.post("<?php echo site_url();?>/procurementreport/getspousedetails",
+		  {
+			idnumber: strId
+		  },
+		  function(data, status){
+			  $("#loadMe").modal('hide');
+			  alert(data);
+			  $("#loadSpouse").html(data);
+			  $("#loaddata").modal();
+		  });
+}
 
 </script>
 </html>

@@ -444,6 +444,7 @@ class Procurementreport extends CI_Controller {
 				$xml = simplexml_load_string($response->ConnectGetFamilyIDPhotoVerificationResult);
 		
 	
+
 		if ($xml->Error || $xml->NotFound){
 			
 			$error = "";
@@ -507,12 +508,15 @@ class Procurementreport extends CI_Controller {
 						print $table;
 						return;
 					}
+				
 				}
-			 }else{
+			 }else{ 
 				 print "<div class='text-center'><p>SINGLE</p></div>";
+				 return;
 			 }
 			
-			
+			 print "<div class='alert alert-danger'><p>Spouse Not Found</p></div>";
+			 return;			
 		}
 	}
 	

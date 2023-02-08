@@ -1178,7 +1178,7 @@ if(is_object($report->CommercialBankCodeHistory)){
 			<table class="table-list">
 				<tr class="border_bottom">
 					 <td>Employer Name</td>
-					 <td><?php echo (string)$employer;?></td>
+					 <td><?php echo (is_object($employer)?"":$employer);?></td>
 				</tr>
 				<tr class="border_bottom">
 					 <td>Director Indicator</td>
@@ -1297,7 +1297,7 @@ if(is_object($report->CommercialBankCodeHistory)){
 			<table class="table-list">
 				<tr class="border_bottom">
 					 <td>Employer Name</td>
-					 <td><?php echo (string)$employer;?></td>
+					 <td><?php echo (is_object($employer)?"":$employer);?></td>
 				</tr>
 				<tr class="border_bottom">
 					 <td>Director Indicator</td>

@@ -416,7 +416,6 @@ class Procurementreport extends CI_Controller {
 		$this->SearchHistory_model->create($searchHistory);
 		
 		$this->session->set_userdata(array('report' =>$data['report']));
-		$this->session->set_userdata(array('personaldetails' =>$data['personaldetails']['details']));
 		$data['content'] = "procurementreport/customerdatalist";
 		$this->load->view('site',$data);
 	}
@@ -591,10 +590,8 @@ class Procurementreport extends CI_Controller {
 		try{
 			ob_clean();
 			$data['report'] = $this->session->userdata('report');
-			$data['personaldetails']['details'] = $this->session->userdata('personaldetails');
-
 			$this->load->library('pdf');
-			$html = $this->load->view('procurementreport/pdf-procurementreport',$data,true);
+			$html = $this->load->view('procurementreport/pdf-procurementreport',$data, true);
 			$this->pdf->createPDFLandScape($html, "procurementreport-".time(), true);
 
 		}catch(Exception $ex){

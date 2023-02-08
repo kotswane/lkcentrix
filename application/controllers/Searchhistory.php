@@ -200,8 +200,9 @@ class Searchhistory extends CI_Controller {
 		$data["errorMessage"] = "";
 		$response = $this->SearchHistory_model->findById($this->input->post('page'));
 		$responseX = json_decode($response[0]->outputdata);
-		$data['report'] = $responseX;
-		
+		$data['report'] = $responseX->report;
+		$data['personaldetails']['details'] = $responseX->personaldetails;
+
 		$this->session->set_userdata(array('report_download'=>$responseX));
 		$data["content"] = "searchhistory/customerdatalist.php";
 		$this->load->view('site',$data);
@@ -285,10 +286,8 @@ class Searchhistory extends CI_Controller {
 		try{
 			ob_clean();
 			$responseX = $this->session->userdata('report_download');
-			$data['report'] = $responseX;
-			print '<pre>';
-			print_r($responseX);
-			die();
+			$data['report'] = $responseX->report;
+			$data['personaldetails']['details'] = $responseX->personaldetails;
 			$this->load->library('pdf');
 			$html = $this->load->view('searchhistory/pdf-procurementreport',$data, true);
 			$this->pdf->createPDF($html, "history-procurement-report-".time(), true);

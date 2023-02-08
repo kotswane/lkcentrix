@@ -1107,10 +1107,13 @@
 							
 							if(is_object($report->CommercialActivePrincipalInformation)){ 
 									$employer = "";
-									if($personaldetails['details'][$report->CommercialActivePrincipalInformation->IDNo]){
-										$employer = $personaldetails['details'][$report->CommercialActivePrincipalInformation->IDNo]->ConsumerDetail->EmployerDetail;
-									}
 									
+									$myDataDetails = (array)$personaldetails['details'];
+			
+									if($myDataDetails[$report->CommercialActivePrincipalInformation->IDNo]){
+										$employer = $myDataDetails[$report->CommercialActivePrincipalInformation->IDNo]->ConsumerDetail->EmployerDetail;
+									}
+
 									$IdNumber = (is_object($report->CommercialActivePrincipalInformation->IDNo)?"":$report->CommercialActivePrincipalInformation->IDNo);
 									
 									?>
@@ -1240,8 +1243,10 @@
 									foreach($report->CommercialActivePrincipalInformation as $CommercialActivePrincipalInformation){  
 									
 										$employer = "";
-										if($personaldetails['details'][$CommercialActivePrincipalInformation->IDNo]){
-											$employer = $personaldetails['details'][$CommercialActivePrincipalInformation->IDNo]->ConsumerDetail->EmployerDetail;
+										$myDataDetails = (array)$personaldetails['details'];
+				
+										if($myDataDetails[$CommercialActivePrincipalInformation->IDNo]->ConsumerDetail->EmployerDetail){
+											$employer = $myDataDetails[$CommercialActivePrincipalInformation->IDNo]->ConsumerDetail->EmployerDetail;
 										}
 										
 										$IdNumber = (is_object($CommercialActivePrincipalInformation->IDNo)?"":$CommercialActivePrincipalInformation->IDNo);

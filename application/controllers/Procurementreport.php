@@ -382,6 +382,30 @@ class Procurementreport extends CI_Controller {
 		$data["errorMessage"] = "";
 
 		$response = $this->getSearchData($this->uri->segment(3), $this->uri->segment(4),$this->uri->segment(5));
+		
+		$search = "";
+		$filterBy = "";
+		if($response->CommercialBusinessInformation){
+			
+			if($response->CommercialBusinessInformation->RegistrationNo){
+				$search = $response->CommercialBusinessInformation->RegistrationNo;
+				$filterBy = "registrationno";
+			}else if($response->CommercialBusinessInformation->CommercialName){
+				$search = $response->CommercialBusinessInformation->CommercialName;
+				$filterBy = "name";
+			}
+		}
+		
+		$data['blackListed'] = new stdClass;
+
+		if(($search != "") && ($filterBy != "")){
+			$this->load->model('Blacklist_model');
+			$resp = $this->Blacklist_model->getAllByFilter($filterBy,$search);;
+			if(count($resp)>0){
+				$data['blackListed'] = $resp[0];
+			}
+		}
+		
 		$data['report'] = $response;
 		$data['proc_menu']=$this->uri->segment(5);
 		if($this->uri->segment(5)=="companyregistrationno"){
@@ -404,7 +428,7 @@ class Procurementreport extends CI_Controller {
 			
 		}
 
-		$searchdataArray =array("report"=>$data['report'],"personaldetails"=>$data['personaldetails']['details']);
+		$searchdataArray =array("report"=>$data['report'],"personaldetails"=>$data['personaldetails']['details'],"blackListed" => $data['blackListed']);
 		$searchHistory = array(
 				"reportname"=>"procurementreport",
 				"userId"=>$this->session->userdata('userId'),
@@ -417,6 +441,7 @@ class Procurementreport extends CI_Controller {
 		
 		$this->session->set_userdata(array('report' =>$data['report']));
 		$this->session->set_userdata(array('personaldetails' =>$data['personaldetails']['details']));
+		$this->session->set_userdata(array('blackListed' =>$data['blackListed']));
 		$data['content'] = "procurementreport/customerdatalist";
 		$this->load->view('site',$data);
 	}
@@ -592,6 +617,8 @@ class Procurementreport extends CI_Controller {
 			ob_clean();
 			$data['report'] = $this->session->userdata('report');
 			$data['personaldetails']['details'] = $this->session->userdata('personaldetails');
+			$data['blackListed'] = $this->session->userdata('blackListed');
+			
 			$this->load->library('pdf');
 			$html = $this->load->view('procurementreport/pdf-procurementreport',$data, true);
 			$this->pdf->createPDFLandScape($html, "procurementreport-".time(), true);

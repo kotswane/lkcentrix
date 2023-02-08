@@ -186,8 +186,11 @@ Current Contact, Address, and Employment Info.</h5>
         <tr class="tr-label">
         <td class="td-label">Legal Entity</td>
         <td class="td-value"><?php echo (is_object($report->SubscriberInputDetails->LegalEntity)?"":$report->SubscriberInputDetails->LegalEntity);?></td>
-        </tr>
-		
+		<?php if($blackListed->id) { ?>
+		<tr class="tr-label">
+			<td colspan="2" style="color: red; text-align: centre;">Blacklisted by <?php echo $blackListed->authorizeby." for ".$blackListed->reason;?></td>
+		</tr>
+		<?php } ?>
     </table>              
  </div><br />  
    

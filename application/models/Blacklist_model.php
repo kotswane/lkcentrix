@@ -7,10 +7,17 @@
                 return $query->result();
         }
 		
-		public function getAllByFilter($data)
+		public function getAllByFilter($filter,$search)
         {
-                $query = $this->db->get('blacklist');
-                return $query->result();
+
+			if($filter == "registrationno"){
+				$query = $this->db->get_where('blacklist', array('registrationno' => $search));
+				return $query->result();
+			}else if($filter == "name"){
+				$query = $this->db->get_where('blacklist', array('supplier' => $search));
+				 return $query->result();
+			}
+			
         }
 		
 		

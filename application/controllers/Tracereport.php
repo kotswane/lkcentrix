@@ -191,6 +191,8 @@ class Tracereport extends CI_Controller {
 					if(is_object($arrOutput->ConsumerDetails)){
 						$response = $this->getSearchData($arrOutput->ConsumerDetails->EnquiryID, $arrOutput->ConsumerDetails->EnquiryResultID);
 						$data['report'] = $response;
+						$myEnquiryResultID = $arrOutput->ConsumerDetails->EnquiryResultID;
+						$myEnquiryID = $arrOutput->ConsumerDetails->EnquiryID;
 					}else{ 
 						foreach($arrOutput->ConsumerDetails as $ConsumerDetails){
 							
@@ -198,7 +200,38 @@ class Tracereport extends CI_Controller {
 						}
 					
 					}
+					/*
+					$connectGetBonusSegments = $this->client->ConnectGetBonusSegments(array(
+					'ConnectTicket'=>$this->session->userdata('tokenId'),
+					'EnquiryResultID' => $myEnquiryResultID,
+					'EnquiryReason' => 'Consumer Trace'
+					));
+					
+					
 				
+					$xmlConnectGetBonusSegments = str_replace("False","True",$connectGetBonusSegments->ConnectGetBonusSegmentsResult);
+					$xmlConnectGetBonusSegments = str_replace("False","True",$xmlConnectGetBonusSegments);
+					$xmlConnectGetBonusSegments = str_replace("False","True",$xmlConnectGetBonusSegments);
+					$xmlConnectGetBonusSegments = simplexml_load_string($xmlConnectGetBonusSegments);
+
+					$objConnectGetBonusSegments = json_encode($xmlConnectGetBonusSegments);
+					$arrOutputConnectGetBonusSegments = json_decode($objConnectGetBonusSegments);
+					
+					$responseConnectGetResult = $this->client->ConnectGetResult(array(
+					'EnquiryID' => $myEnquiryID,
+					'EnquiryResultID' => $myEnquiryResultID, 
+					'ConnectTicket' => $this->session->userdata('tokenId'), 
+					'ProductID' => 2,
+					'BonusXML' => $arrOutputConnectGetBonusSegments));
+				
+					print '<pre>';
+					print_r(array(
+					'EnquiryID' => $myEnquiryID,
+					'EnquiryResultID' => $myEnquiryResultID, 
+					'ConnectTicket' => $this->session->userdata('tokenId'), 
+					'ProductID' => 2,
+					'BonusXML' => $arrOutputConnectGetBonusSegments));
+					die();*/
 					$searchdataArray =(array)$data['report'];
 					$searchHistory = array(
 							"reportname"=>"tracereport",

@@ -286,7 +286,9 @@ class Searchhistory extends CI_Controller {
 			ob_clean();
 			$responseX = $this->session->userdata('report_download');
 			$data['report'] = $responseX;
-		
+			print '<pre>';
+			print_r($responseX);
+			die();
 			$this->load->library('pdf');
 			$html = $this->load->view('searchhistory/pdf-procurementreport',$data, true);
 			$this->pdf->createPDF($html, "history-procurement-report-".time(), true);

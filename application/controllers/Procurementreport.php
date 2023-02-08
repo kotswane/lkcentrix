@@ -591,10 +591,10 @@ class Procurementreport extends CI_Controller {
 		try{
 			ob_clean();
 			$data['report'] = $this->session->userdata('report');
-			$data['personaldetails'] = $this->session->userdata('personaldetails');
+			$data['personaldetails']['details'] = $this->session->userdata('personaldetails');
 
 			$this->load->library('pdf');
-			$html = $this->load->view('procurementreport/pdf-procurementreport',$data);
+			$html = $this->load->view('procurementreport/pdf-procurementreport',$data,true);
 			$this->pdf->createPDFLandScape($html, "procurementreport-".time(), true);
 
 		}catch(Exception $ex){

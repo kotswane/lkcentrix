@@ -11,6 +11,7 @@
         {
 
 			if($filter == "registrationno"){
+				$search = substr($search,1,strlen($search));
 				$query = $this->db->get_where('blacklist', array('registrationno' => $search));
 				return $query->result();
 			}else if($filter == "name"){

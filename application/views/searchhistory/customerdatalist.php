@@ -95,6 +95,9 @@
                         <div class="col-xs-4">Description of Business&nbsp;&nbsp;<strong><span><?php echo (is_object($report->CommercialBusinessInformation->BusinessDesc)?"":$report->CommercialBusinessInformation->BusinessDesc);?></span></strong></div>
                         <div class="col-xs-4">SICC Code&nbsp;&nbsp;<strong><span><?php echo (is_object($report->CommercialBusinessInformation->SIC)?"":$report->CommercialBusinessInformation->SIC);?></span></strong></div>
                         <div class="col-xs-4">Legal Entity&nbsp;&nbsp;<strong><span><?php echo (is_object($report->SubscriberInputDetails->LegalEntity)?"":$report->SubscriberInputDetails->LegalEntity);?></span></strong></div>
+						<?php if($blackListed->id) { ?>
+						<div class="col-xs-16"><strong><span style="color: red">Blacklisted by <?php echo $blackListed->authorizeby." for ".$blackListed->reason;?></span></strong></div></br>
+						<?php } ?>
                     </div>
                 </div>
               </div>

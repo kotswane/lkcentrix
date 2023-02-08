@@ -202,7 +202,7 @@ class Searchhistory extends CI_Controller {
 		$responseX = json_decode($response[0]->outputdata);
 		$data['report'] = $responseX->report;
 		$data['personaldetails']['details'] = $responseX->personaldetails;
-
+		$data['blackListed']=$responseX->blackListed;
 		$this->session->set_userdata(array('report_download'=>$responseX));
 		$data["content"] = "searchhistory/customerdatalist.php";
 		$this->load->view('site',$data);
@@ -288,6 +288,7 @@ class Searchhistory extends CI_Controller {
 			$responseX = $this->session->userdata('report_download');
 			$data['report'] = $responseX->report;
 			$data['personaldetails']['details'] = $responseX->personaldetails;
+			$data['blackListed']=$responseX->blackListed;
 			$this->load->library('pdf');
 			$html = $this->load->view('searchhistory/pdf-procurementreport',$data, true);
 			$this->pdf->createPDF($html, "history-procurement-report-".time(), true);

@@ -188,19 +188,13 @@ class Tracereport extends CI_Controller {
 					);
 					$this->Auditlog_model->save($auditlog);
 					$data['report'] = array();
-					if(is_object($arrOutput->ConsumerDetails)){
-						$response = $this->getSearchData($arrOutput->ConsumerDetails->EnquiryID, $arrOutput->ConsumerDetails->EnquiryResultID);
-						$data['report'] = $response;
-						$myEnquiryResultID = $arrOutput->ConsumerDetails->EnquiryResultID;
-						$myEnquiryID = $arrOutput->ConsumerDetails->EnquiryID;
-					}else{ 
-						foreach($arrOutput->ConsumerDetails as $ConsumerDetails){
-							
-							$data['report'] = $this->getSearchData($ConsumerDetails->EnquiryID, $ConsumerDetails->EnquiryResultID);
-						}
 					
-					}
-					/*
+					$response = $this->getSearchData($arrOutput->ConsumerDetails->EnquiryID, $arrOutput->ConsumerDetails->EnquiryResultID);
+					$data['report'] = $response;
+					$myEnquiryResultID = $arrOutput->ConsumerDetails->EnquiryResultID;
+					$myEnquiryID = $arrOutput->ConsumerDetails->EnquiryID;
+										
+					
 					$connectGetBonusSegments = $this->client->ConnectGetBonusSegments(array(
 					'ConnectTicket'=>$this->session->userdata('tokenId'),
 					'EnquiryResultID' => $myEnquiryResultID,
@@ -208,30 +202,27 @@ class Tracereport extends CI_Controller {
 					));
 					
 					
-				
-					$xmlConnectGetBonusSegments = str_replace("False","True",$connectGetBonusSegments->ConnectGetBonusSegmentsResult);
-					$xmlConnectGetBonusSegments = str_replace("False","True",$xmlConnectGetBonusSegments);
-					$xmlConnectGetBonusSegments = str_replace("False","True",$xmlConnectGetBonusSegments);
-					$xmlConnectGetBonusSegments = simplexml_load_string($xmlConnectGetBonusSegments);
+					$strConnectGetBonusSegments = $connectGetBonusSegments->ConnectGetBonusSegmentsResult;
+					$strConnectGetBonusSegments = str_replace('False','True',$strConnectGetBonusSegments);
+					$strConnectGetBonusSegments = str_replace('False','True',$strConnectGetBonusSegments);
+					$strConnectGetBonusSegments = str_replace('False','True',$strConnectGetBonusSegments);
 
-					$objConnectGetBonusSegments = json_encode($xmlConnectGetBonusSegments);
-					$arrOutputConnectGetBonusSegments = json_decode($objConnectGetBonusSegments);
-					
+				
 					$responseConnectGetResult = $this->client->ConnectGetResult(array(
 					'EnquiryID' => $myEnquiryID,
 					'EnquiryResultID' => $myEnquiryResultID, 
 					'ConnectTicket' => $this->session->userdata('tokenId'), 
 					'ProductID' => 2,
-					'BonusXML' => $arrOutputConnectGetBonusSegments));
+					'BonusXML' => $strConnectGetBonusSegments));
 				
-					print '<pre>';
-					print_r(array(
-					'EnquiryID' => $myEnquiryID,
-					'EnquiryResultID' => $myEnquiryResultID, 
-					'ConnectTicket' => $this->session->userdata('tokenId'), 
-					'ProductID' => 2,
-					'BonusXML' => $arrOutputConnectGetBonusSegments));
-					die();*/
+
+					$xml = simplexml_load_string($responseConnectGetResult->ConnectGetResultResult,"SimpleXMLElement");
+					$objJsonDocument = json_encode($xml);
+					$arrOutput = json_decode($objJsonDocument);
+					$data['report'] = $arrOutput;
+					
+					#print_r($data['report']);
+					#die();
 					$searchdataArray =(array)$data['report'];
 					$searchHistory = array(
 							"reportname"=>"tracereport",

@@ -25,7 +25,7 @@
 			   <h3 class="box-title">Procurement Report</h3><br/><br/>
 			   <div class="box-tools pull-right">
 					<div>
-						 <a href="<?php echo site_url();?>/searchhistory/downloadidreport">
+						 <a href="<?php echo site_url();?>/searchhistory/downloadidreportproc">
 							<img src="<?php echo base_url();?>dist/img/pdf_icon.png" height="35" width="35"/>
 							<span>Download PDF Document</span>
 						</a>

@@ -31,9 +31,6 @@
                             <input type="text" class="form-control" name="rolename"  id="rolename" name="rolename"  value="<?php echo set_value('rolename');?>" placeholder="User" maxlength="30" />
                         </div>
                     </div>
-					<div id="spinner" class="spinner" style="display:none;"  class="form-group has-feedback">
-						<strong>please wait while loading ....</strong>
-					</div>
 					<div class="form-group has-feedback">
 						<div class="g-recaptcha" data-sitekey="<?php echo $this->config->item('google_key') ?>"></div>
 					</div>

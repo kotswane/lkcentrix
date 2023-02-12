@@ -287,41 +287,87 @@ class Indigentreport extends CI_Controller {
 					redirect('user/login');
 				}
 				
-				$response = $this->client->ConnectGetResult(array(
-				'EnquiryID' => $arrOutput->DirectorDetails->EnquiryID,
-				'EnquiryResultID' => $arrOutput->DirectorDetails->EnquiryResultID, 
-				'ConnectTicket' => $this->session->userdata('tokenId'), 
-				'ProductID' => 14));
+				$data['directorship'] = array();
+				if(is_object($arrOutput->DirectorDetails))
+				{
+						$response = $this->client->ConnectGetResult(array(
+						'EnquiryID' => $arrOutput->DirectorDetails->EnquiryID,
+						'EnquiryResultID' => $arrOutput->DirectorDetails->EnquiryResultID, 
+						'ConnectTicket' => $this->session->userdata('tokenId'), 
+						'ProductID' => 14));
 
-				$auditlog = array(
-				"auditlog_reportname"=>"indigentreport",
-				"auditlog_userId"=>$this->session->userdata('userId'),
-				"auditlog_reporttype"=>"id-search",
-				"auditlog_searchdata"=>json_encode(array(
-				'EnquiryID' => $arrOutput->DirectorDetails->EnquiryID,
-				'EnquiryResultID' => $arrOutput->DirectorDetails->EnquiryResultID,
-				'ProductID' => 14)),
-				"auditlog_fnexecuted" => "ConnectGetResult",
-				"auditlog_issuccess" => true);
-				$this->Auditlog_model->save($auditlog);
+						$auditlog = array(
+						"auditlog_reportname"=>"indigentreport",
+						"auditlog_userId"=>$this->session->userdata('userId'),
+						"auditlog_reporttype"=>"id-search",
+						"auditlog_searchdata"=>json_encode(array(
+						'EnquiryID' => $arrOutput->DirectorDetails->EnquiryID,
+						'EnquiryResultID' => $arrOutput->DirectorDetails->EnquiryResultID,
+						'ProductID' => 14)),
+						"auditlog_fnexecuted" => "ConnectGetResult",
+						"auditlog_issuccess" => true);
+						$this->Auditlog_model->save($auditlog);
+						
+						$xml = simplexml_load_string($response->ConnectGetResultResult,"SimpleXMLElement");
+						$objJsonDocument = json_encode($xml);
+						$arrOutput = json_decode($objJsonDocument);
+						$data['directorship'][] = $arrOutput->ConsumerDirectorShipLink;
+						$this->session->set_userdata(array('directorship' =>$data['directorship']));
+						
+						$searchdataArray = array("directorship" => $data['directorship'], 'familyData' => $data['familyData'], 'report' => $data['report']);
+						
+						$searchHistory = array(
+								"reportname"=>"indigentreport",
+								"userId"=>$this->session->userdata('userId'),
+								"searchdata"=>json_encode($this->session->userdata('searchdata')),
+								"outputdata" => json_encode($searchdataArray),
+								"reporttype" => $this->session->userdata('reporttype')
+						);
 				
-				$xml = simplexml_load_string($response->ConnectGetResultResult,"SimpleXMLElement");
-				$objJsonDocument = json_encode($xml);
-				$arrOutput = json_decode($objJsonDocument);
-				$data['directorship'] = $arrOutput->ConsumerDirectorShipLink;
-				$this->session->set_userdata(array('directorship' =>$data['directorship']));
+						$this->SearchHistory_model->create($searchHistory);
+				}else{
+					foreach($arrOutput->DirectorDetails as $DirectorDetails)
+					{
+						$response = $this->client->ConnectGetResult(array(
+						'EnquiryID' => $DirectorDetails->EnquiryID,
+						'EnquiryResultID' => $DirectorDetails->EnquiryResultID, 
+						'ConnectTicket' => $this->session->userdata('tokenId'), 
+						'ProductID' => 14));
+
+						$auditlog = array(
+						"auditlog_reportname"=>"indigentreport",
+						"auditlog_userId"=>$this->session->userdata('userId'),
+						"auditlog_reporttype"=>"id-search",
+						"auditlog_searchdata"=>json_encode(array(
+						'EnquiryID' => $DirectorDetails->EnquiryID,
+						'EnquiryResultID' => $DirectorDetails->EnquiryResultID,
+						'ProductID' => 14)),
+						"auditlog_fnexecuted" => "ConnectGetResult",
+						"auditlog_issuccess" => true);
+						$this->Auditlog_model->save($auditlog);
+						
+						$xml = simplexml_load_string($response->ConnectGetResultResult,"SimpleXMLElement");
+						$objJsonDocument = json_encode($xml);
+						$arrOutputDirectorDetails = json_decode($objJsonDocument);
+						$data['directorship'][] = $arrOutputDirectorDetails->ConsumerDirectorShipLink;
+					}
+					
+					$this->session->set_userdata(array('directorship' =>$data['directorship']));
+					
+					$searchdataArray = array("directorship" => $data['directorship'], 'familyData' => $data['familyData'], 'report' => $data['report']);
+					
+					$searchHistory = array(
+							"reportname"=>"indigentreport",
+							"userId"=>$this->session->userdata('userId'),
+							"searchdata"=>json_encode($this->session->userdata('searchdata')),
+							"outputdata" => json_encode($searchdataArray),
+							"reporttype" => $this->session->userdata('reporttype')
+					);
+			
+					$this->SearchHistory_model->create($searchHistory);
+					
+				}
 				
-				$searchdataArray = array("directorship" => $data['directorship'], 'familyData' => $data['familyData'], 'report' => $data['report']);
-				
-				$searchHistory = array(
-						"reportname"=>"indigentreport",
-						"userId"=>$this->session->userdata('userId'),
-						"searchdata"=>json_encode($this->session->userdata('searchdata')),
-						"outputdata" => json_encode($searchdataArray),
-						"reporttype" => $this->session->userdata('reporttype')
-				);
-		
-				$this->SearchHistory_model->create($searchHistory);
 			}
 			$data["content"] = "indigentreport/showreport";
 			$this->load->view('site',$data);

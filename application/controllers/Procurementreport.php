@@ -620,7 +620,7 @@ class Procurementreport extends CI_Controller {
 			$data['blackListed'] = $this->session->userdata('blackListed');
 			
 			$this->load->library('pdf');
-			$html = $this->load->view('procurementreport/pdf-procurementreport',$data, true);
+			$html = $this->load->view('procurementreport/pdf-procurementreport',$data,true);
 			$this->pdf->createPDFLandScape($html, "procurementreport-".time(), true);
 
 		}catch(Exception $ex){

@@ -37,6 +37,13 @@
 			return $query->result();
 		}
 		
+		public function getByClientId($id){
+		
+			$sql = "select u.id,ur.userid,ur.roleid,r.name as rolename ,u.contact,u.name,u.username,u.surname,c.client_name,u.isactive from users u join userrole ur on u.id=ur.userid join role r on r.id=ur.roleid join `client` c on c.client_Id=u.clientid and u.clientid='".$id."';";
+			$query=$this->db->query($sql);
+			return $query->result();
+		}
+		
 		public function update($updateData,$rowId){
 			
 			$this->db->where('id', $rowId);

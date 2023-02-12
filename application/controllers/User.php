@@ -85,7 +85,7 @@ class User extends CI_Controller {
 							$this->load->view('login',$data);
 						}else{
 							$client = $this->mysoapclient->getClient();
-							 $loginRequest = array("strUser"=>"LKC_LIVEWS","strPwd"=>"Aplitec01*$");
+							$loginRequest = array("strUser"=>$this->config->item("strUser"),"strPwd"=>$this->config->item("strPwd"));
 							#$loginRequest = array("strUser"=>"LKcentrix_UAT","strPwd"=>"xds100");
 							
 							$loginResponse = $client->Login($loginRequest);

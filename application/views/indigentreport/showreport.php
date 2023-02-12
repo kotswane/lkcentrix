@@ -168,6 +168,7 @@
 					
 					<?php } else { 
 						foreach($directorship as $director){
+							if(is_object($director)){
 						?>
 						<div class="col">
 							<div class="row">
@@ -178,9 +179,20 @@
 							</div>	
 							<hr class="hr-line"/>
 						</div>
-						<?php } 
-					}?>
-				<?php } else {?>
+						<?php } else {
+							foreach($director as $directorx){?>
+						<div class="col">
+							<div class="row">
+								<div class="col-xs-3">Company Name:&nbsp;&nbsp;<strong><span><?php echo (is_object($directorx->CommercialName)?"":$directorx->CommercialName);?></span></strong></div>
+								<div class="col-xs-3">Registration Number:&nbsp;&nbsp;<strong><span><?php echo (is_object($directorx->RegistrationNo)?"":$directorx->RegistrationNo);?></span></strong></div>
+								<div class="col-xs-3">Director Status:&nbsp;&nbsp;<strong><span><?php echo (is_object($directorx->DirectorStatus)?"":$directorx->DirectorStatus);?></span></strong></div>
+								<div class="col-xs-3">Company Status:&nbsp;&nbsp;<strong><span><?php echo (is_object($directorx->CommercialStatus)?"":$directorx->CommercialStatus);?></span></strong></div>
+							</div>	
+							<hr class="hr-line"/>
+						</div>					
+							<?php } 
+						}
+				} } }else {?>
 						<span>Information not found</span>
 				<?php } ?>
                 </div>

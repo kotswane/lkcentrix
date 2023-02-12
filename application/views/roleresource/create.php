@@ -22,9 +22,6 @@
                  <ul class="nav nav-tabs">
                     <li><a data-toggle="tab" href="#tab1">Role Resource</a></li>
                   </ul><br/>
-					<div id="spinner" class="spinner" style="display:none;"  class="form-group has-feedback">
-						<strong>please wait while loading ....</strong>
-					</div>
                      <div class="form-group">
                        <label class="col-form-label">Role Name</label>
 						<select class="form-control" id="rolelist" name="rolelist" required>
@@ -76,15 +73,17 @@
 				foreach($roleResource as $roleResourceKey => $roleResourceValue){
 					foreach($rolelist as $rolelistKey => $rolelistVal){
 						if($rolelistVal->id == $roleResourceValue->roleid){
+							if($menu[$roleResourceKey]->report_name  != ""){
 							$line = $roleResourceValue->id."|".$roleResourceValue->roleid."|".$roleResourceValue->resourceid;
-			?>
-			
-            <tr>
-              <td><?php echo $rolelistVal->name;?></td>
-              <td><?php echo $menu[$roleResourceKey]->report_name;?></td>
-              <td><button class="btn btn-danger" type="button" id="button-create" onClick="fnRemove('<?php echo $line;?>');"><i class="fa fa-remove" aria-hidden="true"></i>&nbsp;Remove</button></td>
-            </tr>
-			<?php }
+							?>
+							
+							<tr>
+							  <td><?php echo $rolelistVal->name;?></td>
+							  <td><?php echo $menu[$roleResourceKey]->report_name;?></td>
+							  <td><button class="btn btn-danger" type="button" id="button-create" onClick="fnRemove('<?php echo $line;?>');"><i class="fa fa-remove" aria-hidden="true"></i>&nbsp;Remove</button></td>
+							</tr>
+							<?php }
+						}
 					}
 				}?>
 			</tbody>

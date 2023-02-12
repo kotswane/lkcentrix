@@ -125,7 +125,7 @@ class Role extends CI_Controller {
 		if(count($response)==0){
 			print "error";
 		}else{
-			print '<input type="text"  class="form-control" id="role_name" name="role_name" value="'.$response[0]->name.'" />';
+			print '<input type="text" class="form-control" id="role_name" name="role_name" value="'.$response[0]->name.'" />';
 		}
 	}
 }

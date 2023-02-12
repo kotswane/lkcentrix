@@ -408,6 +408,11 @@ class User extends CI_Controller {
 				if($isupdate == 1){
 					$data["errorMessage"] = "Successfully updated user information";
 				}
+				if ($this->session->userdata("isadmin")){	
+					$data['consumerList'] = $this->User_model->getJoint();
+				}else{
+					$data['consumerList'] = $this->User_model->getById($this->session->userdata('usermenu'));
+				}				
 				$data["content"]= "user/create";
 				$this->load->view('site',$data);
 			}

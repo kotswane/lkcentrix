@@ -85,9 +85,12 @@ class User extends CI_Controller {
 							$this->load->view('login',$data);
 						}else{
 							$client = $this->mysoapclient->getClient();
-							$loginRequest = array("strUser"=>"LKC_LIVEWS","strPwd"=>"Aplitec01*$");
+							 $loginRequest = array("strUser"=>"LKC_LIVEWS","strPwd"=>"Aplitec01*$");
+							#$loginRequest = array("strUser"=>"LKcentrix_UAT","strPwd"=>"xds100");
+							
 							$loginResponse = $client->Login($loginRequest);
-
+						
+							
 							if ($loginResponse->LoginResult == "UserNotFound" || $loginResponse->LoginResult == "NotAuthenticated"){
 								$data['errorSession'] = "Invalid username and password"; 
 								$this->load->view('login',$data);
@@ -101,7 +104,11 @@ class User extends CI_Controller {
 								}else{
 								
 									$loggedInUserRolesList="";
+									$isAdmin = false;
 									foreach($loggedInUserRoles as $loggedInUserRole){
+										if($loggedInUserRole->roleid == 1){
+											$isAdmin = true;
+										}
 										$loggedInUserRolesList.= "'".$loggedInUserRole->roleid."',";
 									}
 									
@@ -144,6 +151,7 @@ class User extends CI_Controller {
 										'userId' => $login[0]->id,
 										'isactive'=>$login[0]->isactive,
 										'usermenu'=>$loggeinUserMenu,
+										'isadmin'=>$isAdmin,
 										'submenu'=>$loggeinUserSubMenuData));
 										redirect('disclaimer');
 									}else {
@@ -238,7 +246,7 @@ class User extends CI_Controller {
 				
 						$createResponse = $this->User_model->create($roleData);
 						if($createResponse > 0){
-							$data['errorMessage'] = "User Role successfully created";
+							$data['errorMessage'] = "User successfully created";
 							$data['consumerList'] = $this->User_model->getJoint();
 							$data["content"]= "user/create";
 							$this->load->view('site',$data);	
@@ -251,7 +259,11 @@ class User extends CI_Controller {
 				}
 				
 		} else {
-			$data['consumerList'] = $this->User_model->getJoint();
+			if ($this->session->userdata("isadmin")){	
+				$data['consumerList'] = $this->User_model->getJoint();
+			}else{
+				$data['consumerList'] = $this->User_model->getById($this->session->userdata('usermenu'));
+			}
 			$data["content"]= "user/create";
 			$this->load->view('site',$data);
 		}
@@ -263,9 +275,156 @@ class User extends CI_Controller {
 			 redirect('user/login');
 		}		
 		
-		$hasAccess = $this->checkpermission->hasAccess($this->session->userdata('usermenu'),$this->session->userdata('submenu'),'user','update');
+		/*$hasAccess = $this->checkpermission->hasAccess($this->session->userdata('usermenu'),$this->session->userdata('submenu'),'user','update');
 
 		if($hasAccess->hasAccessToController == true && $hasAccess->hasAccessToFunction == false){
+			$data["content"] = 'permissions/access_denied';
+			return $this->load->view('site',$data);
+		}
+		*/
+		if(!$this->session->userdata('agreed_tc_and_c')){
+			 redirect('user/logout');
+		}
+		
+		$postdata = explode("_",$this->input->post("form_data"));
+		$data['errorMessage'] = "";
+		$data['clientlist'] = $this->Client_model->get();
+		$data['form_data'] = $this->input->post("form_data");
+
+		
+		$userData = $this->User_model->getById($postdata[0]);
+		$data["mydetails"] = $userData[0];
+		
+		$data["content"]= "user/update";
+		$this->load->view('site',$data);
+		
+				
+	}
+	
+	public function doupdate(){
+		if(!$this->session->userdata('username')){
+			 redirect('user/login');
+		}		
+		
+		/*$hasAccess = $this->checkpermission->hasAccess($this->session->userdata('usermenu'),$this->session->userdata('submenu'),'user','update');
+
+		if($hasAccess->hasAccessToController == true && $hasAccess->hasAccessToFunction == false){
+			$data["content"] = 'permissions/access_denied';
+			return $this->load->view('site',$data);
+		}
+		*/
+		if(!$this->session->userdata('agreed_tc_and_c')){
+			 redirect('user/logout');
+		}
+		
+
+		$postdata = explode("_",$this->input->post("form_data"));
+		$data['errorMessage'] = "";
+		$data['clientlist'] = $this->Client_model->get();
+		$data['form_data'] = $this->input->post("form_data");
+
+		
+		$userData = $this->User_model->getById($postdata[0]);
+		$data["mydetails"] = $userData[0];
+		$rowId = $userData[0]->id;
+		
+		if ($this->session->userdata("isadmin")){
+			
+			if($this->input->post("password")){
+				if(strlen($this->input->post("password"))>8){
+					$updateData = array(
+						"username" => $this->input->post("email"), 
+						"password" =>$this->input->post("password"),
+						"surname" =>$this->input->post("surname"),
+						"name" =>$this->input->post("firstname"),  
+						"contact" =>$this->input->post("contact"), 
+						"isactive" =>$this->input->post("isactive"), 
+						"clientid" =>$this->input->post("clientid")
+					);
+				}else{
+						$data["errorMessage"] = "Password must be 8 characters long";
+						$data["content"]= "user/update";
+						$this->load->view('site',$data);
+				}
+			}else{
+				$updateData = array(
+					"username" => $this->input->post("email"), 
+					"surname" =>$this->input->post("surname"),
+					"name" =>$this->input->post("firstname"),  
+					"contact" =>$this->input->post("contact"), 
+					"isactive" =>$this->input->post("isactive"), 
+					"clientid" =>$this->input->post("clientid")
+				);
+			}
+			
+			$this->form_validation->set_rules('firstname', 'firstname', 'required');
+			$this->form_validation->set_rules('surname', 'surname', 'required'); 
+			$this->form_validation->set_rules('email', 'email', 'required');
+			$this->form_validation->set_rules('contact', 'contact', 'required'); 
+			$this->form_validation->set_rules('isactive', 'status', 'required'); 
+			$this->form_validation->set_rules('clientid', 'client name', 'required');
+			
+		}else{
+			
+			$updateData = array(
+				"surname" =>$this->input->post("surname"),
+				"password" =>$this->input->post("password"),
+				"name" =>$this->input->post("firstname"),  
+				"contact" =>$this->input->post("contact")
+			);
+			
+			$this->form_validation->set_rules('firstname', 'firstname', 'required');
+			$this->form_validation->set_rules('surname', 'surname', 'required'); 
+			$this->form_validation->set_rules('password', 'Password', 'required'); 
+			$this->form_validation->set_rules('contact', 'contact', 'required'); 
+		}
+		
+		
+		if($this->form_validation->run() == FALSE){
+			$data["content"]= "user/update";
+			$this->load->view('site',$data);
+		}else{
+			$recaptchaResponse = trim($this->input->post('g-recaptcha-response'));
+			$userIp=$this->input->ip_address();
+			$secret = $this->config->item('google_secret');
+			$url="https://www.google.com/recaptcha/api/siteverify?secret=".$secret."&response=".$recaptchaResponse."&remoteip=".$userIp;
+	 
+			$ch = curl_init(); 
+			curl_setopt($ch, CURLOPT_URL, $url); 
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+			$output = curl_exec($ch); 
+			curl_close($ch);      
+			 
+			$status= json_decode($output, true);
+
+			if ($status['success'] == false){
+				$data['errorMessage'] = 'Sorry Recaptcha Unsuccessful!!';
+				$data["content"]= "user/update";
+				$this->load->view('site',$data);
+			}else {
+				
+				$isupdate = $this->User_model->update($updateData,$rowId);
+				$data["errorMessage"] = "Error updating user information";
+				if($isupdate == 1){
+					$data["errorMessage"] = "Successfully updated user information";
+				}
+				$data["content"]= "user/create";
+				$this->load->view('site',$data);
+			}
+		}
+	} 
+	
+	public function view(){
+		if(!$this->session->userdata('username')){
+			 redirect('user/login');
+		}		
+		
+		$hasAccess = $this->checkpermission->hasAccess($this->session->userdata('usermenu'),$this->session->userdata('submenu'),'user','view');
+
+		if($hasAccess->hasAccessToController === true && $hasAccess->hasAccessToFunction === false){
+			$data["content"] = 'permissions/access_denied';
+			return $this->load->view('site',$data);
+		}else if($hasAccess->hasAccessToController === false && $hasAccess->hasAccessToFunction === false){
 			$data["content"] = 'permissions/access_denied';
 			return $this->load->view('site',$data);
 		}
@@ -274,18 +433,20 @@ class User extends CI_Controller {
 			 redirect('user/logout');
 		}
 		
-		$postdata = explode("_",$this->input->post("form_data"));
 		$data['errorMessage'] = "";
 		$data['clientlist'] = $this->Client_model->get();
-
+		$data['rolelist'] = $this->Role_model->get();
+		$data["reports_type"] = $this->reports_type;
+		$data["reports"] = $this->reports;
 		
-
-		$user = $this->User_model->getById($user[0]);
-		$data['consumerList'] = $this->User_model->getJoint();
-		$data["content"]= "user/update";
+	
+		if ($this->session->userdata("isadmin")){	
+			$data['consumerList'] = $this->User_model->getJoint();
+		}else{
+			$data['consumerList'] = $this->User_model->getById($this->session->userdata('userId'));
+		}
+		$data["content"]= "user/view";
 		$this->load->view('site',$data);
-		
-		
 	}
 	
 	public function logout()

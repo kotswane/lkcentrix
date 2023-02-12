@@ -30,6 +30,11 @@
             return $query->result();
 		}
 		
+		public function remove($id){
+			$this->db->delete('roleresourcereporttype', array('id' => $id));
+            return $this->db->affected_rows();
+		}
+		
 		public function getByReportId($reportId){
 			$query = $this->db->get_where('roleresourcereporttype', array('reportid' => $reportId));
             return $query->result();
@@ -47,10 +52,18 @@
 		
 		public function getByReportTypeIdReportIdRoleId($roleid,$reportid,$reporttypeid){
 			
-			$query = $this->db->get_where('roleresourcereporttype', array('roleid' => $reportTypeId,'reportid' => $reportid,'reporttypeid' => $reporttypeid));
+			$query = $this->db->get_where('roleresourcereporttype', array('roleid' => $roleid,'reportid' => $reportid,'reporttypeid' => $reporttypeid));
             $count = $query->num_rows();
 			return $count;
-		}		
+		}	
+
+		public function getReportIdRoleId($roleid,$reportid){
+			
+			$query = $this->db->get_where('roleresourcereporttype', array('roleid' => $roleid,'reportid' => $reportid));
+            $count = $query->num_rows();
+			return $count;
+		}
+		
 		
 		public function getByReportTypeIdReportIdRoleIdRows($reportid,$roleid){
 			

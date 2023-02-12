@@ -73,7 +73,7 @@ class Roleresourceaccess extends CI_Controller {
 		$this->form_validation->set_rules('resourcelistaccess', 'Resource Access', 'required');
 		
 		if ($this->form_validation->run() != FALSE){	
-;
+
 			$recaptchaResponse = trim($this->input->post('g-recaptcha-response'));
 			$userIp=$this->input->ip_address();
 			$secret = $this->config->item('google_secret');
@@ -113,11 +113,28 @@ class Roleresourceaccess extends CI_Controller {
 		}	
 	}
 	
-	public function update(){
+	public function remove(){
+		if(!$this->session->userdata('username')){
+			 redirect('user/login');
+		}
+		if(!$this->session->userdata('agreed_tc_and_c')){
+			 redirect('user/logout');
+		}
+		
+		if($this->session->userdata("isadmin")){
+			$deleteResponse = $this->RoleResourceReportType_model->remove($this->input->post("id"));
+			if($deleteResponse == 1){
+				print "Record successfully deleted.";
+			}
+			else {
+				print "Error deleting a record.";
+			}
+		}else{
+			print "Access denied";
+		}
+		
 	}
 	
-	public function getbyid(){
-	}	
 	
 	public function getbyreportid(){
 		

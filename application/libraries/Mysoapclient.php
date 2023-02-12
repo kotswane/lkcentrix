@@ -17,8 +17,8 @@
 			);
 		
 			#$wsdl3 = "https://www.uat.xds.co.za/xdsconnectws3/xdsconnectws3.asmx?wsdl";
-#			$wsdl = "https://www.uat.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl";
-	$wsdl = base_url()."wsdl/XDSConnectWS.wsdl";
+			$wsdl = "https://www.uat.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl";
+			#$wsdl = base_url()."wsdl/XDSConnectWS.wsdl";
 		
 			try{
 				$this->client = new SoapClient($wsdl, $options);

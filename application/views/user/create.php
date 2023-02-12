@@ -24,18 +24,18 @@
                  <ul class="nav nav-tabs">
                     <li><a data-toggle="tab" href="#tab1">Create/Update User</a></li>
                   </ul><br/>
-					<div id="spinner" class="spinner" style="display:none;"  class="form-group has-feedback">
-						<strong>please wait while loading ....</strong>
-					</div>
-                     <div class="form-group">
-                       <label class="col-form-label">Client Name</label>
-                    <select class="form-control" id="clientid" name="clientid" required>
-					<?php 
-					foreach($clientlist as $client){
-							echo "<option value='$client->client_Id'" . set_select('clientid', $client->client_Id). " >".$client->client_Name."</option>";
-					} ?>
-					</select>
-                 </div>
+				  
+				 	<?php if($this->session->userdata("isadmin")){?>
+						 <div class="form-group">
+						   <label class="col-form-label">Client Name</label>
+							<select class="form-control" id="clientid" name="clientid" required>
+							<?php 
+							foreach($clientlist as $client){
+									echo "<option value='$client->client_Id'" . set_select('clientid', $client->client_Id). " >".$client->client_Name."</option>";
+							} ?>
+							</select>
+						</div>
+					<?php } ?>
 				 
 
 				 
@@ -51,20 +51,35 @@
                  <label class="col-form-label">Contact Number</label>
                     <input type="text"  class="form-control" id="contact" name="contact" value="<?php echo set_value('contact');?>" placeholder="Contact Number" />
                  </div>
-                  <div class="form-group">
-                  <label class="col-form-label">Email</label>
-                   <input type="email"  class="form-control" id="email" name="email" value="<?php echo set_value('email');?>" placeholder="Email" />
-                 </div>
+				  <?php if($this->session->userdata("isadmin")){?>
+					  <div class="form-group">
+					  <label class="col-form-label">Email</label>
+					   <input type="email"  class="form-control" id="email" name="email" value="<?php echo set_value('email');?>" placeholder="Email" />
+					 </div>
+				 <?php } ?>
                   <div class="form-group">
                   <label class="col-form-label">Password</label>
-                    <input type="text"  class="form-control" id="password" name="password" value="<?php echo set_value('password');?>" placeholder="Password" />
+                    <input type="password"  class="form-control" id="password" name="password" value="<?php echo set_value('password');?>" placeholder="Password" />
                  </div>
+				<?php if($this->session->userdata("isadmin")){?>
+					 <div class="form-group">
+					   <label class="col-form-label">Status</label>
+						<select class="form-control" id="isactive" name="isactive" required>
+						<?php 
+							$arrStatus = array("Active" => 1, "Inactive" => 0);													
+							foreach($arrStatus as $statusKey => $statusVal){
+								echo "<option value='$statusVal'" . set_select('isactive', $statusVal). " >".$statusKey."</option>";
+							} 
+						?>
+						</select>
+					</div>
+				<?php } ?>
 				  <div class="form-group has-feedback">
 					<div class="g-recaptcha" data-sitekey="<?php echo $this->config->item('google_key') ?>"></div>
                   </div>
 				  
 				<div class="box-footer">
-					<button class="btn btn-primary" type="submit" id="button-search"><i class="fa fa-search" aria-hidden="true"></i>&nbsp; Search</button>
+					<button class="btn btn-primary" type="submit" id="button-search"><i class="fa fa-upload" aria-hidden="true"></i>&nbsp; Save</button>
 				</div>
 			</div>
         </form>
@@ -83,7 +98,7 @@
               <th>Contact Number</th>
               <th>Client</th>
               <th>Role</th>
-			  <th>Update</th>
+			  <th>Status</th>
 			  <th>Dectivate</th>
  
             </tr>
@@ -102,13 +117,14 @@
               <td><?php echo $consumerListValue->contact;?></td>
               <td><?php echo $consumerListValue->client_name;?></td>
 			  <td><?php echo $consumerListValue->rolename;?></td>
+			  <td><?php echo (($consumerListValue->isactive == 1)?"Active":"Inactive");?></td>
 			  <td>
 			  <form data-toggle="validator" role="Users form" action="<?php echo site_url();?>/user/update" method="post" id="form-update-<?php echo $id;?>">
 				<input type="hidden" name="form_data" id="form_data" value="<?php echo $id;?>"/>
 				<button class="btn btn-primary" type="button" onClick="fnUpdate('<?php echo $id;?>');"><i class="fa fa-upload" aria-hidden="true"></i>&nbsp; Update</button>
 			  </form>
 			  </td>
-			  <td><button class="btn btn-danger" type="button" onClick="fnUpdate('<?php echo $id;?>');"><i class="fa fa-remove" aria-hidden="true"></i>&nbsp; Deactivate</button></td>
+			  
             </tr>
 				<?php 
 					$count++;

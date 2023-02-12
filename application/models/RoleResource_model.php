@@ -50,7 +50,11 @@
 			$count = $query->num_rows();
 			return $count;
 		}
-		
+	
+		public function remove($id){
+			$this->db->delete('roleresource', array('id' => $id));
+            return $this->db->affected_rows();
+		}	
 		
 		
 	}

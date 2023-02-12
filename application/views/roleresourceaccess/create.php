@@ -22,9 +22,6 @@
                  <ul class="nav nav-tabs">
                     <li><a data-toggle="tab" href="#tab1">Role Resource Access</a></li>
                   </ul><br/>
-					<div id="spinner" class="spinner" style="display:none;"  class="form-group has-feedback">
-						<strong>please wait while loading ....</strong>
-					</div>
                      <div class="form-group">
                        <label class="col-form-label">Role Name</label>
 						<select class="form-control" id="rolelist" name="rolelist" required>
@@ -64,11 +61,11 @@
     </div>
 	<?php
 	 if (count($roleResource) > 0){
-		 //$menu = $this->session->userdata('usermenu');
+
 	?>
     <div>
       	 <h5><span><strong>Search Results List</strong></span></h5>
-          <table class="table table-striped">
+          <table class="table table-striped" id="addresssearch_table">
             <thead>
 			<tr>
               <th>Role</th>
@@ -88,12 +85,12 @@
 									
 			?>		
 			
-            <tr>
-              <td><?php echo $rolelistVal->name;?></td>
-              <td><?php echo $reportsVal->report_name;?></td>
-              <td><?php echo $reports_typeVal->report_type_description;?></td>
-			  <td><button class="btn btn-danger" type="button" id="button-create"><i class="fa fa-remove" aria-hidden="true"></i>&nbsp;Remove</button></td>
-            </tr>
+					<tr>
+					  <td><?php echo $rolelistVal->name;?></td>
+					  <td><?php echo $reportsVal->report_name;?></td>
+					  <td><?php echo $reports_typeVal->report_type_description;?></td>
+					  <td><button class="btn btn-danger" type="button" id="button-create" onClick="fnRemove(<?php echo $roleResourceVal->id;?>);"><i class="fa fa-remove" aria-hidden="true"></i>&nbsp;Remove</button></td>
+					</tr>
 					<?php }
 							}
 						}
@@ -108,26 +105,18 @@
 	<?php } ?>
 	
 </section>
-</body>
-<style>
-.spinner {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    margin-left: -50px; /* half width of the spinner gif */
-    margin-top: -50px; /* half height of the spinner gif */
-    text-align:center;
-    z-index:1234;
-    overflow: auto;
-    width: 200px; /* width of the spinner gif */
-    height: 102px; /*hight of the spinner gif +2px to fix IE8 issue */
-}
 
-</style>
 
 <script type="text/javascript">
+
 $(document).ready(function(){
-		$('#button-create').click(function() {
+	
+	$('#addresssearch_table').DataTable({
+        /* No ordering applied by DataTables during initialisation */
+        "order": []
+    });
+
+	$('#button-create').click(function() {
         $('#spinner').show();
 		$('#form-create').submit();
     });
@@ -152,6 +141,23 @@ function loadResourceAccess(){
 		$("#resourcelistaccessdiv").html('');
 		$("#resourcelistaccessgroup").hide();
 	}
+}
+
+function fnRemove(strVal){
+	if (confirm("Are you sure you want to delete this record ?") == true) {
+		 
+		 $.post("<?php echo site_url();?>/roleresourceaccess/remove",
+		  {
+			id: strVal
+		  },
+		  function(data, status){
+			  alert(data);
+			  location.href = "<?php echo site_url();?>/roleresourceaccess/create";
+		  });
+		  
+	}else{
+		alert("No");
+	}		
 }
 </script>
 </html>

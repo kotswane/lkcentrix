@@ -22,11 +22,8 @@
         <form data-toggle="validator" role="Users form" action="<?php echo site_url();?>/userrole/create" method="post" id="form-search">
             <div class="box-body"><br>
                  <ul class="nav nav-tabs">
-                    <li><a data-toggle="tab" href="#tab1">Create/Update User Role</a></li>
+                    <li><a data-toggle="tab" href="#tab1">Create User Role</a></li>
                   </ul><br/>
-					<div id="spinner" class="spinner" style="display:none;"  class="form-group has-feedback">
-						<strong>please wait while loading ....</strong>
-					</div>
                      <div class="form-group">
                        <label class="col-form-label">User</label>
                     <select class="form-control" id="userid" name="userid" required>
@@ -48,13 +45,13 @@
 					} ?>
 					</select>
                  </div>
-
+	
 				  <div class="form-group has-feedback">
 					<div class="g-recaptcha" data-sitekey="<?php echo $this->config->item('google_key') ?>"></div>
                   </div>
 				  
 				<div class="box-footer">
-					<button class="btn btn-primary" type="submit" id="button-search"><i class="fa fa-search" aria-hidden="true"></i>&nbsp; Search</button>
+					<button class="btn btn-primary" type="submit" id="button-search"><i class="fa fa-upload" aria-hidden="true"></i>&nbsp; Save</button>
 				</div>
 			</div>
         </form>
@@ -71,6 +68,7 @@
               <th>Name</th>
               <th>Surname</th>
               <th>Email</th>
+              <th>Action</th>
             </tr>
 			</thead>
 			<tbody>
@@ -82,6 +80,13 @@
               <td><?php echo $userRoleListValue->name;?></td>
               <td><?php echo $userRoleListValue->surname;?></td>
               <td><?php echo $userRoleListValue->username;?></td>
+			  <td>
+				  <form data-toggle="validator" role="Users form" action="<?php echo site_url();?>/userrole/update" method="post" id="form-update-<?php echo $id;?>">
+					<input type="hidden" name="userid" id="userid" value="<?php echo $userRoleListValue->userid;?>"/>
+					<input type="hidden" name="roleid" id="roleid" value="<?php echo $userRoleListValue->roleid;?>"/>
+					<button class="btn btn-primary" type="submit" ><i class="fa fa-upload" aria-hidden="true"></i>&nbsp; Update</button>
+				  </form>
+			  </td>
             </tr>
 			<?php }?>
 			</tbody>

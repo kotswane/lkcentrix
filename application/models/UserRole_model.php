@@ -17,9 +17,14 @@
 		}
 		
 		public function update($data,$id){
-			$this->db->where('id', $id);
+
+			$this->db->where('userid', $id);
 			$this->db->update('userrole', $data); 
-			return (($this->db->affected_rows()>0)?true:false);
+			if($this->db->affected_rows() > 0){
+				return 1;
+			} else {
+				return 0;
+			}
 		}
 		
 		public function getById($id){
@@ -38,7 +43,7 @@
 		}
 		
 		public function getJoint(){
-			$sql = "select ur.*,u.name,u.username,u.surname,r.name as rolename from users u left join userrole ur on u.id=ur.userid left join role r on r.id=ur.roleid;";
+			$sql = "select ur.*,u.name,u.username,u.surname,r.name as rolename from users u join userrole ur on u.id=ur.userid join role r on r.id=ur.roleid;";
 			$query=$this->db->query($sql);
 			return $query->result();
 		}

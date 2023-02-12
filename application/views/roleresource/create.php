@@ -76,12 +76,13 @@
 				foreach($roleResource as $roleResourceKey => $roleResourceValue){
 					foreach($rolelist as $rolelistKey => $rolelistVal){
 						if($rolelistVal->id == $roleResourceValue->roleid){
+							$line = $roleResourceValue->id."|".$roleResourceValue->roleid."|".$roleResourceValue->resourceid;
 			?>
 			
             <tr>
               <td><?php echo $rolelistVal->name;?></td>
               <td><?php echo $menu[$roleResourceKey]->report_name;?></td>
-              <td><button class="btn btn-danger" type="button" id="button-create"><i class="fa fa-remove" aria-hidden="true"></i>&nbsp;Remove</button></td>
+              <td><button class="btn btn-danger" type="button" id="button-create" onClick="fnRemove('<?php echo $line;?>');"><i class="fa fa-remove" aria-hidden="true"></i>&nbsp;Remove</button></td>
             </tr>
 			<?php }
 					}
@@ -116,6 +117,23 @@ $(document).ready(function(){
 		$('#form-create').submit();
     });
 });
+
+function fnRemove(strline){
+	
+	$.post("<?php echo site_url();?>/roleresource/remove",
+	  {
+		str: strline
+	  },
+	  function(data, status){
+		  if( data == 1){
+			 alert("Record successfully deleted");
+			 location.href="<?php echo site_url();?>/roleresource/create";
+		  }else{
+			  alert(data);
+		  }
+
+	  });
+}
 
 </script>
 </html>

@@ -65,7 +65,6 @@
             <tr>
               <th>Name</th>
 			  <th>Action</th>
-			  <th></th>
             </tr>
 			</thead>
 			<tbody>
@@ -78,11 +77,6 @@
               <td>
 				 <button class="btn btn-primary" type="button" onClick="fnUpdate('<?php echo $roleListValue->id;?>');"><i class="fa fa-upload" aria-hidden="true"></i>&nbsp; Update</button>
 			  </td>
-			  <td>
-			   <form data-toggle="validator" role="Roles form" action="<?php echo site_url();?>/role/delete" method="post" id="form-search">
-				 <button class="btn btn-danger" type="button" id="button-delete"><i class="fa fa-remove" aria-hidden="true"></i>&nbsp; Delete</button>
-			   </form>
-			 </td>
             </tr>
 			<?php }?>
 			</tbody>

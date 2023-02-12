@@ -29,6 +29,7 @@ class Roleresource extends CI_Controller {
 		}
 		
 		$this->load->model("RoleResource_model");
+		$this->load->model("RoleResourceReportType_model");
 		$this->load->model("Role_model");
 		$this->load->model("Report_model");
 		$this->reports = $this->Report_model->list_reports();
@@ -107,9 +108,27 @@ class Roleresource extends CI_Controller {
 		}	
 	}
 	
-	public function update(){
-	}
 	
-	public function getbyid(){
+	public function remove(){
+		
+		if($this->session->userdata("isadmin")){
+			$inputpost = explode("|",$this->input->post("str"));
+			$roleid = $inputpost[1];
+			$resourceid = $inputpost[2];
+			$id = $inputpost[0];
+			$response = $this->RoleResourceReportType_model->getReportIdRoleId($roleid,$resourceid);
+			if($response > 0){
+				print "Cannot delete while there are Role Access Resources assign to this record";
+			}else{
+				$response = $this->RoleResource_model->remove($id);
+				if($response > 0){
+					print 1;
+				}else{
+					print "Error deleting a record";
+				}
+			}
+		}else{
+			print "Access denied";
+		}
 	}
 }

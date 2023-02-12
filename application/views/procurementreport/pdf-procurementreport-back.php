@@ -1932,7 +1932,7 @@ if(is_object($report->CommercialBankCodeHistory)){
 		?>	
 	<span><strong>Current Business Interests Not Found</strong></span><br>
 <?php }?>
-
+</div>
  <!-- ActiveDirectorCurrentBusinessinterests -->
  
  

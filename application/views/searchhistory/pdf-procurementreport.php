@@ -1137,8 +1137,9 @@ if(is_object($report->CommercialBankCodeHistory)){
 <?php if($report->CommercialActivePrincipalInformation){ 
 	if(is_object($report->CommercialActivePrincipalInformation)){ 
 			$employer = "";
-			if($personaldetails['details'][$report->CommercialActivePrincipalInformation->IDNo]){
-				$employer = $personaldetails['details'][$report->CommercialActivePrincipalInformation->IDNo]->ConsumerDetail->EmployerDetail;
+			$personaldetails = (array) $personaldetails['details'];
+			if($personaldetails[$report->CommercialActivePrincipalInformation->IDNo]){
+				$employer = $personaldetails[$report->CommercialActivePrincipalInformation->IDNo]->ConsumerDetail->EmployerDetail;
 			} ?>
 	<div class="panel-heading"><strong>Active Director-1 of 1<br>
 	<?php echo (is_object($report->CommercialActivePrincipalInformation->Fullname)?"":$report->CommercialActivePrincipalInformation->Fullname);?></strong>
@@ -2002,10 +2003,10 @@ if(is_object($report->ActiveDirectorPreviousBusinessinterests) && ($report->Comm
  
 	<?php } else { 
 	foreach($report->CommercialActivePrincipalInformation as $CommercialActivePrincipalInformation){  
-									
+	$personaldetails=(array)$personaldetails['details'];							
 	$employer = "";
-	if($personaldetails['details'][$CommercialActivePrincipalInformation->IDNo]){
-		$employer = $personaldetails['details'][$CommercialActivePrincipalInformation->IDNo]->ConsumerDetail->EmployerDetail;
+	if($personaldetails[$CommercialActivePrincipalInformation->IDNo]){
+		$employer = $personaldetails[$CommercialActivePrincipalInformation->IDNo]->ConsumerDetail->EmployerDetail;
 	}?>
 	<div class="panel-heading"> Active Director-<?php echo ++$count." of ".count($report->CommercialActivePrincipalInformation);?><br>
 		<?php echo (is_object($CommercialActivePrincipalInformation->Fullname)?"":$CommercialActivePrincipalInformation->Fullname);?>

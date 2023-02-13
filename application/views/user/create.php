@@ -29,10 +29,11 @@
 						 <div class="form-group">
 						   <label class="col-form-label">Client Name</label>
 							<select class="form-control" id="clientid" name="clientid" required>
-							<?php 
-							foreach($clientlist as $client){
-									echo "<option value='$client->client_Id'" . set_select('clientid', $client->client_Id). " >".$client->client_Name."</option>";
-							} ?>
+								<option value="">Select Client</option>
+								<?php 
+								foreach($clientlist as $client){
+										echo "<option value='$client->client_Id'" . set_select('clientid', $client->client_Id). " >".$client->client_Name."</option>";
+								} ?>
 							</select>
 						</div>
 					<?php } ?>
@@ -45,26 +46,27 @@
                  </div>
                 <div class="form-group">
                 <label class="col-form-label">Surname</label>
-                    <input type="text"  class="form-control" id="surname" name="surname" value="<?php echo set_value('surname');?>" placeholder="Surname" />
+                    <input type="text"  class="form-control" id="surname" name="surname" value="<?php echo set_value('surname');?>" placeholder="Surname" required />
                  </div>
                  <div class="form-group">
                  <label class="col-form-label">Contact Number</label>
-                    <input type="text"  class="form-control" id="contact" name="contact" value="<?php echo set_value('contact');?>" placeholder="Contact Number" />
+                    <input type="text"  class="form-control" id="contact" name="contact" value="<?php echo set_value('contact');?>" placeholder="Contact Number" required />
                  </div>
 				  <?php if($this->session->userdata("isadmin")){?>
 					  <div class="form-group">
 					  <label class="col-form-label">Email</label>
-					   <input type="email"  class="form-control" id="email" name="email" value="<?php echo set_value('email');?>" placeholder="Email" />
+					   <input type="email"  class="form-control" id="email" name="email" value="<?php echo set_value('email');?>" placeholder="Email" required/>
 					 </div>
 				 <?php } ?>
                   <div class="form-group">
                   <label class="col-form-label">Password</label>
-                    <input type="password"  class="form-control" id="password" name="password" value="<?php echo set_value('password');?>" placeholder="Password" />
+                    <input type="password"  class="form-control" id="password" name="password" value="<?php echo set_value('password');?>" placeholder="Password" required />
                  </div>
 				<?php if($this->session->userdata("isadmin")){?>
 					 <div class="form-group">
 					   <label class="col-form-label">Status</label>
 						<select class="form-control" id="isactive" name="isactive" required>
+						<option value="">Select Status</option>
 						<?php 
 							$arrStatus = array("Active" => 1, "Inactive" => 0);													
 							foreach($arrStatus as $statusKey => $statusVal){

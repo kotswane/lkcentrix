@@ -25,9 +25,7 @@
                  <ul class="nav nav-tabs">
                     <li><a data-toggle="tab" href="#tab1">Update User</a></li>
                   </ul><br/>
-					<div id="spinner" class="spinner" style="display:none;"  class="form-group has-feedback">
-						<strong>please wait while loading ....</strong>
-					</div>
+
 					<?php if($this->session->userdata("isadmin")){?>
 						 <div class="form-group">
 						   <label class="col-form-label">Client Name</label>
@@ -46,25 +44,25 @@
 				 
                  <div class="form-group">
                  <label class="col-form-label">First Name</label>
-                    <input type="text"  class="form-control" id="firstname" name="firstname" value="<?php echo $mydetails->name;?>" placeholder="firstname" required />
+                    <input type="text"  class="form-control" id="firstname" name="firstname" value="<?php echo $mydetails->name;?>" placeholder="firstname" required <?php echo((!$this->session->userdata("isadmin"))?"readonly":"");?> />
                  </div>
                 <div class="form-group">
                 <label class="col-form-label">Surname</label>
-                    <input type="text"  class="form-control" id="surname" name="surname" value="<?php echo $mydetails->surname;?>" placeholder="Surname" />
+                    <input type="text"  class="form-control" id="surname" name="surname" value="<?php echo $mydetails->surname;?>" placeholder="Surname" required <?php echo((!$this->session->userdata("isadmin"))?"readonly":"");?>/>
                  </div>
                  <div class="form-group">
                  <label class="col-form-label">Contact Number</label>
-                    <input type="text"  class="form-control" id="contact" name="contact" value="<?php echo $mydetails->contact;?>" placeholder="Contact Number" />
+                    <input type="text"  class="form-control" id="contact" name="contact" value="<?php echo $mydetails->contact;?>" placeholder="Contact Number" required <?php echo((!$this->session->userdata("isadmin"))?"readonly":"");?>/>
                  </div>
 				 <?php if($this->session->userdata("isadmin")){?>
 					 <div class="form-group">
 					  <label class="col-form-label">Email</label>
-					   <input type="email"  class="form-control" id="email" name="email" value="<?php echo $mydetails->username;?>" placeholder="Email" />
+					   <input type="email"  class="form-control" id="email" name="email" value="<?php echo $mydetails->username;?>" placeholder="Email" required <?php echo((!$this->session->userdata("isadmin"))?"readonly":"");?>/>
 					 </div>
 				 <?php } ?>
                  <div class="form-group">
                   <label class="col-form-label">Password</label>
-                    <input type="password"  class="form-control" id="password" name="password" value="<?php echo set_value('password');?>" placeholder="Password" />
+                    <input type="password"  class="form-control" id="password" name="password" value="<?php echo set_value('password');?>" placeholder="Password" required />
                  </div>
 				<?php if($this->session->userdata("isadmin")){?>
 					 <div class="form-group">

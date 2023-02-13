@@ -110,56 +110,65 @@
 					<div class="col-lg-6">
 						<table class="table table-striped">
 							<tr>
-								<td>Commercial ID</td>
-								<td><?php echo $report->CommercialScoring->CommercialID;?></td>
+								<td><strong><span>Score Date</strong></span></td>
+								<td><strong><span><?php echo $report->CommercialScoring->ScoreDate;?></strong></span></td>
 							</tr>
 							<tr>
-								<td>Score Date</td>
-								<td><?php echo $report->CommercialScoring->ScoreDate;?></td>
+								<td><strong><span>Final Score</strong></span></td>
+								<td><strong><span><?php echo $report->CommercialScoring->FinalScore;?></strong></span></td>
 							</tr>
 							<tr>
-								<td>Final Score</td>
-								<td><?php echo $report->CommercialScoring->FinalScore;?></td>
-							</tr>
-							<tr>
-								<td>Band</td>
-								<td><strong><span><?php echo $report->CommercialScoring->Band;?></strong></span></td>
+								<td colspan="2">
+								<p><strong><span>Variables affecting Score:</strong></span></p>
+								</br>
+								<p><strong><span>*&nbsp;Age, Status and History</strong></span><br>
+									<strong><span>*&nbsp;Adverse records</strong></span></br>
+									<strong><span>*&nbsp;Financial references, Assest etc</strong></span>
+								</p>
+								</br>
+								<p><strong><span>The score is calculated automatically</br>
+								recalculated as soon as any</br> variables changes</strong></span></p>
+								</td>
+								
 							</tr>
 						</table>
 					</div>
 					<div class="col-lg-6">
-					<table class="table table-striped">
+					<table class="table">
 						<tr>
 							<td><strong>Score</strong></td>
 							<td><strong>Band / Message</strong></td>
 						</tr>
 						<tr >
-							<td><?php echo $report->CommercialScoring->ScoreBandRange1;?></td>
-							<td><?php echo $report->CommercialScoring->Band_x002F_Message1;?></td>
+							<td><strong><span>0</strong></span></td>
+							<td><strong><span>Could not be scored due to certain factors<br>
+preventing this such as deregitration<br>and/or liquidation.</strong></span></td>
 						</tr>
 						<tr>
-							<td><?php echo $report->CommercialScoring->ScoreBandRange2;?></td>
-							<td><?php echo $report->CommercialScoring->Band_x002F_Message2;?></td>
+							<td><strong><span>1 - 89</strong></span></td>
+							<td><strong><span>Received a Very Poor scoring therefore the</br>
+risk is seen to be very high when</br>
+undertaking dealings with the subject.</strong></span></td>
 						</tr>
 						<tr>
-							<td><?php echo $report->CommercialScoring->ScoreBandRange3;?></td>
-							<td><?php echo $report->CommercialScoring->Band_x002F_Message3;?></td>
+							<td><strong><span>90 - 139</strong></span></td>
+							<td><strong><span><?php echo $report->CommercialScoring->Band_x002F_Message3;?></strong></span></td>
 						</tr>
 						<tr>
-							<td><?php echo $report->CommercialScoring->ScoreBandRange4;?></td>
-							<td><?php echo $report->CommercialScoring->Band_x002F_Message4;?></td>
+							<td><strong><span><?php echo $report->CommercialScoring->ScoreBandRange4;?></strong></span></td>
+							<td><strong><span><?php echo $report->CommercialScoring->Band_x002F_Message4;?></strong></span></td>
 						</tr>
 						<tr>
-							<td><?php echo $report->CommercialScoring->ScoreBandRange5;?></td>
-							<td><?php echo $report->CommercialScoring->Band_x002F_Message5;?></td>
+							<td><strong><span><?php echo $report->CommercialScoring->ScoreBandRange5;?></strong></span></td>
+							<td><strong><span><?php echo $report->CommercialScoring->Band_x002F_Message5;?></strong></span></td>
 						</tr>
 						<tr>
-							<td><?php echo $report->CommercialScoring->ScoreBandRange6;?></td>
-							<td><?php echo $report->CommercialScoring->Band_x002F_Message6;?></td>
+							<td><strong><span><?php echo $report->CommercialScoring->ScoreBandRange6;?></strong></span></td>
+							<td><strong><span><?php echo $report->CommercialScoring->Band_x002F_Message6;?></strong></span></td>
 						</tr>
 						<tr>
-							<td><?php echo $report->CommercialScoring->ScoreBandRange7;?></td>
-							<td><?php echo $report->CommercialScoring->Band_x002F_Message7;?></td>
+							<td><strong><span><?php echo $report->CommercialScoring->ScoreBandRange7;?></strong></span></td>
+							<td><strong><span><?php echo $report->CommercialScoring->Band_x002F_Message7;?></strong></span></td>
 						</tr>
 					</table>
 				   </div>
@@ -1983,11 +1992,10 @@
 							<?php } else { 
 									
 									foreach($report->CommercialActivePrincipalInformation as $CommercialActivePrincipalInformation){  
-									 
+									    $personaldetails = (array) $personaldetails['details'];
 						
 										$employer = "";
-										if($personaldetails['details'][$CommercialActivePrincipalInformation->IDNo]){
-											$personaldetails = (array)$personaldetails['details'];
+										if($personaldetails[$CommercialActivePrincipalInformation->IDNo]){
 											$employer = $personaldetails[$CommercialActivePrincipalInformation->IDNo]->ConsumerDetail->EmployerDetail;
 										}
 										

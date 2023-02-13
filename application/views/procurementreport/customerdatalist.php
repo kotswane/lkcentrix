@@ -103,27 +103,33 @@
               </div>
 			  <?php if($report->CommercialScoring){?>
 			  
-			  <div class="panel panel-primary">
+			   <div class="panel panel-primary">
                 <div class="panel-heading">Commercial Score</div>
                 <div class="panel-body">
 				  <div class="row">
 					<div class="col-lg-6">
 						<table class="table table-striped">
 							<tr>
-								<td>Commercial ID</td>
-								<td><?php echo $report->CommercialScoring->CommercialID;?></td>
+								<td><strong><span>Score Date</strong></span></td>
+								<td><strong><span><?php echo $report->CommercialScoring->ScoreDate;?></strong></span></td>
 							</tr>
 							<tr>
-								<td>Score Date</td>
-								<td><?php echo $report->CommercialScoring->ScoreDate;?></td>
+								<td><strong><span>Final Score</strong></span></td>
+								<td><strong><span><?php echo $report->CommercialScoring->FinalScore;?></strong></span></td>
 							</tr>
 							<tr>
-								<td>Final Score</td>
-								<td><?php echo $report->CommercialScoring->FinalScore;?></td>
-							</tr>
-							<tr>
-								<td>Band</td>
-								<td><strong><span><?php echo $report->CommercialScoring->Band;?></strong></span></td>
+								<td colspan="2">
+								<p><strong><span>Variables affecting Score:</strong></span></p>
+								</br>
+								<p><strong><span>*&nbsp;Age, Status and History</strong></span><br>
+									<strong><span>*&nbsp;Adverse records</strong></span></br>
+									<strong><span>*&nbsp;Financial references, Assest etc</strong></span>
+								</p>
+								</br>
+								<p><strong><span>The score is calculated automatically</br>
+								recalculated as soon as any</br> variables changes</strong></span></p>
+								</td>
+								
 							</tr>
 						</table>
 					</div>
@@ -134,32 +140,32 @@
 							<td><strong>Band / Message</strong></td>
 						</tr>
 						<tr >
-							<td><?php echo $report->CommercialScoring->ScoreBandRange1;?></td>
-							<td><?php echo $report->CommercialScoring->Band_x002F_Message1;?></td>
+							<td><strong><span><?php echo $report->CommercialScoring->ScoreBandRange1;?></strong></span></td>
+							<td><strong><span><?php echo $report->CommercialScoring->Band_x002F_Message1;?></strong></span></td>
 						</tr>
 						<tr>
-							<td><?php echo $report->CommercialScoring->ScoreBandRange2;?></td>
-							<td><?php echo $report->CommercialScoring->Band_x002F_Message2;?></td>
+							<td><strong><span><?php echo $report->CommercialScoring->ScoreBandRange2;?></strong></span></td>
+							<td><strong><span><?php echo $report->CommercialScoring->Band_x002F_Message2;?></strong></span></td>
 						</tr>
 						<tr>
-							<td><?php echo $report->CommercialScoring->ScoreBandRange3;?></td>
-							<td><?php echo $report->CommercialScoring->Band_x002F_Message3;?></td>
+							<td><strong><span><?php echo $report->CommercialScoring->ScoreBandRange3;?></strong></span></td>
+							<td><strong><span><?php echo $report->CommercialScoring->Band_x002F_Message3;?></strong></span></td>
 						</tr>
 						<tr>
-							<td><?php echo $report->CommercialScoring->ScoreBandRange4;?></td>
-							<td><?php echo $report->CommercialScoring->Band_x002F_Message4;?></td>
+							<td><strong><span><?php echo $report->CommercialScoring->ScoreBandRange4;?></strong></span></td>
+							<td><strong><span><?php echo $report->CommercialScoring->Band_x002F_Message4;?></strong></span></td>
 						</tr>
 						<tr>
-							<td><?php echo $report->CommercialScoring->ScoreBandRange5;?></td>
-							<td><?php echo $report->CommercialScoring->Band_x002F_Message5;?></td>
+							<td><strong><span><?php echo $report->CommercialScoring->ScoreBandRange5;?></strong></span></td>
+							<td><strong><span><?php echo $report->CommercialScoring->Band_x002F_Message5;?></strong></span></td>
 						</tr>
 						<tr>
-							<td><?php echo $report->CommercialScoring->ScoreBandRange6;?></td>
-							<td><?php echo $report->CommercialScoring->Band_x002F_Message6;?></td>
+							<td><strong><span><?php echo $report->CommercialScoring->ScoreBandRange6;?></strong></span></td>
+							<td><strong><span><?php echo $report->CommercialScoring->Band_x002F_Message6;?></strong></span></td>
 						</tr>
 						<tr>
-							<td><?php echo $report->CommercialScoring->ScoreBandRange7;?></td>
-							<td><?php echo $report->CommercialScoring->Band_x002F_Message7;?></td>
+							<td><strong><span><?php echo $report->CommercialScoring->ScoreBandRange7;?></strong></span></td>
+							<td><strong><span><?php echo $report->CommercialScoring->Band_x002F_Message7;?></strong></span></td>
 						</tr>
 					</table>
 				   </div>

@@ -133,7 +133,7 @@
                     <div class="col">
 						
 						<?php if($report->ConsumerCPANLRDebtSummary){
-							#print_r($report->ConsumerCPANLRDebtSummary);	
+							//print_r($report->ConsumerCPANLRDebtSummary);	
 							?>
 							
 							<table class="table table-striped">
@@ -216,7 +216,54 @@
 								<td><?php echo (int)(is_object($report->ConsumerCPANLRDebtSummary->NoOfAccountsOpenedinLast45DaysCPA)?"":$report->ConsumerCPANLRDebtSummary->NoOfAccountsOpenedinLast45DaysCPA);?></td>
 								<td><?php echo (int)(is_object($report->ConsumerCPANLRDebtSummary->NoOfAccountsOpenedinLast45Days)?"":$report->ConsumerCPANLRDebtSummary->NoOfAccountsOpenedinLast45Days);?></td>
 							  </tr>
-							  
+							</table>
+							<hr>
+							<table class="table table-striped">
+								  <tr>
+									<td>Description</td>
+									<td>Total</td>
+									<td>Amount</td>
+									<td>Most Recent Date</td>
+								  </tr>
+								  <tr>
+									<td>Public Domain - Adverse / Defaults</td>
+									<td><?php echo (int)(is_object($report->ConsumerCPANLRDebtSummary->NoofAccountdefaults)?"":$report->ConsumerCPANLRDebtSummary->NoofAccountdefaults);?></td>
+									<td>R<?php echo (is_object($report->ConsumerCPANLRDebtSummary->TotalAdverseAmt)?"":$report->ConsumerCPANLRDebtSummary->TotalAdverseAmt);?></td>
+									<td><?php echo (is_object($report->ConsumerCPANLRDebtSummary->MostRecentAdverseDate)?"":$report->ConsumerCPANLRDebtSummary->MostRecentAdverseDate);?></td>
+								  </tr>
+								  <tr>
+									<td>Default listing</td>
+									<td><?php echo (int)(is_object($report->ConsumerCPANLRDebtSummary->DefaultListingCount)?"":$report->ConsumerCPANLRDebtSummary->DefaultListingCount);?></td>
+									<td>R<?php echo (int)(is_object($report->ConsumerCPANLRDebtSummary->DefaultListingAmt)?"":$report->ConsumerCPANLRDebtSummary->DefaultListingAmt);?></td>
+									<td><?php echo (is_object($report->ConsumerCPANLRDebtSummary->RecentDefaultListingDate)?"":$report->ConsumerCPANLRDebtSummary->RecentDefaultListingDate);?></td>
+								  </tr>								  
+								  <tr>
+									<td>Judgements</td>
+									<td><?php echo (int)(is_object($report->ConsumerCPANLRDebtSummary->JudgementCount)?"":$report->ConsumerCPANLRDebtSummary->JudgementCount);?></td>
+									<td>R<?php echo (int)(is_object($report->ConsumerCPANLRDebtSummary->TotalJudgmentAmt)?"":$report->ConsumerCPANLRDebtSummary->TotalJudgmentAmt);?></td>
+									<td><?php echo (is_object($report->ConsumerCPANLRDebtSummary->MostRecentJudgmentDate)?"":$report->ConsumerCPANLRDebtSummary->MostRecentJudgmentDate);?></td>
+								  </tr>
+								  <tr>
+									<td>Court Notices (Admin Orders/Sequestrations/Rehabilitation Orders)</td>
+									<td><?php echo (int)(is_object($report->ConsumerCPANLRDebtSummary->NoOfEnqinLast24Months)?"":$report->ConsumerCPANLRDebtSummary->CourtNoticeCount);?></td>
+									<td>R<?php echo (int)(is_object($report->ConsumerCPANLRDebtSummary->TotalCourtNoticeAmt)?"":$report->ConsumerCPANLRDebtSummary->TotalCourtNoticeAmt);?></td>
+									<td><?php (is_object($report->ConsumerCPANLRDebtSummary->MostRecentAdverseDate)?"":$report->ConsumerCPANLRDebtSummary->MostRecentAdverseDate);?></td>
+								  </tr>
+								  <tr>
+									<td>Enquiries (last 24 months)</td>
+									<td><?php echo (int)(is_object($report->ConsumerCPANLRDebtSummary->NoOfEnqinLast24Months)?"":$report->ConsumerCPANLRDebtSummary->NoOfEnqinLast24Months);?></td>
+									<td></td>
+									<td><?php echo (is_object($report->ConsumerCPANLRDebtSummary->MostRecentEnqDateLast24Months)?"":$report->ConsumerCPANLRDebtSummary->MostRecentEnqDateLast24Months);?></td>
+								  </tr>								  
+								  
+								  <tr>
+									<td>Debt Review Status</td>
+									<td colspan="3"><?php echo (is_object($report->ConsumerCPANLRDebtSummary->DebtReviewStatus)?"":$report->ConsumerCPANLRDebtSummary->DebtReviewStatus);?></td>
+								  </tr>								  
+								  <tr>
+									<td>Dispute Information</td>
+									<td colspan="3"><?php echo (is_object($report->ConsumerCPANLRDebtSummary->DisputeMessage)?"":$report->ConsumerCPANLRDebtSummary->DisputeMessage);?></td>
+								  </tr>
 							</table>
 						<?php } else {?>
 							<span>Debt Summary not found</span><br>

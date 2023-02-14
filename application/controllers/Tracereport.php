@@ -215,12 +215,15 @@ class Tracereport extends CI_Controller {
 					 $hasSegments =false;
 					 if(!is_object($arrOutput->Segments)){
 						 foreach($arrOutput->Segments as $segmenValK => $segmenValV){
+							 		 print "<pre>";
+			 print_r($segmenValV);
+			  print "</pre>";
 							$bonusSegments->appendChild($segments = $document->createElement('Segments')); 
 							$segments->appendChild($document->createElement('DataSegmentID'))->textContent = $segmenValV->DataSegmentID;
 							$segments->appendChild($document->createElement('DataSegmentName'))->textContent = $segmenValV->DataSegmentName;
 							$segments->appendChild($document->createElement('DataSegmentDisplayText'))->textContent = $segmenValV->DataSegmentDisplayText;
 							$segments->appendChild($document->createElement('BonusViewed'))->textContent = $segmenValV->BonusViewed;
-							$segments->appendChild($document->createElement('BonusPrice'))->textContent = $segmenValV->BillingPrice;
+							$segments->appendChild($document->createElement('BonusPrice'))->textContent = $segmenValV->BonusPrice;
 							$hasSegments = true;
 						 }
 					 }else{
@@ -231,7 +234,7 @@ class Tracereport extends CI_Controller {
 							$segments->appendChild($document->createElement('DataSegmentName'))->textContent = $arrOutput->Segments->DataSegmentName;
 							$segments->appendChild($document->createElement('DataSegmentDisplayText'))->textContent = $arrOutput->Segments->DataSegmentDisplayText;
 							$segments->appendChild($document->createElement('BonusViewed'))->textContent = $arrOutput->Segments->BonusViewed;
-							$segments->appendChild($document->createElement('BonusPrice'))->textContent = $arrOutput->Segments->BillingPrice;
+							$segments->appendChild($document->createElement('BonusPrice'))->textContent = $arrOutput->Segments->BonusPrice;
 						  }							
 					 }
 					 
@@ -257,6 +260,7 @@ class Tracereport extends CI_Controller {
 					$objJsonDocument = json_encode($xml);
 					$arrOutput = json_decode($objJsonDocument);
 					$data['report'] = $arrOutput;
+
 
 					$searchdataArray =(array)$data['report'];
 					$searchHistory = array(
@@ -745,7 +749,7 @@ class Tracereport extends CI_Controller {
 			$segments->appendChild($document->createElement('DataSegmentName'))->textContent = $segmenValV->DataSegmentName;
 			$segments->appendChild($document->createElement('DataSegmentDisplayText'))->textContent = $segmenValV->DataSegmentDisplayText;
 			$segments->appendChild($document->createElement('BonusViewed'))->textContent = $segmenValV->BonusViewed;
-			$segments->appendChild($document->createElement('BonusPrice'))->textContent = $segmenValV->BillingPrice;
+			$segments->appendChild($document->createElement('BonusPrice'))->textContent = $segmenValV->BonusPrice;
 		 }
 	 }else{
 			$bonusSegments->appendChild($segments = $document->createElement('Segments')); 
@@ -753,7 +757,7 @@ class Tracereport extends CI_Controller {
 			$segments->appendChild($document->createElement('DataSegmentName'))->textContent = $arrOutput->Segments->DataSegmentName;
 			$segments->appendChild($document->createElement('DataSegmentDisplayText'))->textContent = $arrOutput->Segments->DataSegmentDisplayText;
 			$segments->appendChild($document->createElement('BonusViewed'))->textContent = $arrOutput->Segments->BonusViewed;
-			$segments->appendChild($document->createElement('BonusPrice'))->textContent = $arrOutput->Segments->BillingPrice;		 
+			$segments->appendChild($document->createElement('BonusPrice'))->textContent = $arrOutput->Segments->BonusPrice;			 
 	 }
 	 
 	$document->formatOutput = true;

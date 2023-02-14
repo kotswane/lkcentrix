@@ -122,9 +122,6 @@ class Tracereport extends CI_Controller {
 				$data["content"] = "tracereport/id-search";
 				$this->load->view('site',$data);
 			} else {
-				/*if(!$this->input->post('idNumber')){
-					redirect('tracereport/id-search');
-				}*/
 				
 				$IsTicketValid = array("XDSConnectTicket"=>$this->session->userdata('tokenId'));
 			
@@ -143,6 +140,7 @@ class Tracereport extends CI_Controller {
 				'EnquiryReason' => 'Consumer Trace'
 				));
 				
+			
 				$xml = simplexml_load_string($response->ConnectConsumerMatchResult);
 				
 				$this->session->set_userdata(array('searchdata' => array('IdNumber'=>$this->input->post('idNumber'),'ProductId' => 2,'EnquiryReason' => 'Consumer Trace')));
@@ -189,8 +187,6 @@ class Tracereport extends CI_Controller {
 					$this->Auditlog_model->save($auditlog);
 					$data['report'] = array();
 					
-					$response = $this->getSearchData($arrOutput->ConsumerDetails->EnquiryID, $arrOutput->ConsumerDetails->EnquiryResultID);
-					$data['report'] = $response;
 					$myEnquiryResultID = $arrOutput->ConsumerDetails->EnquiryResultID;
 					$myEnquiryID = $arrOutput->ConsumerDetails->EnquiryID;
 										
@@ -201,28 +197,57 @@ class Tracereport extends CI_Controller {
 					'EnquiryReason' => 'Consumer Trace'
 					));
 					
-					
-					$strConnectGetBonusSegments = $connectGetBonusSegments->ConnectGetBonusSegmentsResult;
-					$strConnectGetBonusSegments = str_replace('False','True',$strConnectGetBonusSegments);
-					$strConnectGetBonusSegments = str_replace('False','True',$strConnectGetBonusSegments);
-					$strConnectGetBonusSegments = str_replace('False','True',$strConnectGetBonusSegments);
+					$strConnectGetBonusSegments = simplexml_load_string($connectGetBonusSegments->ConnectGetBonusSegmentsResult,"SimpleXMLElement");
+					$objJsonDocument = json_encode($strConnectGetBonusSegments);
+					$arrOutput = json_decode($objJsonDocument);
+						
+					if(is_object($arrOutput->Segments)){
+						$strConnectGetBonusSegments->Segments->BonusViewed='True';
+					}else{
+						foreach($arrOutput->Segments as $segmenValK => $segmenValV){
+							$arrOutput->Segments[$segmenValK]->BonusViewed='True';
+						}	
+					}
+	
+	
+					 $document = new DOMDocument();
+					 $document->appendChild($bonusSegments = $document->createElement('BonusSegments'));
+					 if(!is_object($arrOutput->Segments)){
+						 foreach($arrOutput->Segments as $segmenValK => $segmenValV){
+							$bonusSegments->appendChild($segments = $document->createElement('Segments')); 
+							$segments->appendChild($document->createElement('DataSegmentID'))->textContent = $segmenValV->DataSegmentID;
+							$segments->appendChild($document->createElement('DataSegmentName'))->textContent = $segmenValV->DataSegmentName;
+							$segments->appendChild($document->createElement('DataSegmentDisplayText'))->textContent = $segmenValV->DataSegmentDisplayText;
+							$segments->appendChild($document->createElement('BonusViewed'))->textContent = $segmenValV->BonusViewed;
+							$segments->appendChild($document->createElement('BonusPrice'))->textContent = $segmenValV->BonusPrice;
+							$segments->appendChild($document->createElement('DataSegmentDisplayText2'))->textContent = $segmenValV->DataSegmentDisplayText2;
+						 }
+					 }else{
+							$bonusSegments->appendChild($segments = $document->createElement('Segments')); 
+							$segments->appendChild($document->createElement('DataSegmentID'))->textContent = $arrOutput->Segments->DataSegmentID;
+							$segments->appendChild($document->createElement('DataSegmentName'))->textContent = $arrOutput->Segments->DataSegmentName;
+							$segments->appendChild($document->createElement('DataSegmentDisplayText'))->textContent = $arrOutput->Segments->DataSegmentDisplayText;
+							$segments->appendChild($document->createElement('BonusViewed'))->textContent = $arrOutput->Segments->BonusViewed;
+							$segments->appendChild($document->createElement('BonusPrice'))->textContent = $arrOutput->Segments->BonusPrice;
+							$segments->appendChild($document->createElement('DataSegmentDisplayText2'))->textContent = $arrOutput->Segments->DataSegmentDisplayText2;			 
+					 }
+					 
+					 $document->formatOutput = true;
 
-				
 					$responseConnectGetResult = $this->client->ConnectGetResult(array(
 					'EnquiryID' => $myEnquiryID,
 					'EnquiryResultID' => $myEnquiryResultID, 
 					'ConnectTicket' => $this->session->userdata('tokenId'), 
 					'ProductID' => 2,
-					'BonusXML' => $strConnectGetBonusSegments));
-				
+					'BonusXML' => $document->saveXML()));					 
+						
+
 
 					$xml = simplexml_load_string($responseConnectGetResult->ConnectGetResultResult,"SimpleXMLElement");
 					$objJsonDocument = json_encode($xml);
 					$arrOutput = json_decode($objJsonDocument);
 					$data['report'] = $arrOutput;
-					
-					#print_r($data['report']);
-					#die();
+
 					$searchdataArray =(array)$data['report'];
 					$searchHistory = array(
 							"reportname"=>"tracereport",
@@ -642,7 +667,7 @@ class Tracereport extends CI_Controller {
 		
 	}
 	
-	private function getSearchData($enquiryID, $enquiryResultID){
+	private function getSearchData($myEnquiryID, $myEnquiryResultID){
 		if(!$this->session->userdata('username')){
 			 redirect('user/login');
 		}
@@ -668,30 +693,91 @@ class Tracereport extends CI_Controller {
 		}
 		
 
-		$response = $this->client->ConnectGetResult(array(
-				'EnquiryID' => $enquiryID,
-				'EnquiryResultID' => $enquiryResultID, 
-				'ConnectTicket' => $this->session->userdata('tokenId'), 
-				'ProductID' => 2));
-			
-		$xml = simplexml_load_string($response->ConnectGetResultResult,"SimpleXMLElement");
-		$objJsonDocument = json_encode($xml);
-		$arrOutput = json_decode($objJsonDocument);
+
+	$connectGetBonusSegments = $this->client->ConnectGetBonusSegments(array(
+	'ConnectTicket'=>$this->session->userdata('tokenId'),
+	'EnquiryResultID' => $myEnquiryResultID,
+	'EnquiryReason' => 'Consumer Trace'
+	));
+	
+	$auditlog = array(
+		"auditlog_reportname"=>"tracereport",
+		"auditlog_userId"=>$this->session->userdata('userId'),
+		"auditlog_reporttype"=>"id-search",
+		"auditlog_searchdata"=>json_encode(array(
+		'ConnectTicket'=>$this->session->userdata('tokenId'),
+		'EnquiryResultID' => $myEnquiryResultID,
+		'EnquiryReason' => 'Consumer Trace'
+		)),
+		"auditlog_fnexecuted" => "ConnectGetBonusSegments",
+		"auditlog_issuccess" => true
+	);
+	$this->Auditlog_model->save($auditlog);
+	
+	$strConnectGetBonusSegments = simplexml_load_string($connectGetBonusSegments->ConnectGetBonusSegmentsResult,"SimpleXMLElement");
+	$objJsonDocument = json_encode($strConnectGetBonusSegments);
+	$arrOutput = json_decode($objJsonDocument);
 		
-		$auditlog = array(
-			"auditlog_reportname"=>"tracereport",
-			"auditlog_userId"=>$this->session->userdata('userId'),
-			"auditlog_reporttype"=>"id-search",
-			"auditlog_searchdata"=>json_encode(array(
-				'EnquiryID' => $enquiryID,
-				'EnquiryResultID' => $enquiryResultID, 
-				'ProductID' => 2)),
-			"auditlog_fnexecuted" => "ConnectGetResult",
-			"auditlog_issuccess" => true
-		);
-		$this->Auditlog_model->save($auditlog);
-				
-		return $arrOutput;
+	if(is_object($arrOutput->Segments)){
+		$strConnectGetBonusSegments->Segments->BonusViewed='True';
+	}else{
+		foreach($arrOutput->Segments as $segmenValK => $segmenValV){
+			$arrOutput->Segments[$segmenValK]->BonusViewed='True';
+		}	
+	}
+
+	 $document = new DOMDocument();
+	 $document->appendChild($bonusSegments = $document->createElement('BonusSegments'));
+	 if(!is_object($arrOutput->Segments)){
+		 foreach($arrOutput->Segments as $segmenValK => $segmenValV){
+			$bonusSegments->appendChild($segments = $document->createElement('Segments')); 
+			$segments->appendChild($document->createElement('DataSegmentID'))->textContent = $segmenValV->DataSegmentID;
+			$segments->appendChild($document->createElement('DataSegmentName'))->textContent = $segmenValV->DataSegmentName;
+			$segments->appendChild($document->createElement('DataSegmentDisplayText'))->textContent = $segmenValV->DataSegmentDisplayText;
+			$segments->appendChild($document->createElement('BonusViewed'))->textContent = $segmenValV->BonusViewed;
+			$segments->appendChild($document->createElement('BonusPrice'))->textContent = $segmenValV->BonusPrice;
+			$segments->appendChild($document->createElement('DataSegmentDisplayText2'))->textContent = $segmenValV->DataSegmentDisplayText2;
+		 }
+	 }else{
+			$bonusSegments->appendChild($segments = $document->createElement('Segments')); 
+			$segments->appendChild($document->createElement('DataSegmentID'))->textContent = $arrOutput->Segments->DataSegmentID;
+			$segments->appendChild($document->createElement('DataSegmentName'))->textContent = $arrOutput->Segments->DataSegmentName;
+			$segments->appendChild($document->createElement('DataSegmentDisplayText'))->textContent = $arrOutput->Segments->DataSegmentDisplayText;
+			$segments->appendChild($document->createElement('BonusViewed'))->textContent = $arrOutput->Segments->BonusViewed;
+			$segments->appendChild($document->createElement('BonusPrice'))->textContent = $arrOutput->Segments->BonusPrice;
+			$segments->appendChild($document->createElement('DataSegmentDisplayText2'))->textContent = $arrOutput->Segments->DataSegmentDisplayText2;			 
+	 }
+	 
+	$document->formatOutput = true;
+
+	$responseConnectGetResult = $this->client->ConnectGetResult(array(
+	'EnquiryID' => $myEnquiryID,
+	'EnquiryResultID' => $myEnquiryResultID, 
+	'ConnectTicket' => $this->session->userdata('tokenId'), 
+	'ProductID' => 2,
+	'BonusXML' => $document->saveXML()));					 
+
+	$xml = simplexml_load_string($responseConnectGetResult->ConnectGetResultResult,"SimpleXMLElement");
+	$objJsonDocument = json_encode($xml);
+	$arrOutput = json_decode($objJsonDocument);
+	$data['report'] = $arrOutput;
+
+	
+	$auditlog = array(
+		"auditlog_reportname"=>"tracereport",
+		"auditlog_userId"=>$this->session->userdata('userId'),
+		"auditlog_reporttype"=>"id-search",
+		"auditlog_searchdata"=>json_encode(array(
+			'EnquiryID' => $myEnquiryID,
+			'EnquiryResultID' => $myEnquiryResultID,
+			'ProductID' => 2,
+			'BonusXML' => $document->saveXML())),
+		"auditlog_fnexecuted" => "ConnectGetResult",
+		"auditlog_issuccess" => true
+	);
+	$this->Auditlog_model->save($auditlog);
+			
+	return $arrOutput;
 	}
 	
 	public function customerdatalist(){

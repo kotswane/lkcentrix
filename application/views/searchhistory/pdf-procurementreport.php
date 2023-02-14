@@ -199,60 +199,57 @@ Current Contact, Address, and Employment Info.</h5>
  <div class="panel-heading"><strong>Commercial Score</strong>
    <?php if($report->CommercialScoring){ ?>
 	<table class="table-list">
-		<tr class="border_bottom">
-			<td>
-				<table class="table-list">
-					<tr class="border_bottom">
-						 <td>Commercial ID</td>
-						 <td><?php echo $report->CommercialScoring->CommercialID;?></td>
+		<tr>
+			<td style="vertical-align: top">
+				<table>
+					<tr class="tr-label">
+						<td class="td-label"><strong><span>Score Date</strong></span></td>
+						<td class="td-value"><strong><span><?php echo $report->CommercialScoring->ScoreDate;?></strong></span></td>
 					</tr>
-					<tr class="border_bottom">
-						 <td>Score Date</td>
-						 <td><?php echo $report->CommercialScoring->ScoreDate;?></td>
+					<tr class="tr-label">
+						<td class="td-label"><strong><span>Final Score</strong></span></td>
+						<td class="td-value"><strong><span><?php echo $report->CommercialScoring->FinalScore;?></strong></span></td>
 					</tr>
-					<tr class="border_bottom">
-						 <td>Final Score</td>
-						 <td><?php echo $report->CommercialScoring->FinalScore;?></td>
-					</tr>
-					<tr class="border_bottom">
-						 <td>Band</td>
-						 <td><?php echo $report->CommercialScoring->Band;?></td>
+					<tr class="tr-label">
+						<td colspan="2" class="td-label">
+						<p><strong><span>Variables affecting Score:</strong></span></p>
+						</br>
+						<p><strong><span>*&nbsp;Age, Status and History</strong></span><br>
+							<strong><span>*&nbsp;Adverse records</strong></span></br>
+							<strong><span>*&nbsp;Financial references, Assest etc</strong></span>
+						</p>
+						</br>
+						<p><strong><span>The score is calculated automatically</br>
+						recalculated as soon as any</br> variables changes</strong></span></p>
+						</td>	
 					</tr>
 				 </table>
 			</td>
-			<td>
-				<table class="table-list">
-					<tr class="border_bottom">
-						 <td>Score</td>
-						 <td>Band / Message</td>
-					</tr>						
-					<tr class="border_bottom">
-						<td><?php echo $report->CommercialScoring->ScoreBandRange1;?></td>
-						<td><?php echo $report->CommercialScoring->Band_x002F_Message1;?></td>
+			<td style="vertical-align: top;">
+				<table style="border-width: 3px;">
+					<tr>
+						<td><strong>Score</strong></td>
+						<td><strong>Band / Message</strong></td>
 					</tr>
-					<tr class="border_bottom">
-						<td><?php echo $report->CommercialScoring->ScoreBandRange2;?></td>
-						<td><?php echo $report->CommercialScoring->Band_x002F_Message2;?></td>
+					<tr>
+						<td><strong><span>0</strong></span></td>
+						<td><strong><span>Could not scored due to certain factors</br>preventing this such as deregistration and/or liquidation.</strong></span></td>
 					</tr>
-					<tr class="border_bottom">
-						<td><?php echo $report->CommercialScoring->ScoreBandRange3;?></td>
-						<td><?php echo $report->CommercialScoring->Band_x002F_Message3;?></td>
+					<tr>
+						<td><strong><span>1 - 89</strong></span></td>
+						<td><strong><span>Recieved a Very Poor scoring therefore the</br>risk is seen  to be very high when<br>undertaking dealings with the subject.</strong></span></td>
 					</tr>
-					<tr class="border_bottom">
-						<td><?php echo $report->CommercialScoring->ScoreBandRange4;?></td>
-						<td><?php echo $report->CommercialScoring->Band_x002F_Message4;?></td>
+					<tr>
+						<td><strong><span>90 - 139</strong></span></td>
+						<td><strong><span>Recieved a Poor scoring therefore the risk</br>is seen  to be very high when<br>undertaking dealings with the subject.</strong></span></td>
 					</tr>
-					<tr class="border_bottom">
-						<td><?php echo $report->CommercialScoring->ScoreBandRange5;?></td>
-						<td><?php echo $report->CommercialScoring->Band_x002F_Message5;?></td>
+					<tr>
+						<td><strong><span>140 - 189</strong></span></td>
+						<td><strong><span>Recieved an OK scoring therefore the risk</br>is seen to be low to medium when undertaking dealings with the subject.</strong></span></td>
 					</tr>
-					<tr class="border_bottom">
-						<td><?php echo $report->CommercialScoring->ScoreBandRange6;?></td>
-						<td><?php echo $report->CommercialScoring->Band_x002F_Message6;?></td>
-					</tr>
-					<tr class="border_bottom">
-						<td><?php echo $report->CommercialScoring->ScoreBandRange7;?></td>
-						<td><?php echo $report->CommercialScoring->Band_x002F_Message7;?></td>
+					<tr>
+						<td><strong><span>190 - 235</strong></span></td>
+						<td><strong><span>Recieved an Good scoring therefore the risk</br>is seen to be low when undertaking dealings with the subject.</strong></span></td>
 					</tr>
 				</table>
 			</td>
@@ -1111,22 +1108,22 @@ if(is_object($report->CommercialBankCodeHistory)){
 <div class="col">
  <div class="panel-heading"><strong>Directors</strong></div>
 <hr class="hr-line"/>
-	<table class="table-list">
+	<table>
 		<tr class="border_bottom">
-			<td>Number of Active Directors</td>
-			<td><?php echo (is_object($report->CommercialActivePrincipalInfoSummary->NoOfPrincipals)?"":$report->CommercialActivePrincipalInfoSummary->NoOfPrincipals);?></td>
+			<td class="td-label">Number of Active Directors</td>
+			<td ><?php echo (is_object($report->CommercialActivePrincipalInfoSummary->NoOfPrincipals)?"":$report->CommercialActivePrincipalInfoSummary->NoOfPrincipals);?></td>
 		</tr>
 		<tr class="border_bottom">
-			<td>Average Age of Active Directors</td>
-			<td><?php echo (is_object($report->CommercialActivePrincipalInfoSummary->AverageAge)?"":$report->CommercialActivePrincipalInfoSummary->AverageAge);?></td>
+			<td class="td-label">Average Age of Active Directors</td>
+			<td ><?php echo (is_object($report->CommercialActivePrincipalInfoSummary->AverageAge)?"":$report->CommercialActivePrincipalInfoSummary->AverageAge);?></td>
 		</tr>
 		<tr class="border_bottom">
-			<td>Number of Inactive Directors</td>
-			<td style="align: left;"><?php echo (is_object($report->CommercialActivePrincipalInfoSummary->NoOfInactivePrincipals)?"":$report->CommercialActivePrincipalInfoSummary->NoOfInactivePrincipals);?></td>
+			<td class="td-label">Number of Inactive Directors</td>
+			<td ><?php echo (is_object($report->CommercialActivePrincipalInfoSummary->NoOfInactivePrincipals)?"":$report->CommercialActivePrincipalInfoSummary->NoOfInactivePrincipals);?></td>
 		</tr>
 		<tr class="border_bottom">
-			<td>Number of Previous Directors</td>
-			<td><?php echo ((is_object($report->CommercialActivePrincipalInfoSummary->NoOfPreviousPrincipals) || ($report->CommercialActivePrincipalInfoSummary->NoOfPreviousPrincipals == null))?"0":$report->CommercialActivePrincipalInfoSummary->NoOfPreviousPrincipals);?></td>
+			<td class="td-label">Number of Previous Directors</td>
+			<td ><?php echo ((is_object($report->CommercialActivePrincipalInfoSummary->NoOfPreviousPrincipals) || ($report->CommercialActivePrincipalInfoSummary->NoOfPreviousPrincipals == null))?"0":$report->CommercialActivePrincipalInfoSummary->NoOfPreviousPrincipals);?></td>
 		</tr>					
 	 </table>
 </div><br />
@@ -1144,9 +1141,9 @@ if(is_object($report->CommercialBankCodeHistory)){
 	<div class="panel-heading"><strong>Active Director-1 of 1<br>
 	<?php echo (is_object($report->CommercialActivePrincipalInformation->Fullname)?"":$report->CommercialActivePrincipalInformation->Fullname);?></strong>
 	</div>
-	<table class="table-list">
+	<table>
 	<tr class="border_bottom">
-		<td>
+		<td  style="vertical-align: top;">
 			<table class="table-list">
 				<tr class="border_bottom">
 					 <td>ID Number</td>
@@ -1178,7 +1175,7 @@ if(is_object($report->CommercialBankCodeHistory)){
 				</tr>												
 			</table>
 		</td>
-		<td>
+		<td  style="vertical-align: top;">
 			<table class="table-list">
 				<tr class="border_bottom">
 					 <td>Employer Name</td>
@@ -1214,7 +1211,7 @@ if(is_object($report->CommercialBankCodeHistory)){
 				</tr>
 			</table>
 		</td>
-		<td>
+		<td  style="vertical-align: top;">
 			<table class="table-list">
 				<tr class="border_bottom">
 					 <td>Home Telephone No</td>
@@ -2011,10 +2008,10 @@ if(is_object($report->ActiveDirectorPreviousBusinessinterests) && ($report->Comm
 	<div class="panel-heading"> Active Director-<?php echo ++$count." of ".count($report->CommercialActivePrincipalInformation);?><br>
 		<?php echo (is_object($CommercialActivePrincipalInformation->Fullname)?"":$CommercialActivePrincipalInformation->Fullname);?>
 	</div>
-	<table class="table-list">
+	<table>
 	<tr class="border_bottom">
-		<td>
-			<table class="table-list">
+		<td style="vertical-align: top;">
+			<table >
 				<tr class="border_bottom">
 					 <td>ID Number</td>
 					 <td><?php echo (is_object($CommercialActivePrincipalInformation->IDNo)?"":$CommercialActivePrincipalInformation->IDNo);?></td>
@@ -2045,8 +2042,8 @@ if(is_object($report->ActiveDirectorPreviousBusinessinterests) && ($report->Comm
 				</tr>
 			</table>
 		</td>
-		<td>
-			<table class="table-list">
+		<td style="vertical-align: top;">
+			<table>
 				<tr class="border_bottom">
 					 <td>Employer Name</td>
 					 <td><?php echo (is_object($employer)?"":$employer);?></td>
@@ -2081,8 +2078,8 @@ if(is_object($report->ActiveDirectorPreviousBusinessinterests) && ($report->Comm
 				</tr>
 			</table>
 		</td>
-		<td>
-			<table class="table-list">
+		<td  style="vertical-align: top;">
+			<table>
 				<tr class="border_bottom">
 					 <td>Home Telephone No</td>
 					 <td><?php echo (is_object($CommercialActivePrincipalInformation->HomeTelephoneNo)?"":$CommercialActivePrincipalInformation->HomeTelephoneNo);?></td>
@@ -2113,7 +2110,7 @@ if(is_object($report->ActiveDirectorPreviousBusinessinterests) && ($report->Comm
 				</tr>
 			</table>
 		</td>
-		<td>
+		<td style="vertical-align: top;">
 			<table class="table-list">
 				<tr class="border_bottom">
 					 <td>Consumer Score</td>
@@ -2612,7 +2609,6 @@ if(is_object($report->ActiveDirectorPreviousBusinessinterests) && ($report->Comm
 				<div class="col">
 				<hr class="hr-line"/>
 				<div class="panel-heading"><strong>Current Business interests</strong>
-				<hr class="hr-line"/>
 					<?php echo (is_object($ActiveDirectorCurrentBusinessinterests->CommercialName)?"":$ActiveDirectorCurrentBusinessinterests->CommercialName);?>
 				</div>
 				<table class="table-list">
@@ -2668,7 +2664,6 @@ if(is_object($report->ActiveDirectorPreviousBusinessinterests) && ($report->Comm
 					</tr>
 				 </table>
 				 </div>
-				  <hr class="hr-line"/>
 		 <?php }
 	}	
 } }else { 

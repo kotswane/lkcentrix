@@ -141,34 +141,23 @@
 						</tr>
 						<tr >
 							<td><strong><span>0</strong></span></td>
-							<td><strong><span>Could not be scored due to certain factors<br>
-preventing this such as deregitration<br>and/or liquidation.</strong></span></td>
+							<td><strong><span>Could not scored due to certain factors</br>preventing this such as deregistration</br>and/or liquidation.</strong></span></td>
 						</tr>
 						<tr>
 							<td><strong><span>1 - 89</strong></span></td>
-							<td><strong><span>Received a Very Poor scoring therefore the</br>
-risk is seen to be very high when</br>
-undertaking dealings with the subject.</strong></span></td>
+							<td><strong><span>Recieved a Very Poor scoring therefore the</br>risk is seen  to be very high when<br>undertaking dealings with the subject.</strong></span></td>
 						</tr>
 						<tr>
 							<td><strong><span>90 - 139</strong></span></td>
-							<td><strong><span><?php echo $report->CommercialScoring->Band_x002F_Message3;?></strong></span></td>
+							<td><strong><span>Recieved a Poor scoring therefore the risk</br>is seen  to be very high when<br>undertaking dealings with the subject.</strong></span></td>
 						</tr>
 						<tr>
-							<td><strong><span><?php echo $report->CommercialScoring->ScoreBandRange4;?></strong></span></td>
-							<td><strong><span><?php echo $report->CommercialScoring->Band_x002F_Message4;?></strong></span></td>
+							<td><strong><span>140 - 189</strong></span></td>
+							<td><strong><span>Recieved an OK scoring therefore the risk</br>is seen to be low to medium<br>when undertaking dealings with the subject.</strong></span></td>
 						</tr>
 						<tr>
-							<td><strong><span><?php echo $report->CommercialScoring->ScoreBandRange5;?></strong></span></td>
-							<td><strong><span><?php echo $report->CommercialScoring->Band_x002F_Message5;?></strong></span></td>
-						</tr>
-						<tr>
-							<td><strong><span><?php echo $report->CommercialScoring->ScoreBandRange6;?></strong></span></td>
-							<td><strong><span><?php echo $report->CommercialScoring->Band_x002F_Message6;?></strong></span></td>
-						</tr>
-						<tr>
-							<td><strong><span><?php echo $report->CommercialScoring->ScoreBandRange7;?></strong></span></td>
-							<td><strong><span><?php echo $report->CommercialScoring->Band_x002F_Message7;?></strong></span></td>
+							<td><strong><span>190 - 235</strong></span></td>
+							<td><strong><span>Recieved an Good scoring therefore the risk</br>is seen to be low when undertaking dealings with the subject.</strong></span></td>
 						</tr>
 					</table>
 				   </div>

@@ -212,6 +212,7 @@ class Tracereport extends CI_Controller {
 	
 					 $document = new DOMDocument();
 					 $document->appendChild($bonusSegments = $document->createElement('BonusSegments'));
+					 $hasSegments =false;
 					 if(!is_object($arrOutput->Segments)){
 						 foreach($arrOutput->Segments as $segmenValK => $segmenValV){
 							$bonusSegments->appendChild($segments = $document->createElement('Segments')); 
@@ -221,26 +222,37 @@ class Tracereport extends CI_Controller {
 							$segments->appendChild($document->createElement('BonusViewed'))->textContent = $segmenValV->BonusViewed;
 							$segments->appendChild($document->createElement('BonusPrice'))->textContent = $segmenValV->BonusPrice;
 							$segments->appendChild($document->createElement('DataSegmentDisplayText2'))->textContent = $segmenValV->DataSegmentDisplayText2;
+							$hasSegments = true;
 						 }
 					 }else{
+						  if($arrOutput->Segments){
+							$hasSegments = true;
 							$bonusSegments->appendChild($segments = $document->createElement('Segments')); 
 							$segments->appendChild($document->createElement('DataSegmentID'))->textContent = $arrOutput->Segments->DataSegmentID;
 							$segments->appendChild($document->createElement('DataSegmentName'))->textContent = $arrOutput->Segments->DataSegmentName;
 							$segments->appendChild($document->createElement('DataSegmentDisplayText'))->textContent = $arrOutput->Segments->DataSegmentDisplayText;
 							$segments->appendChild($document->createElement('BonusViewed'))->textContent = $arrOutput->Segments->BonusViewed;
 							$segments->appendChild($document->createElement('BonusPrice'))->textContent = $arrOutput->Segments->BonusPrice;
-							$segments->appendChild($document->createElement('DataSegmentDisplayText2'))->textContent = $arrOutput->Segments->DataSegmentDisplayText2;			 
+							$segments->appendChild($document->createElement('DataSegmentDisplayText2'))->textContent = $arrOutput->Segments->DataSegmentDisplayText2;
+						  }							
 					 }
 					 
-					 $document->formatOutput = true;
+					if ($hasSegments == true){ 
+						$document->formatOutput = true;
 
-					$responseConnectGetResult = $this->client->ConnectGetResult(array(
-					'EnquiryID' => $myEnquiryID,
-					'EnquiryResultID' => $myEnquiryResultID, 
-					'ConnectTicket' => $this->session->userdata('tokenId'), 
-					'ProductID' => 2,
-					'BonusXML' => $document->saveXML()));					 
-						
+						$responseConnectGetResult = $this->client->ConnectGetResult(array(
+						'EnquiryID' => $myEnquiryID,
+						'EnquiryResultID' => $myEnquiryResultID, 
+						'ConnectTicket' => $this->session->userdata('tokenId'), 
+						'ProductID' => 2,
+						'BonusXML' => $document->saveXML()));	
+					}else{
+						$responseConnectGetResult = $this->client->ConnectGetResult(array(
+						'EnquiryID' => $myEnquiryID,
+						'EnquiryResultID' => $myEnquiryResultID, 
+						'ConnectTicket' => $this->session->userdata('tokenId'), 
+						'ProductID' => 2));
+					}
 
 
 					$xml = simplexml_load_string($responseConnectGetResult->ConnectGetResultResult,"SimpleXMLElement");

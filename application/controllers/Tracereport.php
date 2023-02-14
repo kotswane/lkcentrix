@@ -265,7 +265,7 @@ class Tracereport extends CI_Controller {
 							"userId"=>$this->session->userdata('userId'),
 							"searchdata"=>json_encode($this->session->userdata('searchdata')),
 							"outputdata" => json_encode($searchdataArray),
-							"reporttype" => $this->session->userdata('reporttype')
+							"reporttype" => 'idsearch'
 					);
 					
 					$this->SearchHistory_model->create($searchHistory);
@@ -772,6 +772,18 @@ class Tracereport extends CI_Controller {
 	$arrOutput = json_decode($objJsonDocument);
 	$data['report'] = $arrOutput;
 
+		
+	$searchdataArray =(array)$data['report'];
+	$searchHistory = array(
+			"reportname"=>"tracereport",
+			"userId"=>$this->session->userdata('userId'),
+			"searchdata"=>json_encode($this->session->userdata('searchdata')),
+			"outputdata" => json_encode($searchdataArray),
+			"reporttype" => $this->session->userdata('reporttype')
+	);
+	
+	$this->SearchHistory_model->create($searchHistory);
+				
 	
 	$auditlog = array(
 		"auditlog_reportname"=>"tracereport",
@@ -787,18 +799,7 @@ class Tracereport extends CI_Controller {
 	);
 	$this->Auditlog_model->save($auditlog);
 	
-		
-		$searchdataArray =(array)$data['report'];
-		$searchHistory = array(
-				"reportname"=>"tracereport",
-				"userId"=>$this->session->userdata('userId'),
-				"searchdata"=>json_encode($this->session->userdata('searchdata')),
-				"outputdata" => json_encode($searchdataArray),
-				"reporttype" => $this->session->userdata('reporttype')
-		);
-		
-		$this->SearchHistory_model->create($searchHistory);
-				
+
 		return $arrOutput;
 	}
 	

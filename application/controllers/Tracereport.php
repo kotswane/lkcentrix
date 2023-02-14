@@ -259,7 +259,6 @@ class Tracereport extends CI_Controller {
 					$arrOutput = json_decode($objJsonDocument);
 					$data['report'] = $arrOutput;
 
-
 					$searchdataArray =(array)$data['report'];
 					$searchHistory = array(
 							"reportname"=>"tracereport",
@@ -602,6 +601,7 @@ class Tracereport extends CI_Controller {
 						"auditlog_issuccess" => false
 					);
 					$this->Auditlog_model->save($auditlog);
+
 			
 				}else{
 					$data["consumerList"]["details"] = array();
@@ -786,8 +786,20 @@ class Tracereport extends CI_Controller {
 		"auditlog_issuccess" => true
 	);
 	$this->Auditlog_model->save($auditlog);
-			
-	return $arrOutput;
+	
+		
+		$searchdataArray =(array)$data['report'];
+		$searchHistory = array(
+				"reportname"=>"tracereport",
+				"userId"=>$this->session->userdata('userId'),
+				"searchdata"=>json_encode($this->session->userdata('searchdata')),
+				"outputdata" => json_encode($searchdataArray),
+				"reporttype" => $this->session->userdata('reporttype')
+		);
+		
+		$this->SearchHistory_model->create($searchHistory);
+				
+		return $arrOutput;
 	}
 	
 	public function customerdatalist(){

@@ -16,8 +16,8 @@
 				'exceptions'=>true,
 			);
 		
-			#$wsdl = "https://www.web.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl";
-			$wsdl = "https://www.uat.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl";
+			$wsdl = "https://www.web.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl";
+			#$wsdl = "https://www.uat.xds.co.za/xdsconnect/XDSConnectWS.asmx?wsdl";
 			#$wsdl = base_url()."wsdl/XDSConnectWS.wsdl";
 		
 			try{

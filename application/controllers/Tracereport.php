@@ -215,9 +215,7 @@ class Tracereport extends CI_Controller {
 					 $hasSegments =false;
 					 if(!is_object($arrOutput->Segments)){
 						 foreach($arrOutput->Segments as $segmenValK => $segmenValV){
-							 		 print "<pre>";
-			 print_r($segmenValV);
-			  print "</pre>";
+
 							$bonusSegments->appendChild($segments = $document->createElement('Segments')); 
 							$segments->appendChild($document->createElement('DataSegmentID'))->textContent = $segmenValV->DataSegmentID;
 							$segments->appendChild($document->createElement('DataSegmentName'))->textContent = $segmenValV->DataSegmentName;

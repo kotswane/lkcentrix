@@ -527,7 +527,7 @@
               </div>
                 </div>
                 </div>
-				<?php if($report->ConsumerPropertyInformationSummary){?>
+				<?php if($report->ConsumerPropertyInformation){?>
                 <div>
 				 <div class="panel panel-primary">
 					<div class="panel-heading">Property Interest</div>
@@ -535,20 +535,20 @@
 						<div class="col">
 							
 							<?php if(is_array($report->ConsumerPropertyInformation)){
-								foreach($report->ConsumerPropertyInformation as $ConsumerPropertyInformationSummary ){
+								foreach($report->ConsumerPropertyInformation as $ConsumerPropertyInformation ){
 								?>
 									<table class="table table-striped">
 									<tr>
 										<td>Tittle Deed Number</td>
-										<td><?php echo $ConsumerPropertyInformationSummary->TitleDeedNo?></td>
+										<td><?php echo $ConsumerPropertyInformation->TitleDeedNo?></td>
 										<td>Erf/Site No</td>
-										<td><?php echo $ConsumerPropertyInformationSummary->ErfNo?></td>
+										<td><?php echo $ConsumerPropertyInformation->ErfNo?></td>
 									</tr>
 									<tr>
 										<td>Deed Office</td>
-										<td><?php echo $ConsumerPropertyInformationSummary->DeedsOffice?></td>
+										<td><?php echo $ConsumerPropertyInformation->DeedsOffice?></td>
 										<td>Physical Address</td>
-										<td><?php echo $ConsumerPropertyInformationSummary->PhysicalAddress?></td>
+										<td><?php echo $ConsumerPropertyInformation->PhysicalAddress?></td>
 									</tr>
 									<tr>
 										<td>Property Type</td>

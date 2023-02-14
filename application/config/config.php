@@ -537,8 +537,8 @@ $config['composer_autoload'] = 'vendor/autoload.php';
 $config['google_key'] = '6Ld0YzwkAAAAAILsRo5_50Fb-P7pfBeQOwJpfxQn';
 $config['google_secret'] = '6Ld0YzwkAAAAAMRlaTAMqLUsykCDu1Q_JyTDuaff';
 
-$config['strUser'] = 'LKcentrix_UAT';
-$config['strPwd'] = 'xds100';
+#$config['strUser'] = 'LKcentrix_UAT';
+#$config['strPwd'] = 'xds100';
 
-#$config['strUser'] = 'LKC_LIVEWS';
-#$config['strPwd'] = 'Aplitec01*$';
+$config['strUser'] = 'LKC_LIVEWS';
+$config['strPwd'] = 'Aplitec01*$';

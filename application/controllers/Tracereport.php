@@ -220,8 +220,7 @@ class Tracereport extends CI_Controller {
 							$segments->appendChild($document->createElement('DataSegmentName'))->textContent = $segmenValV->DataSegmentName;
 							$segments->appendChild($document->createElement('DataSegmentDisplayText'))->textContent = $segmenValV->DataSegmentDisplayText;
 							$segments->appendChild($document->createElement('BonusViewed'))->textContent = $segmenValV->BonusViewed;
-							$segments->appendChild($document->createElement('BonusPrice'))->textContent = $segmenValV->BonusPrice;
-							$segments->appendChild($document->createElement('DataSegmentDisplayText2'))->textContent = $segmenValV->DataSegmentDisplayText2;
+							$segments->appendChild($document->createElement('BonusPrice'))->textContent = $segmenValV->BillingPrice;
 							$hasSegments = true;
 						 }
 					 }else{
@@ -232,8 +231,7 @@ class Tracereport extends CI_Controller {
 							$segments->appendChild($document->createElement('DataSegmentName'))->textContent = $arrOutput->Segments->DataSegmentName;
 							$segments->appendChild($document->createElement('DataSegmentDisplayText'))->textContent = $arrOutput->Segments->DataSegmentDisplayText;
 							$segments->appendChild($document->createElement('BonusViewed'))->textContent = $arrOutput->Segments->BonusViewed;
-							$segments->appendChild($document->createElement('BonusPrice'))->textContent = $arrOutput->Segments->BonusPrice;
-							$segments->appendChild($document->createElement('DataSegmentDisplayText2'))->textContent = $arrOutput->Segments->DataSegmentDisplayText2;
+							$segments->appendChild($document->createElement('BonusPrice'))->textContent = $arrOutput->Segments->BillingPrice;
 						  }							
 					 }
 					 
@@ -747,8 +745,7 @@ class Tracereport extends CI_Controller {
 			$segments->appendChild($document->createElement('DataSegmentName'))->textContent = $segmenValV->DataSegmentName;
 			$segments->appendChild($document->createElement('DataSegmentDisplayText'))->textContent = $segmenValV->DataSegmentDisplayText;
 			$segments->appendChild($document->createElement('BonusViewed'))->textContent = $segmenValV->BonusViewed;
-			$segments->appendChild($document->createElement('BonusPrice'))->textContent = $segmenValV->BonusPrice;
-			$segments->appendChild($document->createElement('DataSegmentDisplayText2'))->textContent = $segmenValV->DataSegmentDisplayText2;
+			$segments->appendChild($document->createElement('BonusPrice'))->textContent = $segmenValV->BillingPrice;
 		 }
 	 }else{
 			$bonusSegments->appendChild($segments = $document->createElement('Segments')); 
@@ -756,8 +753,7 @@ class Tracereport extends CI_Controller {
 			$segments->appendChild($document->createElement('DataSegmentName'))->textContent = $arrOutput->Segments->DataSegmentName;
 			$segments->appendChild($document->createElement('DataSegmentDisplayText'))->textContent = $arrOutput->Segments->DataSegmentDisplayText;
 			$segments->appendChild($document->createElement('BonusViewed'))->textContent = $arrOutput->Segments->BonusViewed;
-			$segments->appendChild($document->createElement('BonusPrice'))->textContent = $arrOutput->Segments->BonusPrice;
-			$segments->appendChild($document->createElement('DataSegmentDisplayText2'))->textContent = $arrOutput->Segments->DataSegmentDisplayText2;			 
+			$segments->appendChild($document->createElement('BonusPrice'))->textContent = $arrOutput->Segments->BillingPrice;		 
 	 }
 	 
 	$document->formatOutput = true;

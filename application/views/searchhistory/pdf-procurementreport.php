@@ -226,28 +226,28 @@ Current Contact, Address, and Employment Info.</h5>
 				 </table>
 			</td>
 			<td style="vertical-align: top;">
-				<table style="border-width: 3px;">
-					<tr>
+				<table>
+					<tr class="border_bottom">
 						<td><strong>Score</strong></td>
 						<td><strong>Band / Message</strong></td>
 					</tr>
-					<tr>
+					<tr class="border_bottom">
 						<td><strong><span>0</strong></span></td>
 						<td><strong><span>Could not scored due to certain factors</br>preventing this such as deregistration and/or liquidation.</strong></span></td>
 					</tr>
-					<tr>
+					<tr class="border_bottom">
 						<td><strong><span>1 - 89</strong></span></td>
 						<td><strong><span>Recieved a Very Poor scoring therefore the</br>risk is seen  to be very high when<br>undertaking dealings with the subject.</strong></span></td>
 					</tr>
-					<tr>
+					<tr class="border_bottom">
 						<td><strong><span>90 - 139</strong></span></td>
 						<td><strong><span>Recieved a Poor scoring therefore the risk</br>is seen  to be very high when<br>undertaking dealings with the subject.</strong></span></td>
 					</tr>
-					<tr>
+					<tr class="border_bottom">
 						<td><strong><span>140 - 189</strong></span></td>
 						<td><strong><span>Recieved an OK scoring therefore the risk</br>is seen to be low to medium when undertaking dealings with the subject.</strong></span></td>
 					</tr>
-					<tr>
+					<tr class="border_bottom">
 						<td><strong><span>190 - 235</strong></span></td>
 						<td><strong><span>Recieved an Good scoring therefore the risk</br>is seen to be low when undertaking dealings with the subject.</strong></span></td>
 					</tr>

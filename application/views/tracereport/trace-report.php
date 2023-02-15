@@ -5,7 +5,7 @@
 <body>
 <section class="content-header">
 <?php 
-	
+
 		if($report->SubscriberInputDetails->SubscriberName){
 			?>
 				<h1><?php echo $report->SubscriberInputDetails->SubscriberName;?></h1>
@@ -133,7 +133,6 @@
                     <div class="col">
 						
 						<?php if($report->ConsumerCPANLRDebtSummary){
-							//print_r($report->ConsumerCPANLRDebtSummary);	
 							?>
 							
 							<table class="table table-striped">
@@ -587,37 +586,37 @@
 									<table class="table table-striped">
 									<tr>
 										<td>Tittle Deed Number</td>
-										<td><?php echo $ConsumerPropertyInformation->TitleDeedNo?></td>
+										<td><?php echo (is_object($ConsumerPropertyInformation->TitleDeedNo)?"":$ConsumerPropertyInformation->TitleDeedNo);?></td>
 										<td>Erf/Site No</td>
-										<td><?php echo $ConsumerPropertyInformation->ErfNo?></td>
+										<td><?php echo (is_object($ConsumerPropertyInformation->ErfNo)?"":$ConsumerPropertyInformation->ErfNo);?></td>
 									</tr>
 									<tr>
 										<td>Deed Office</td>
-										<td><?php echo $ConsumerPropertyInformation->DeedsOffice?></td>
+										<td><?php echo (is_object($ConsumerPropertyInformation->DeedsOffice)?"":$ConsumerPropertyInformation->DeedsOffice);?></td>
 										<td>Physical Address</td>
-										<td><?php echo $ConsumerPropertyInformation->PhysicalAddress?></td>
+										<td><?php echo (is_object($ConsumerPropertyInformation->PhysicalAddress)?"":$ConsumerPropertyInformation->PhysicalAddress);?></td>
 									</tr>
 									<tr>
 										<td>Property Type</td>
-										<td><?php echo $ConsumerPropertyInformation->DeedsOffice?></td>
+										<td><?php echo (is_object($ConsumerPropertyInformation->PropertyTypeDesc)?"":$ConsumerPropertyInformation->PropertyTypeDesc);?></td>
 										<td>Extent/Size</td>
-										<td><?php echo $ConsumerPropertyInformation->PropertyTypeDesc?></td>
+										<td><?php echo (is_object($ConsumerPropertyInformation->ErfSize)?"":$ConsumerPropertyInformation->ErfSize);?></td>
 									</tr>
 									<tr>
 										<td>Purchase Date</td>
-										<td><?php echo $ConsumerPropertyInformation->PurchaseDate?></td>
+										<td><?php echo (is_object($ConsumerPropertyInformation->PurchaseDate)?"":$ConsumerPropertyInformation->PurchaseDate);?></td>
 										<td>Purchase Price</td>
-										<td><?php echo $ConsumerPropertyInformation->PurchasePriceAmt?></td>
+										<td><?php echo (is_object($ConsumerPropertyInformation->PurchasePriceAmt)?"":$ConsumerPropertyInformation->PurchasePriceAmt);?></td>
 									</tr>
 									<tr>
 										<td>Bond Holder</td>
-										<td><?php echo $ConsumerPropertyInformation->BondHolderName?></td>
+										<td><?php echo (is_object($ConsumerPropertyInformation->BondHolderName)?"":$ConsumerPropertyInformation->BondHolderName);?></td>
 										<td>Bond Amount</td>
-										<td><?php echo $ConsumerPropertyInformation->BondAmt?></td>
+										<td><?php echo (is_object($ConsumerPropertyInformation->BondAmt)?"":$ConsumerPropertyInformation->BondAmt);?></td>
 									</tr>
 									<tr>
 										<td>Bond Number</td>
-										<td><?php echo $ConsumerPropertyInformation->BondAccountNo?></td>
+										<td><?php echo (is_object($ConsumerPropertyInformation->BondAccountNo)?"":$ConsumerPropertyInformation->BondAccountNo);?></td>
 										<td></td>
 										<td></td>
 									</tr>
@@ -625,43 +624,41 @@
 								<hr>
 							<?php }
 							} else {
-									#print "<pre>";
-									 #print_r($report);
 									?>
 									<table class="table table-striped">
 									<tr>
 										<td>Tittle Deed Number</td>
-										<td><?php echo $report->ConsumerPropertyInformation->TitleDeedNo?></td>
+										<td><?php echo (is_object($report->ConsumerPropertyInformation->TitleDeedNo)?"":$report->ConsumerPropertyInformation->TitleDeedNo);?></td>
 										<td>Erf/Site No</td>
-										<td><?php echo $report->ConsumerPropertyInformation->ErfNo?></td>
+										<td><?php echo (is_object($report->ConsumerPropertyInformation->ErfNo)?"":$report->ConsumerPropertyInformation->ErfNo);?></td>
 									</tr>
 									<tr>
 										<td>Deed Office</td>
-										<td><?php echo $report->ConsumerPropertyInformation->DeedsOffice?></td>
+										<td><?php echo (is_object($report->ConsumerPropertyInformation->DeedsOffice)?"":$report->ConsumerPropertyInformation->DeedsOffice);?></td>
 										<td>Physical Address</td>
-										<td><?php echo $report->ConsumerPropertyInformation->PhysicalAddress?></td>
+										<td><?php echo (is_object($report->ConsumerPropertyInformation->PhysicalAddress)?"":$report->ConsumerPropertyInformation->PhysicalAddress);?></td>
 									</tr>
 									<tr>
 										<td>Property Type</td>
-										<td><?php echo $report->ConsumerPropertyInformation->DeedsOffice?></td>
+										<td><?php echo (is_object($report->ConsumerPropertyInformation->PropertyTypeDesc)?"":$report->ConsumerPropertyInformation->PropertyTypeDesc);?></td>
 										<td>Extent/Size</td>
-										<td><?php echo $report->ConsumerPropertyInformation->PropertyTypeDesc?></td>
+										<td><?php echo (is_object($report->ConsumerPropertyInformation->ErfSize)?"":$report->ConsumerPropertyInformation->ErfSize);?></td>
 									</tr>
 									<tr>
 										<td>Purchase Date</td>
-										<td><?php echo $report->ConsumerPropertyInformation->PurchaseDate?></td>
+										<td><?php echo (is_object($report->ConsumerPropertyInformation->PurchaseDate)?"":$report->ConsumerPropertyInformation->PurchaseDate);?></td>
 										<td>Purchase Price</td>
-										<td><?php echo $report->ConsumerPropertyInformation->PurchasePriceAmt?></td>
+										<td><?php echo (is_object($report->ConsumerPropertyInformation->PurchasePriceAmt)?"":$report->ConsumerPropertyInformation->PurchasePriceAmt);?></td>
 									</tr>
 									<tr>
 										<td>Bond Holder</td>
-										<td><?php echo $report->ConsumerPropertyInformation->BondHolderName?></td>
+										<td><?php echo (is_object($report->ConsumerPropertyInformation->BondHolderName)?"":$report->ConsumerPropertyInformation->BondHolderName);?></td>
 										<td>Bond Amount</td>
-										<td><?php echo $report->ConsumerPropertyInformation->BondAmt?></td>
+										<td><?php echo (is_object($report->ConsumerPropertyInformation->BondAmt)?"":$report->ConsumerPropertyInformation->BondAmt);?></td>
 									</tr>
 									<tr>
 										<td>Bond Number</td>
-										<td><?php echo $report->ConsumerPropertyInformation->BondAccountNo?></td>
+										<td><?php echo (is_object($report->ConsumerPropertyInformation->BondAccountNo)?"":$report->ConsumerPropertyInformation->BondAccountNo);?></td>
 										<td></td>
 										<td></td>
 									</tr>

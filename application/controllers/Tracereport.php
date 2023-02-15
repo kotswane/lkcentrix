@@ -846,8 +846,8 @@ class Tracereport extends CI_Controller {
 		
 		$this->SearchHistory_model->create($searchHistory);
 					
-		$this->session->unset_userdata('searchdata');
-		$this->session->unset_userdata('reporttype');
+		#$this->session->unset_userdata('searchdata');
+		#$this->session->unset_userdata('reporttype');
 		$data["content"] = "tracereport/trace-report";
 		$this->load->view('site',$data);
 		

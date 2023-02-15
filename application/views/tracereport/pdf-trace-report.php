@@ -31,7 +31,7 @@
         </tr>
         <tr class="tr-label">
         <td class="td-label">Enquiry Date</td>
-        <td class="td-value"><?php echo $report->SubscriberInputDetails->EnquiryDate;?></td>
+        <td class="td-value"><?php echo str_ireplace("t"," ",(substr($report->SubscriberInputDetails->EnquiryDate,0,strpos($report->SubscriberInputDetails->EnquiryDate,"."))));?></td>
         </tr>
          <tr class="tr-label">
         <td class="td-label">Enquiry Type</td>

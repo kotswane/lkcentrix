@@ -80,11 +80,28 @@
                 <div class="panel-heading">Enquiry Input Details</div>
                 <div class="panel-body">
                     <div class="col">
-                      <h4><span class="label label-default"> Enquiry Date</span>&nbsp;&nbsp;<span><?php echo $report->SubscriberInputDetails->EnquiryDate;?></span></h4>
-                     <h4><span class="label label-default">Enquiry Type</span>&nbsp;&nbsp; <span><?php echo $report->SubscriberInputDetails->EnquiryType;?></span></h4>
-                     <h4><span class="label label-default">Subscriber Name</span>&nbsp;&nbsp; <span><?php echo $report->SubscriberInputDetails->SubscriberName;?></span></h4>
-                     <h4><span class="label label-default">Subscriber User Name</span>&nbsp;&nbsp; <span><?php echo $report->SubscriberInputDetails->SubscriberUserName;?></span></h4>
-                      <h4><span class="label label-default">Enquiry Input</span>&nbsp;&nbsp; <span><?php echo $report->SubscriberInputDetails->EnquiryInput;?></span></h4><br>
+					  <table class="table table-striped">
+						<tr>
+							<td>Enquiry Date</td>
+							<td><?php echo str_ireplace("t"," ",(substr($report->SubscriberInputDetails->EnquiryDate,0,strpos($report->SubscriberInputDetails->EnquiryDate,"."))));?></td>
+						</tr>
+						<tr>
+							<td>Enquiry Type</td>
+							<td><?php echo $report->SubscriberInputDetails->EnquiryType;?></td>
+						</tr>
+						<tr>
+							<td>Subscriber Name</td>
+							<td><?php echo $report->SubscriberInputDetails->SubscriberName;?></td>
+						</tr>
+						<tr>
+							<td>User Name</td>
+							<td><?php echo $report->SubscriberInputDetails->SubscriberUserName;?></td>
+						</tr>
+						<tr>
+							<td>Enquiry Input</td>
+							<td><?php echo $report->SubscriberInputDetails->EnquiryInput;?></td>
+						</tr>
+					  </table>
                     </div>
                 </div>
               </div>
@@ -93,25 +110,90 @@
                 <div class="panel-heading">Personal Details Summary</div>
                 <div class="panel-body">
                     <div class="col">
-                        <div class="col-xs-4 ">Reference No:&nbsp;&nbsp;<strong><span><?php echo $report->ConsumerDetail->ReferenceNo;?></span></strong></div>
-                        <div class="col-xs-4">ID No:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->ConsumerDetail->IDNo)?"":$report->ConsumerDetail->IDNo);?></span></strong></div>
-                        <div class="col-xs-4">Surname:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->ConsumerDetail->Surname)?"":$report->ConsumerDetail->Surname);?><span></strong></div>
-                        <div class="col-xs-4">First Name:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->ConsumerDetail->FirstName)?"":$report->ConsumerDetail->FirstName);?></span></strong></div>
-                        <div class="col-xs-4">Second Name:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->ConsumerDetail->SecondName)?"":$report->ConsumerDetail->SecondName);?></span></strong></div>
-                        <div class="col-xs-4">Maiden Name:&nbsp;&nbsp;<strong><span><?php (is_object($report->ConsumerDetail->MaidenName)?"":$report->ConsumerDetail->MaidenName);?></span></strong></div>
-                        <div class="col-xs-4">Title:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->ConsumerDetail->TitleDesc)?"":$report->ConsumerDetail->TitleDesc);?></span></strong></div>
-                        <div class="col-xs-4">Gender:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->ConsumerDetail->Gender)?"":$report->ConsumerDetail->Gender);?></span></strong></div>
-                        <div class="col-xs-4">Date of Birth:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->ConsumerDetail->BirthDate)?"":$report->ConsumerDetail->BirthDate);?></span></strong></div>
-                        <div class="col-xs-4">Marital Status:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->ConsumerDetail->MaritalStatusDesc)?"":$report->ConsumerDetail->MaritalStatusDesc);?></span></strong></div>
-                        <div class="col-xs-4">External Reference No:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->ConsumerDetail->ExternalReference)?"":$report->ConsumerDetail->ExternalReference);?></span></strong></div>
-                        <div class="col-xs-4">Passport or 2nd ID No:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->ConsumerDetail->PassportNo)?"":$report->ConsumerDetail->PassportNo);?></span></strong></div>
-                        <div class="col-xs-4">Residential Address:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->ConsumerDetail->ResidentialAddress)?"":$report->ConsumerDetail->ResidentialAddress);?></span></strong></div>
-                        <div class="col-xs-4">Postal Address:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->ConsumerDetail->PostalAddress)?"":$report->ConsumerDetail->PostalAddress);?></span></strong></div>
-                        <div class="col-xs-4">Telephone No. (H):&nbsp;&nbsp;<strong><span><?php echo (is_object($report->ConsumerDetail->HomeTelephoneNo)?"":$report->ConsumerDetail->HomeTelephoneNo);?></span></strong></div>
-                        <div class="col-xs-4">Telephone No (W):&nbsp;&nbsp;<strong><span><?php echo (is_object($report->ConsumerDetail->WorkTelephoneNo)?"":$report->ConsumerDetail->WorkTelephoneNo);?></span></strong></div>
-                        <div class="col-xs-4">Cellular/Mobile:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->ConsumerDetail->CellularNo)?"":$report->ConsumerDetail->CellularNo);?></span></strong></div>
-                        <div class="col-xs-4">E-mail Address&nbsp;&nbsp;<strong><span><?php echo (is_object($report->ConsumerDetail->EmailAddress)?"":$report->ConsumerDetail->EmailAddress);?></span></strong></div>
-                        <div class="col-xs-4">Current Employer&nbsp;&nbsp;<strong><span><?php echo (is_object($report->ConsumerDetail->EmployerDetail)?"":$report->ConsumerDetail->EmployerDetail);?></span></strong></div>
+						<table class="table table-striped">
+							<tr>
+								<td><strong>Personal</strong></td>
+								<td><strong>Contact</strong></td>
+								<td><strong>Employment</strong></td>
+							</tr>
+							<tr>
+								<td>
+									<table class="table table-striped">
+										<tr>
+											<td>Title</td>
+											<td><?php echo (is_object($report->ConsumerDetail->TitleDesc)?"":$report->ConsumerDetail->TitleDesc);?></td>
+										</tr>
+										<tr>
+											<td>ID No</td>
+											<td><?php echo (is_object($report->ConsumerDetail->IDNo)?"":$report->ConsumerDetail->IDNo);?></td>
+										</tr>										
+										<tr>
+											<td>Gender</td>
+											<td><?php echo (is_object($report->ConsumerDetail->Gender)?"":$report->ConsumerDetail->Gender);?></td>
+										</tr>
+										<tr>
+											<td>Passport or 2nd ID No</td>
+											<td><?php echo (is_object($report->ConsumerDetail->PassportNo)?"":$report->ConsumerDetail->PassportNo);?></td>
+										</tr>
+										<tr>
+											<td>Date of Birth</td>
+											<td><?php echo (is_object($report->ConsumerDetail->BirthDate)?"":$report->ConsumerDetail->BirthDate);?></td>
+										</tr>
+										<tr>
+											<td>Marital Status</td>
+											<td><?php echo (is_object($report->ConsumerDetail->MaritalStatusDesc)?"":$report->ConsumerDetail->MaritalStatusDesc);?></td>
+										</tr>
+										<tr>
+											<td>First Name</td>
+											<td><?php echo (is_object($report->ConsumerDetail->FirstName)?"":$report->ConsumerDetail->FirstName);?></td>
+										</tr>
+										<tr>
+											<td>Second Name</td>
+											<td><?php echo (is_object($report->ConsumerDetail->SecondName)?"":$report->ConsumerDetail->SecondName);?></td>
+										</tr>
+										<tr>
+											<td>Surname</td>
+											<td><?php echo (is_object($report->ConsumerDetail->Surname)?"":$report->ConsumerDetail->Surname);?></td>
+										</tr>
+									</table>
+								</td>
+								<td>
+									<table class="table">
+										<tr>
+											<td>Postal Address</td>
+											<td><?php echo (is_object($report->ConsumerDetail->PostalAddress)?"":$report->ConsumerDetail->PostalAddress);?></td>								
+										<tr>
+										</tr>
+											<td>Residential Address</td>
+											<td><?php echo (is_object($report->ConsumerDetail->ResidentialAddress)?"":$report->ConsumerDetail->ResidentialAddress);?></td>
+										</tr>
+										</tr>
+											<td>Telephone No. (H)</td>
+											<td><?php echo (is_object($report->ConsumerDetail->HomeTelephoneNo)?"":$report->ConsumerDetail->HomeTelephoneNo);?></td>								
+										<tr>
+										</tr>	
+											<td>Telephone No (W)</td>
+											<td><?php echo (is_object($report->ConsumerDetail->WorkTelephoneNo)?"":$report->ConsumerDetail->WorkTelephoneNo);?></td>
+										<tr>
+										<tr>
+											<td>Cellular/Mobile</td>
+											<td><?php echo (is_object($report->ConsumerDetail->CellularNo)?"":$report->ConsumerDetail->CellularNo);?></td>								
+										<tr>
+									</table>
+								</td>
+								<td>
+									<table class="table table-striped">
+									<tr>							
+											<td>Current Employer</td>
+											<td><?php echo (is_object($report->ConsumerDetail->EmployerDetail)?"":$report->ConsumerDetail->EmployerDetail);?></td>
+										</tr>
+									</table>
+								</td>								
+							</tr>
+							
+							
+						</table>
+                  
                     </div>
                 </div>
               </div>
@@ -120,9 +202,21 @@
                 <div class="panel-heading">Potential Fraud Indicators</div>
                 <div class="panel-body">
                     <div class="col">
-                        <div class="col-xs-4 ">ID No. Verified Status:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->ConsumerFraudIndicatorsSummary->HomeAffairsVerificationYN)?"":$report->ConsumerFraudIndicatorsSummary->HomeAffairsVerificationYN);?></span></strong></div>
-                        <div class="col-xs-4">ID No. Deceased Status:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->ConsumerFraudIndicatorsSummary->HomeAffairsDeceasedStatus)?"":$report->ConsumerFraudIndicatorsSummary->HomeAffairsDeceasedStatus);?></span></strong></div>
-                        <div class="col-xs-4">ID No. Found on Fraud Database:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->ConsumerFraudIndicatorsSummary->SAFPSListingYN)?"":$report->ConsumerFraudIndicatorsSummary->SAFPSListingYN);?></span></strong></div>
+					
+						<table class="table table-striped">
+							<tr>
+								<td>ID No. Verified Status</td>
+								<td><?php echo (is_object($report->ConsumerFraudIndicatorsSummary->HomeAffairsVerificationYN)?"":$report->ConsumerFraudIndicatorsSummary->HomeAffairsVerificationYN);?></td>
+							</tr>
+							<tr>
+								<td>ID No. Deceased Status</td>
+								<td><?php echo (is_object($report->ConsumerFraudIndicatorsSummary->HomeAffairsDeceasedStatus)?"":$report->ConsumerFraudIndicatorsSummary->HomeAffairsDeceasedStatus);?></td>
+							</tr>										
+							<tr>
+								<td>ID No. Found on Fraud Database</td>
+								<td><?php echo (is_object($report->ConsumerFraudIndicatorsSummary->SAFPSListingYN)?"":$report->ConsumerFraudIndicatorsSummary->SAFPSListingYN);?></td>
+							</tr>
+						</table>
                     </div>
                 </div>
               </div>
@@ -278,7 +372,7 @@
                     <table class="table table-striped" id="ConsumerAddressHistory">
 						<thead>
                         <tr>
-                            <th>Bureau UpdateDate</th>
+                            <th>Bureau Update</th>
                              <th>Type</th>
                              <th>Line1</th>
                              <th>Line2</th>
@@ -325,23 +419,27 @@
                 <div class="panel-heading">Consumer Email History</div>
                 <div class="panel-body">
 				<?php if($report->ConsumerEmailHistory){ ?>
-                    <div>
+                    <table class="table table-striped"
 						<?php 
 						
 						if (!is_object($report->ConsumerEmailHistory)){
 							foreach($report->ConsumerEmailHistory as $ConsumerEmailHistory){?>
-							<div>
-							  Bureau UpdateDate <span><?php echo (is_object($ConsumerEmailHistory->LastUpdatedDate)?"":$ConsumerEmailHistory->LastUpdatedDate);?></span><br>
-							  E-mail Address <span><?php echo (is_object($ConsumerEmailHistory->EmailAddress)?"":$ConsumerEmailHistory->EmailAddress);?></span><br>
-							 </div>
+							<tr>
+							  <td>Bureau Update</td><td><?php echo (is_object($ConsumerEmailHistory->LastUpdatedDate)?"":$ConsumerEmailHistory->LastUpdatedDate);?></td>
+							</tr>	
+							 <tr>	
+							   <td>E-mail Address</td><td><?php echo (is_object($ConsumerEmailHistory->EmailAddress)?"":$ConsumerEmailHistory->EmailAddress);?></td>
+							 </tr>
 							<?php }
 						} else { ?>
-							<div>
-							  Bureau UpdateDate <span><?php echo (is_object($report->ConsumerEmailHistory->LastUpdatedDate)?"":$report->ConsumerEmailHistory->LastUpdatedDate);?></span><br>
-							  E-mail Address <span><?php echo (is_object($report->ConsumerEmailHistory->EmailAddress)?"":$report->ConsumerEmailHistory->EmailAddress);?></span><br>
-							 </div>
+							<tr>
+							  <td>Bureau Update</td><td><?php echo (is_object($report->ConsumerEmailHistory->LastUpdatedDate)?"":$report->ConsumerEmailHistory->LastUpdatedDate);?></td>
+							</tr>	
+							<tr>							
+							   <td>E-mail Address</td><td><?php echo (is_object($report->ConsumerEmailHistory->EmailAddress)?"":$report->ConsumerEmailHistory->EmailAddress);?></td>
+							 </tr>
 					<?php } ?>
-                     </div>
+                     </table>
 				<?php } else { ?>
                        <div>
                          <span>Email History Not Found</span><br>
@@ -357,7 +455,7 @@
                 <table class="table table-striped" id="ConsumerEmploymentHistory">
 					<thead>
                     <tr>
-                        <th>Bureau UpdateDate</th>
+                        <th>Bureau Update</th>
                         <th>Employer</th>
                         <th>Designation</th>
                     </tr>
@@ -398,7 +496,7 @@
                 <table class="table table-striped" id="ConsumerTelephoneHistory">
 					<thead>
                     <tr>
-                        <th>Bureau UpdateDate</th>
+                        <th>Bureau Update</th>
                         <th>Type</th>
                         <th>Telephone No</th>
                     </tr>

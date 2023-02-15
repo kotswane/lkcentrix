@@ -134,7 +134,7 @@ if($myData->HAMarriageStatus == "MARRIED"){
         <td class="td-value"><?php echo $SpouseIDNo;?></td>
         </tr>
 		<?php } else { ?>
-		<td class="td-label" colspane="2"><?php echo $MaritalStatus;?></td>
+		<td class="td-label" colspane="2"><?php echo (is_object($MaritalStatus)?"":$MaritalStatus);?></td>
 		<?php }?>
     </table>              
 		</div><br/><br/>

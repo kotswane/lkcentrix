@@ -26,7 +26,7 @@
 				}
 			?>
 			
-           <div class="box-tools pull-right">
+           <div class=" pull-right">
 		   <?php
 				if($report->SubscriberInputDetails->EnquiryType =='Consumer Telephone Trace'){
 					$backMenu = "searchhistory/view";
@@ -71,6 +71,11 @@
 				<?php 
 			} ?>
             </div>
+			<div class="pull-left">
+				<a class="btn btn-primary" href="<?php echo site_url()."/searchhistory/view";?>">
+				<li class="fa fa-step-backward">&nbsp;&nbsp;back&nbsp;&nbsp;</li>
+				</a>
+			</div>
 
         </div>
         

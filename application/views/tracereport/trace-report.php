@@ -71,8 +71,16 @@
 				<?php 
 			} ?>
             </div>
+			
+			<div class="pull-left">
+				<a class="btn btn-primary" href="<?php echo site_url()."/".$backMenu;?>">
+				<li class="fa fa-step-backward">&nbsp;&nbsp;back&nbsp;&nbsp;</li>
+				</a>
+			</div>
 
         </div>
+		
+		
         
 
         <div class="box-body no-padding">

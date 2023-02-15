@@ -178,6 +178,10 @@
 										<tr>
 											<td>Cellular/Mobile</td>
 											<td><?php echo (is_object($report->ConsumerDetail->CellularNo)?"":$report->ConsumerDetail->CellularNo);?></td>								
+										<tr>								
+										<tr>
+											<td>E-mail Address</td>
+											<td><?php echo (is_object($report->ConsumerDetail->EmailAddress)?"":$report->ConsumerDetail->EmailAddress);?></td>								
 										<tr>
 									</table>
 								</td>

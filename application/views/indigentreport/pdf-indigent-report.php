@@ -6,8 +6,6 @@
 </head>
 <body>
 <?php
- //print_r($familyData);
- //die();
  
  if(is_array($familyData->Consumer) > 0){
 	 $myData = $familyData->Consumer[0]->RealTimeIDV;
@@ -34,7 +32,17 @@ if($myData->HAMarriageStatus == "MARRIED"){
 		$SpouseIDNo = $theirData->HAIDNO;
 	}
 }
-		
+	
+$ID = (is_array($report['ConsumerDetail']['IDNo'])?"":$report['ConsumerDetail']['IDNo']);
+$Surname = (is_array($report['ConsumerDetail']['Surname'])?"":$report['ConsumerDetail']['Surname']);
+
+ if (is_object($myData->HANames)){
+	 $firstName = $report['ConsumerDetail']['FirstName']." ";
+ }
+ if (!is_array($report['ConsumerDetail']['SecondName'])){
+	 $secondName = $report['ConsumerDetail']['SecondName'];
+ }
+ $name=$firstName.$secondName;
 ?>
 <div>
      <div class="title-head">
@@ -58,7 +66,7 @@ if($myData->HAMarriageStatus == "MARRIED"){
         </tr>
         <tr class="tr-label">
         <td class="td-label">ID No</td>
-        <td class="td-value"><?php echo (is_object($myData->HAIDNO)?"":$myData->HAIDNO);?></td>
+        <td class="td-value"><?php echo (is_object($myData->HAIDNO)?$ID:$myData->HAIDNO);?></td>
 		<td rowspan="7">
 		<?php
 		if($hasMultiRecords == true){
@@ -79,11 +87,11 @@ if($myData->HAMarriageStatus == "MARRIED"){
         </tr>
          <tr class="tr-label">
         <td class="td-label">First Name</td>
-        <td class="td-value"><?php echo (is_object($myData->HANames)?"":$myData->HANames);?></td>
+        <td class="td-value"><?php echo (is_object($myData->HANames)?$name:$myData->HANames);?></td>
         </tr>
          <tr class="tr-label">
         <td class="td-label">Surname</td>
-        <td class="td-value"><?php echo (is_object($myData->HASurname)?"":$myData->HASurname);?></td>
+        <td class="td-value"><?php echo (is_object($myData->HASurname)?$Surname:$myData->HASurname);?></td>
         </tr>
         <tr class="tr-label">
         <td class="td-label">Deceased Status</td>
@@ -123,15 +131,15 @@ if($myData->HAMarriageStatus == "MARRIED"){
         </tr>
          <tr class="tr-label">
         <td class="td-label">Spouse Name</td>
-        <td class="td-value"><?php echo $SpouseName;?></td>
+        <td class="td-value"><?php echo (is_object($SpouseName)?"":$SpouseName);?></td>
         </tr>
         <tr class="tr-label">
         <td class="td-label">Spouse Surname</td>
-        <td class="td-value"><?php echo $SpouseSurname;?></td>
+        <td class="td-value"><?php echo (is_object($SpouseSurname)?"":$SpouseSurname);?></td>
         </tr>
         <tr class="tr-label">
         <td class="td-label">Spouse ID No</td>
-        <td class="td-value"><?php echo $SpouseIDNo;?></td>
+        <td class="td-value"><?php echo (is_object($SpouseIDNo)?"":$SpouseIDNo);?></td>
         </tr>
 		<?php } else { ?>
 		<td class="td-label" colspane="2"><?php echo (is_object($MaritalStatus)?"":$MaritalStatus);?></td>
@@ -149,23 +157,23 @@ if($myData->HAMarriageStatus == "MARRIED"){
 			</tr>
 			<tr class="tr-label">
 				<td class="td-label">Estimate</td>
-				<td class="td-value"><?php echo $report['ConsumerScoring']['FinalScore'];?></td>
+				<td class="td-value"><?php echo (is_array($report['ConsumerScoring']['FinalScore'])?"":$report['ConsumerScoring']['FinalScore']);?></td>
 			</tr>
 			<tr class="tr-label">
 				<td class="td-label">Bracket</td>
-				<td class="td-value"><?php echo $report['ConsumerAffordability']['PredictedIncome'];?></td>
+				<td class="td-value"><?php echo (is_array($report['ConsumerAffordability']['PredictedIncome'])?"":$report['ConsumerAffordability']['PredictedIncome']);?></td>
 			</tr>
 			<tr class="tr-label">
 				<td class="td-label">Confidence</td>
-				<td class="td-value"><?php echo $report['ConsumerScoring']['classification'];?></td>
+				<td class="td-value"><?php echo (is_array($report['ConsumerScoring']['classification'])?"":$report['ConsumerScoring']['classification']);?></td>
 			</tr>
 			<tr class="tr-label">
 				<td class="td-label">Category</td>
-				<td class="td-value"><?php echo $report['ConsumerScoring']['RiskCategory'];?></td>
+				<td class="td-value"><?php echo (is_array($report['ConsumerScoring']['RiskCategory'])?"":$report['ConsumerScoring']['RiskCategory']);?></td>
 			</tr>	
 			<tr class="tr-label">
 				<td class="td-label">Exception</td>
-				<td class="td-value"><?php echo $report['ConsumerScoring']['Exception_Code'];?></td>
+				<td class="td-value"><?php echo (is_array($report['ConsumerScoring']['Exception_Code'])?"":$report['ConsumerScoring']['Exception_Code']);?></td>
 			</tr>			
 		</table>
 	</div><br/><br/>

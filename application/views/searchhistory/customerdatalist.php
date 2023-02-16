@@ -182,7 +182,7 @@
 						</tr>
 						<tr>
 							<td>Registration Number Converted</td>
-							<td><?php echo (is_object($report->CommercialBusinessInformation->PhysicalAddress)?"":$report->CommercialBusinessInformation->RegistrationNoConverted);?></td>
+							<td><?php echo (is_object($report->CommercialBusinessInformation->RegistrationNoConverted)?"":$report->CommercialBusinessInformation->RegistrationNoConverted);?></td>
 						</tr>
 						<tr>
 							<td>Financial Effective Date</td>

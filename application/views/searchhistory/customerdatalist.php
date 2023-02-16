@@ -49,58 +49,187 @@
         
 
         <div class="box-body no-padding">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Enquiry Input Details</div>
-                <div class="panel-body">
-                    <div class="col">
-                      <h4><span class="label label-default">Enquiry Date</span>&nbsp;&nbsp;<span><?php echo $report->SubscriberInputDetails->EnquiryDate;?></span></h4>
-                     <h4><span class="label label-default">Enquiry Type</span>&nbsp;&nbsp; <span><?php echo $report->SubscriberInputDetails->EnquiryType;?></span></h4>
-                     <h4><span class="label label-default">Subscriber Name</span>&nbsp;&nbsp; <span><?php echo $report->SubscriberInputDetails->SubscriberName;?></span></h4>
-                     <h4><span class="label label-default">Subscriber User Name</span>&nbsp;&nbsp; <span><?php echo $report->SubscriberInputDetails->SubscriberUserName;?></span></h4>
-                     <h4><span class="label label-default">Enquiry Input</span>&nbsp;&nbsp; <span><?php echo $report->SubscriberInputDetails->EnquiryInput;?></span></h4><br>
-                    </div>
-                </div>
-              </div>
+			 <div class="panel panel-primary">
+					<div class="panel-heading">Enquiry Input Details</div>
+					<div class="panel-body">
+						<div class="col">
+						  <table class="table table-striped">
+							<tr>
+								<td>Enquiry Date</td>
+								<td><?php echo str_ireplace("t"," ",(substr($report->SubscriberInputDetails->EnquiryDate,0,strpos($report->SubscriberInputDetails->EnquiryDate,"."))));?></td>
+							</tr>
+							<tr>
+								<td>Enquiry Type</td>
+								<td><?php echo $report->SubscriberInputDetails->EnquiryType;?></td>
+							</tr>
+							<tr>
+								<td>Subscriber Name</td>
+								<td><?php echo $report->SubscriberInputDetails->SubscriberName;?></td>
+							</tr>
+							<tr>
+								<td>User Name</td>
+								<td><?php echo $report->SubscriberInputDetails->SubscriberUserName;?></td>
+							</tr>
+							<tr>
+								<td>Enquiry Input</td>
+								<td><?php echo $report->SubscriberInputDetails->EnquiryInput;?></td>
+							</tr>
+						  </table>
+						</div>
+					</div>
+				  </div>
 
-              <div class="panel panel-primary">
+                           <div class="panel panel-primary">
                 <div class="panel-heading">Company Statutory Information</div>
                 <div class="panel-body">
                     <div class="col">
-                        <div class="col-xs-4">Reference No:&nbsp;&nbsp;<strong><span><?php echo $report->CommercialBusinessInformation->ReferenceNo;?></span></strong></div>
-                        <div class="col-xs-4">Registered Business Name:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->CommercialBusinessInformation->CommercialName)?"":$report->CommercialBusinessInformation->CommercialName);?></span></strong></div>
-                        <div class="col-xs-4">Previous Business Name:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->CommercialBusinessInformation->RegistrationNo)?"":$report->CommercialBusinessInformation->RegistrationNo);?><span></strong></div>
-                        <div class="col-xs-4">Registration Number:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->CommercialBusinessInformation->RegistrationNo)?"":$report->CommercialBusinessInformation->RegistrationNo);?><span></strong></div>
-                        <div class="col-xs-4">BusinessStart Date:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->CommercialBusinessInformation->BusinessStartDate)?"":$report->CommercialBusinessInformation->BusinessStartDate);?></span></strong></div>
-                        <div class="col-xs-4">Financial Year End:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->CommercialBusinessInformation->FinancialYearEnd)?"":$report->CommercialBusinessInformation->FinancialYearEnd);?></span></strong></div>
-                        <div class="col-xs-4">Registration Number Old:&nbsp;&nbsp;<strong><span><?php (is_object($report->CommercialBusinessInformation->RegistrationNoOld)?"":$report->CommercialBusinessInformation->RegistrationNoOld);?></span></strong></div>
-                        <div class="col-xs-4">Business Status:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->CommercialBusinessInformation->CommercialStatus)?"":$report->CommercialBusinessInformation->CommercialStatus);?></span></strong></div>
-                        <div class="col-xs-4">Business Type:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->CommercialBusinessInformation->CommercialType)?"":$report->CommercialBusinessInformation->CommercialType);?></span></strong></div>
-                        <div class="col-xs-4">Tax Number:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->CommercialBusinessInformation->TaxNo)?"":$report->CommercialBusinessInformation->TaxNo);?></span></strong></div>
-                        <div class="col-xs-4">Trade Name:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->CommercialBusinessInformation->TradeName)?"":$report->CommercialBusinessInformation->TradeName);?></span></strong></div>
-                        <div class="col-xs-4">Physical Address:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->CommercialBusinessInformation->PhysicalAddress)?"":$report->CommercialBusinessInformation->PhysicalAddress);?></span></strong></div>
-                        <div class="col-xs-4">Postal Address:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->CommercialBusinessInformation->PostalAddress)?"":$report->CommercialBusinessInformation->PostalAddress);?></span></strong></div>
-                        <div class="col-xs-4">Registration Date:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->CommercialBusinessInformation->RegistrationDate)?"":$report->CommercialBusinessInformation->RegistrationDate);?></span></strong></div>
-                        <div class="col-xs-4">Telephone Number:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->CommercialBusinessInformation->TelephoneNo)?"":$report->CommercialBusinessInformation->TelephoneNo);?></span></strong></div>
-                        <div class="col-xs-4">Fax Number:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->CommercialBusinessInformation->FaxNo)?"":$report->CommercialBusinessInformation->FaxNo);?></span></strong></div>
-                        <div class="col-xs-4">Bussiness Email:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->CommercialBusinessInformation->BussEmail)?"":$report->CommercialBusinessInformation->BussEmail);?></span></strong></div>
-                        <div class="col-xs-4">Bussiness Website&nbsp;&nbsp;<strong><span><?php echo (is_object($report->CommercialBusinessInformation->BussWebsite)?"":$report->CommercialBusinessInformation->BussWebsite);?></span></strong></div>
-                        <div class="col-xs-4">Age of Business&nbsp;&nbsp;<strong><span><?php echo (is_object($report->CommercialBusinessInformation->AgeofBusiness)?"":$report->CommercialBusinessInformation->AgeofBusiness);?></span></strong></div>
-                        <div class="col-xs-4">Authorised Capital Amount&nbsp;&nbsp;<strong><span><?php echo (is_object($report->CommercialBusinessInformation->AuthorisedCapitalAmt)?"":$report->CommercialBusinessInformation->AuthorisedCapitalAmt);?></span></strong></div>
-                        <div class="col-xs-4">Issued Number Of Shares&nbsp;&nbsp;<strong><span><?php echo (is_object($report->CommercialBusinessInformation->IssuedNoOfShares)?"":$report->CommercialBusinessInformation->IssuedNoOfShares);?></span></strong></div>
-                        <div class="col-xs-4">Registration Number Converted&nbsp;&nbsp;<strong><span><?php echo (is_object($report->CommercialBusinessInformation->RegistrationNoConverted)?"":$report->CommercialBusinessInformation->RegistrationNoConverted);?></span></strong></div>
-                        <div class="col-xs-4">Financial Effective Date&nbsp;&nbsp;<strong><span><?php echo (is_object($report->CommercialBusinessInformation->FinancialEffectiveDate)?"":$report->CommercialBusinessInformation->FinancialEffectiveDate);?></span></strong></div>
-                        <div class="col-xs-4">Authorised Number Of Shares&nbsp;&nbsp;<strong><span><?php echo (is_object($report->CommercialBusinessInformation->AuthorisedNoOfShares)?"":$report->CommercialBusinessInformation->AuthorisedNoOfShares);?></span></strong></div>
-                        <div class="col-xs-4">Issued Capital Amount&nbsp;&nbsp;<strong><span><?php echo (is_object($report->CommercialBusinessInformation->IssuedCapitalAmt)?"":$report->CommercialBusinessInformation->IssuedCapitalAmt);?></span></strong></div>
-                        <div class="col-xs-4">Commercial Status Date&nbsp;&nbsp;<strong><span><?php echo (is_object($report->CommercialBusinessInformation->CommercialStatusDate)?"":$report->CommercialBusinessInformation->CommercialStatusDate);?></span></strong></div>
-                        <div class="col-xs-4">Description of Business&nbsp;&nbsp;<strong><span><?php echo (is_object($report->CommercialBusinessInformation->BusinessDesc)?"":$report->CommercialBusinessInformation->BusinessDesc);?></span></strong></div>
-                        <div class="col-xs-4">SICC Code&nbsp;&nbsp;<strong><span><?php echo (is_object($report->CommercialBusinessInformation->SIC)?"":$report->CommercialBusinessInformation->SIC);?></span></strong></div>
-                        <div class="col-xs-4">Legal Entity&nbsp;&nbsp;<strong><span><?php echo (is_object($report->SubscriberInputDetails->LegalEntity)?"":$report->SubscriberInputDetails->LegalEntity);?></span></strong></div>
-						<?php if($blackListed->id) { ?>
-						<div class="col-xs-16"><strong><span style="color: red">Blacklisted by <?php echo $blackListed->authorizeby." for ".$blackListed->reason;?></span></strong></div></br>
-						<?php } ?>
+					<table class="table">
+					 <tr>
+					 <td>
+					  <table class="table table-striped">
+						<tr>
+							<td>Reference No</td>
+							<td><?php echo $report->CommercialBusinessInformation->ReferenceNo;?></td>
+						</tr>
+						<tr>
+							<td>Registered Business Name</td>
+							<td><?php echo (is_object($report->CommercialBusinessInformation->CommercialName)?"":$report->CommercialBusinessInformation->CommercialName);?></td>
+						</tr>
+						<tr>
+							<td>Previous Business Name</td>
+							<td><?php echo (is_object($report->CommercialBusinessInformation->PreviousBussName)?"":$report->CommercialBusinessInformation->PreviousBussName);?></td>
+						</tr>
+						<tr>
+							<td>Registration Number</td>
+							<td><?php echo (is_object($report->CommercialBusinessInformation->RegistrationNo)?"":$report->CommercialBusinessInformation->RegistrationNo);?></td>
+						</tr>
+						<tr>
+							<td>BusinessStart Date</td>
+							<td><?php echo (is_object($report->CommercialBusinessInformation->BusinessStartDate)?"":$report->CommercialBusinessInformation->BusinessStartDate);?></td>
+						</tr>
+						<tr>
+							<td>Financial Year End</td>
+							<td><?php echo (is_object($report->CommercialBusinessInformation->FinancialYearEnd)?"":$report->CommercialBusinessInformation->FinancialYearEnd);?></td>
+						</tr>
+						<tr>
+							<td>Registration Number Old</td>
+							<td><?php (is_object($report->CommercialBusinessInformation->RegistrationNoOld)?"":$report->CommercialBusinessInformation->RegistrationNoOld);?></td>
+						</tr>
+						<tr>
+							<td>Business Status</td>
+							<td><?php echo (is_object($report->CommercialBusinessInformation->CommercialStatus)?"":$report->CommercialBusinessInformation->CommercialStatus);?></td>
+						</tr>
+						<tr>
+							<td>Business Type</td>
+							<td><?php echo (is_object($report->CommercialBusinessInformation->CommercialType)?"":$report->CommercialBusinessInformation->CommercialType);?></td>
+						</tr>
+						<tr>
+							<td>Tax Number</td>
+							<td><?php echo (is_object($report->CommercialBusinessInformation->TaxNo)?"":$report->CommercialBusinessInformation->TaxNo);?></td>
+						</tr>
+					  </table>
+					</td>
+					<td>
+					  <table class="table table-striped">
+						<tr>
+							<td>Trade Name</td>
+							<td><?php echo (is_object($report->CommercialBusinessInformation->TradeName)?"":$report->CommercialBusinessInformation->TradeName);?></td>
+						</tr>
+						<tr>
+							<td>Physical Address</td>
+							<td><?php echo (is_object($report->CommercialBusinessInformation->PhysicalAddress)?"":$report->CommercialBusinessInformation->PhysicalAddress);?></td>
+						</tr>
+						<tr>
+							<td>Postal Address</td>
+							<td><?php echo (is_object($report->CommercialBusinessInformation->PostalAddress)?"":$report->CommercialBusinessInformation->PostalAddress);?></td>
+						</tr>
+						<tr>
+							<td>Registration Date</td>
+							<td><?php echo (is_object($report->CommercialBusinessInformation->RegistrationDate)?"":$report->CommercialBusinessInformation->RegistrationDate);?></td>
+						</tr>
+						<tr>
+							<td>Telephone Number</td>
+							<td><?php echo (is_object($report->CommercialBusinessInformation->TelephoneNo)?"":$report->CommercialBusinessInformation->TelephoneNo);?></td>
+						</tr>
+						<tr>
+							<td>Fax Number</td>
+							<td><?php echo (is_object($report->CommercialBusinessInformation->FaxNo)?"":$report->CommercialBusinessInformation->FaxNo);?></td>
+						</tr>
+						<tr>
+							<td>Business Email</td>
+							<td><?php echo (is_object($report->CommercialBusinessInformation->BussEmail)?"":$report->CommercialBusinessInformation->BussEmail);?></td>
+						</tr>
+						<tr>
+							<td>Business Website</td>
+							<td><?php echo (is_object($report->CommercialBusinessInformation->BussWebsite)?"":$report->CommercialBusinessInformation->BussWebsite);?></td>
+						</tr>
+						<tr>
+							<td>Age of Business</td>
+							<td><?php echo (is_object($report->CommercialBusinessInformation->AgeofBusiness)?"":$report->CommercialBusinessInformation->AgeofBusiness);?></td>
+						</tr>
+						<tr>
+							<td>Authorised Capital Amount</td>
+							<td><?php echo (is_object($report->CommercialBusinessInformation->AuthorisedCapitalAmt)?"":$report->CommercialBusinessInformation->AuthorisedCapitalAmt);?></td>
+						</tr>
+					  </table>
+					 </td> 
+
+					<td>
+					  <table class="table table-striped">
+						<tr>
+							<td>Issued Number Of Shares</td>
+							<td><?php echo (is_object($report->CommercialBusinessInformation->IssuedNoOfShares)?"":$report->CommercialBusinessInformation->IssuedNoOfShares);?></td>
+						</tr>
+						<tr>
+							<td>Registration Number Converted</td>
+							<td><?php echo (is_object($report->CommercialBusinessInformation->PhysicalAddress)?"":$report->CommercialBusinessInformation->RegistrationNoConverted);?></td>
+						</tr>
+						<tr>
+							<td>Financial Effective Date</td>
+							<td><?php echo (is_object($report->CommercialBusinessInformation->FinancialEffectiveDate)?"":$report->CommercialBusinessInformation->FinancialEffectiveDate);?></td>
+						</tr>
+						<tr>
+							<td>Authorised Number Of Shares</td>
+							<td><?php echo (is_object($report->CommercialBusinessInformation->AuthorisedNoOfShares)?"":$report->CommercialBusinessInformation->AuthorisedNoOfShares);?></td>
+						</tr>
+						<tr>
+							<td>Issued Capital Amount</td>
+							<td><?php echo (is_object($report->CommercialBusinessInformation->IssuedCapitalAmt)?"":$report->CommercialBusinessInformation->IssuedCapitalAmt);?></td>
+						</tr>
+						<tr>
+							<td>Commercial Status Date</td>
+							<td><?php echo (is_object($report->CommercialBusinessInformation->CommercialStatusDate)?"":$report->CommercialBusinessInformation->CommercialStatusDate);?></td>
+						</tr>
+						<tr>
+							<td>Description of Business</td>
+							<td><?php echo (is_object($report->CommercialBusinessInformation->BusinessDesc)?"":$report->CommercialBusinessInformation->BusinessDesc);?></td>
+						</tr>
+						<tr>
+							<td>SICC Code</td>
+							<td><?php echo (is_object($report->CommercialBusinessInformation->SIC)?"":$report->CommercialBusinessInformation->SIC);?></td>
+						</tr>
+						<tr>
+							<td>Legal Entity</td>
+							<td><?php echo (is_object($report->CommercialBusinessInformation->LegalEntity)?"":$report->CommercialBusinessInformation->LegalEntity);?></td>
+						</tr>
+					  </table>
+					 </td> 
+					<?php if($blackListed->id) { ?>
+					<td>
+					  <table class="table table-striped">
+						<tr>
+							<td><strong><span style="color: red">Blacklisted by <?php echo $blackListed->authorizeby." for ".$blackListed->reason;?></span></strong></td>
+						</tr>
+					  </tr>
+					</td>
+					<?php } ?>
+					</tr>
+					</table>
+					
 					</div>
                 </div>
               </div>
+			  
 			  <?php if($report->CommercialScoring){?>
 			  
 			  <div class="panel panel-primary">

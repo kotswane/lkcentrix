@@ -30,7 +30,7 @@
         </tr>
         <tr class="tr-label">
         <td class="td-label">Enquiry Date</td>
-        <td class="td-value"><?php echo $report->SubscriberInputDetails->EnquiryDate;?></td>
+        <td class="td-value"><?php echo str_ireplace("t"," ",(substr($report->SubscriberInputDetails->EnquiryDate,0,strpos($report->SubscriberInputDetails->EnquiryDate,"."))));?></td>
         </tr>
          <tr class="tr-label">
         <td class="td-label">Enquiry Type</td>
@@ -73,7 +73,7 @@ Current Contact, Address, and Employment Info.</h5>
         </tr>
          <tr class="tr-label">
         <td class="td-label">Previous Business Name</td>
-        <td class="td-value"><?php echo (is_object($report->CommercialBusinessInformation->RegistrationNo)?"":$report->CommercialBusinessInformation->RegistrationNo);?></td>
+        <td class="td-value"><?php echo (is_object($report->CommercialBusinessInformation->PreviousBussName)?"":$report->CommercialBusinessInformation->PreviousBussName);?></td>
         </tr>
         <tr class="tr-label">
         <td class="td-label">Registration Number</td>

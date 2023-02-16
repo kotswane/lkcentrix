@@ -213,18 +213,18 @@
 						</tr>
 					  </table>
 					 </td> 
-					<?php if($blackListed->id) { ?>
-					<td>
-					  <table class="table table-striped">
-						<tr>
-							<td><strong><span style="color: red">Blacklisted by <?php echo $blackListed->authorizeby." for ".$blackListed->reason;?></span></strong></td>
-						</tr>
-					  </tr>
-					</td>
-					<?php } ?>
 					</tr>
 					</table>
-					
+					<?php if($blackListed->id) { ?>
+						<td>
+						  <table class="table table-striped">
+							<tr>
+								<td><strong><span style="color: red">Blacklisted by <?php echo $blackListed->authorizeby." for ".$blackListed->reason;?></span></strong></td>
+							</tr>
+						  </table>
+						</td>
+					<?php } ?>
+
 					</div>
                 </div>
               </div>

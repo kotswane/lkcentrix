@@ -2,7 +2,7 @@
 	class UserRole_model extends CI_Model {
 		
 		public function create($data){	
-			$query = $this->db->get_where('userrole', array('userid' => $data['userid'],'roleid'=>$data['roleid']));
+			$query = $this->db->get_where('userrole', array('userid' => $data['userid']));
             if ($query->num_rows() > 0)
 			{
 				return 0;

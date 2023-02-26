@@ -29,6 +29,7 @@ class Client extends CI_Controller {
 		}
 		$this->load->model("User_model");
 		$this->load->model("Client_model");
+		$this->load->model("SearchHistory_model");
 		$this->reports = $this->Report_model->list_reports();
 		$this->reports_type = $this->Report_type_model->list_reports_type();	
 	}
@@ -187,7 +188,61 @@ class Client extends CI_Controller {
 			print "error";
 		}else{
 			print json_encode($response);
-		
 		}
+	}
+	
+	public function gettotalbyclient(){
+		
+		
+		if(!$this->session->userdata('username')){
+			 redirect('user/login');
+		}
+		
+		if(!$this->session->userdata('isadmin')){
+			$data["content"] = 'permissions/access_denied';
+			return $this->load->view('site',$data);
+		}
+
+		$client = $this->input->post('cid');
+		$data["reports_type"] = $this->reports_type;
+		$data["reports"] = $this->reports;
+		$data["title"] = "Total Count Per Report For Last 7 Days";
+		$data["cid"] = $this->input->post('cid');
+		$sdate = "";
+		$edate = "";
+		$data["title"] = "Total Count Per Report For Last 7 Days";
+		if($this->input->post("start-date") && $this->input->post("end-date")){
+			$sdate = $this->input->post("start-date")." 00:00:00";
+			$edate = $this->input->post("end-date")." 23:59:59";
+			$data["title"] = "Total Count Per Report between ".$this->input->post("start-date")." and ".$this->input->post("end-date");
+		}
+		
+		
+		$data["reportCount"] = $this->SearchHistory_model->getTotalByClient($client,$sdate,$edate);
+		
+		$data["procurementCount"] = 0;
+		$data["indigentCount"] = 0;
+		$data["traceCount"] = 0;
+		
+		$data["userReportInfo"]["detail"] = array();
+		foreach($data["reportCount"] as $reportCountKey => $reportCountVal){
+			
+			if($reportCountVal->report == "indigentreport"){
+				$data["userReportInfo"]["detail"][$reportCountVal->user]["indigentreport"]+= $reportCountVal->totalCount;
+				$data["indigentCount"] += $reportCountVal->totalCount;
+			}else if($reportCountVal->report == "procurementreport"){
+				$data["userReportInfo"]["detail"][$reportCountVal->user]["procurementCount"]+= $reportCountVal->totalCount;
+				$data["procurementCount"] += $reportCountVal->totalCount;
+			}else if($reportCountVal->report == "tracereport"){
+				$data["userReportInfo"]["detail"][$reportCountVal->user]["traceCount"]+= $reportCountVal->totalCount;
+				$data["traceCount"] += $reportCountVal->totalCount;
+			}
+			
+			$data["totalStats"] += $reportCountVal->totalCount;
+			
+		}
+		
+		$data["content"]= "client/viewstats";
+		$this->load->view('site',$data);
 	}
 }

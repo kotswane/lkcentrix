@@ -74,6 +74,7 @@
               <th>Email</th>
               <th>Address</th>
               <th>Contact</th>
+			  <th>Report</th>
 			  <th>Status</th>
 			  <th>Action</th>
             </tr>
@@ -81,6 +82,11 @@
 			<tbody>
 			<?php 
 				foreach($clientList as $clientListKey => $clientListValue){
+					if($clientListValue->isactive == 1){
+						$button = "<button class='btn btn-primary' type='button' >Active</button>";
+					}else{
+						$button = "<button class='btn btn-danger' type='button' >Inactive</button>";
+					}
 			?>
 			
             <tr>
@@ -88,7 +94,20 @@
               <td><?php echo $clientListValue->client_Email;?></td>
               <td><?php echo substr($clientListValue->client_Address,0,30)." .....";?></td>
               <td><?php echo $clientListValue->client_Contact;?></td>
-              <td><?php echo (($clientListValue->isactive == 1)?"Active":"Inactive");?></td>
+			<td>
+		
+				<table>
+					<tr class="pull-left">
+						<td class="pull-left">
+						  <form data-toggle="validator" role="Users form" action="<?php echo site_url();?>/client/gettotalbyclient" method="post" >
+							<input type="hidden" name="cid" id="cid" value="<?php echo $clientListValue->client_Id;?>"/>
+							<button class="btn btn-primary" type="submit"><i class="fa fa-envelop" aria-hidden="true"></i>&nbsp; View Report</button>
+						 </form>
+						</td>
+					</tr>
+				</table>
+			  </td>
+              <td style="vertical-align: middle !important;"><?php echo $button;?></td>
               <td>
 			    <form>
 					<table>
@@ -272,6 +291,10 @@ function fnUpdate(strVal){
 
 function fnViewUsers(strClient){
 	location.href = "<?php echo site_url();?>/client/viewusers/"+strClient;
+}
+
+function fnViewReport(strClient){
+	location.href = "<?php echo site_url();?>/client/gettotalbyclient/"+strClient;
 }
 
 </script>

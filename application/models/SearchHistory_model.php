@@ -55,5 +55,15 @@
                 $query = $this->db->get_where('search_history', array('id' => $id));
 				return $query->result();
         }
+		
+		public function getTotalByClient($clientId,$startDate="",$endDate=""){
+			$sql = "select u.username as user,s.reportname as report, count(s.reportname) as totalCount from users u inner join search_history s on u.id=s.userId AND u.clientId='".$clientId."' AND s.created BETWEEN '".$startDate."' AND '".$endDate."' group by s.reportname,u.username;";
+			if(($startDate == "") && ($endDate == "")){
+				$sql = "select u.username as user,s.reportname as report, count(s.reportname) as totalCount from users u inner join search_history s on u.id=s.userId AND u.clientId='".$clientId."' AND s.created >=DATE(NOW()) - INTERVAL 117 DAY GROUP BY s.reportname,u.username;";		
+			}
+			//print_r($sql);
+			$query=$this->db->query($sql);
+			return $query->result();
+		}
 	}
 ?>

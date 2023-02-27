@@ -1179,7 +1179,7 @@ if(is_object($report->CommercialBankCodeHistory)){
 			<table class="table-list">
 				<tr class="border_bottom">
 					 <td>Employer Name</td>
-					 <td><?php echo (is_object($employer)?"":$employer);?></td>
+					 <td><?php echo (string) $employer;?></td>
 				</tr>
 				<tr class="border_bottom">
 					 <td>Director Indicator</td>
@@ -1941,70 +1941,17 @@ if(is_object($report->ActiveDirectorPreviousBusinessinterests) && ($report->Comm
 </div> 
  <!-- ActiveDirectorPreviousBusinessinterests -->
  
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
 
-
-
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
 	<?php } else { 
+	$personaldetails=(array)$personaldetails['details'];	
 	foreach($report->CommercialActivePrincipalInformation as $CommercialActivePrincipalInformation){  
-	$personaldetails=(array)$personaldetails['details'];							
-	$employer = "";
-	if($personaldetails[$CommercialActivePrincipalInformation->IDNo]){
-		$employer = $personaldetails[$CommercialActivePrincipalInformation->IDNo]->ConsumerDetail->EmployerDetail;
-	}?>
+								
+		if($personaldetails[$CommercialActivePrincipalInformation->IDNo]){
+
+			$employer = $personaldetails[$CommercialActivePrincipalInformation->IDNo]->ConsumerDetail->EmployerDetail;
+		}
+	
+	?>
 	<div class="panel-heading"> Active Director-<?php echo ++$count." of ".count($report->CommercialActivePrincipalInformation);?><br>
 		<?php echo (is_object($CommercialActivePrincipalInformation->Fullname)?"":$CommercialActivePrincipalInformation->Fullname);?>
 	</div>
@@ -2046,7 +1993,7 @@ if(is_object($report->ActiveDirectorPreviousBusinessinterests) && ($report->Comm
 			<table>
 				<tr class="border_bottom">
 					 <td>Employer Name</td>
-					 <td><?php echo (is_object($employer)?"":$employer);?></td>
+					 <td><?php echo (string) $employer;?></td>
 				</tr>
 				<tr class="border_bottom">
 					 <td>Director Indicator</td>
@@ -2810,7 +2757,8 @@ if(is_object($report->ActiveDirectorPreviousBusinessinterests) && ($CommercialAc
 	} 
 } else { ?>
 <span>Commercial Active Director Information Not Found</span><br>
-<?php } ?>
+<?php }
+?>
 
 </div>
 </div>

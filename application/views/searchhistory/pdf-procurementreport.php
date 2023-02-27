@@ -1999,8 +1999,9 @@ if(is_object($report->ActiveDirectorPreviousBusinessinterests) && ($report->Comm
  
  
 	<?php } else { 
+	$personaldetails=(array)$personaldetails['details'];
 	foreach($report->CommercialActivePrincipalInformation as $CommercialActivePrincipalInformation){  
-	$personaldetails=(array)$personaldetails['details'];							
+								
 	$employer = "";
 	if($personaldetails[$CommercialActivePrincipalInformation->IDNo]){
 		$employer = $personaldetails[$CommercialActivePrincipalInformation->IDNo]->ConsumerDetail->EmployerDetail;

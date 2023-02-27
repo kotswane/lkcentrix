@@ -2108,9 +2108,9 @@
 									
 							</div>
 							<?php } else { 
-									
+									$personaldetails = (array) $personaldetails['details'];
 									foreach($report->CommercialActivePrincipalInformation as $CommercialActivePrincipalInformation){  
-									    $personaldetails = (array) $personaldetails['details'];
+									    
 						
 										$employer = "";
 										if($personaldetails[$CommercialActivePrincipalInformation->IDNo]){

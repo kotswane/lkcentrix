@@ -24,7 +24,7 @@ class Procurementreport extends CI_Controller {
 	private $reports_type;
 	
 	public function  __construct(){
-		ini_set('default_socket_timeout', 6000);
+		ini_set('default_socket_timeout', 8000);
 		parent::__construct();
 		if(!$this->session->userdata('username')){
 			 redirect('user/login');
@@ -599,6 +599,7 @@ class Procurementreport extends CI_Controller {
 	}
 	
 	public function downloadidreport(){
+		ini_set('default_socket_timeout', 8000);
 		if(!$this->session->userdata('username')){
 			 redirect('user/login');
 		}

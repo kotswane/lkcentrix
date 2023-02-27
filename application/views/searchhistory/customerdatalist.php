@@ -2800,146 +2800,150 @@
 		<?php }?>
 		<!-- ActiveDirectorCurrentBusinessinterests -->
 		<!-- ActiveDirectorPreviousBusinessinterests -->
-<?php if($report->ActiveDirectorPreviousBusinessinterests){ 
-	if(is_object($report->ActiveDirectorPreviousBusinessinterests) && ($ActiveDirectorCurrentBusinessinterests->DirectorID == $report->ActiveDirectorPreviousBusinessinterests->DirectorID)){ ?>
-			<div class="panel panel-primary">
-			<div class="panel-heading">  Previous Business interests-1 of 1<br>
-				<?php echo (is_object($report->ActiveDirectorPreviousBusinessinterests->CommercialName)?"":$report->ActiveDirectorPreviousBusinessinterests->CommercialName);?>
+<?php if($report->ActiveDirectorPreviousBusinessinterests) {
+
+
+
+
+					if(is_object($report->ActiveDirectorPreviousBusinessinterests) && ($ActiveDirectorCurrentBusinessinterests->DirectorID == $report->ActiveDirectorPreviousBusinessinterests->DirectorID)){ ?>
+					<div class="panel panel-primary">
+					<div class="panel-heading">  Previous Business interests-1 of 1<br>
+						<?php echo (is_object($report->ActiveDirectorPreviousBusinessinterests->CommercialName)?"":$report->ActiveDirectorPreviousBusinessinterests->CommercialName);?>
+					</div>
+					<div class="panel-body">
+					<table class="table table-striped">
+						<tr>
+							<td>
+								<table class="table">
+									<tr>
+										 <td><strong><span>Commercial Name</strong></span></td>
+										 <td><?php echo (is_object($report->ActiveDirectorPreviousBusinessinterests->CommercialName)?"":$report->ActiveDirectorPreviousBusinessinterests->CommercialName);?></td>
+									</tr>
+									<tr>
+										 <td><strong><span>Registration No</strong></span></td>
+										 <td><?php echo (is_object($report->ActiveDirectorPreviousBusinessinterests->RegistrationNo)?"":$report->ActiveDirectorPreviousBusinessinterests->RegistrationNo);?></td>
+									</tr>
+									<tr>
+										 <td><strong><span>Commercial Status</strong></span></td>
+										 <td><?php echo (is_object($report->ActiveDirectorPreviousBusinessinterests->CommercialStatus)?"":$report->ActiveDirectorPreviousBusinessinterests->CommercialStatus);?></td>
+									</tr>
+					
+								</table>
+							</td>
+							<td>
+								<table class="table">
+									<tr>
+										 <td><strong><span>Judgments Count</strong></span></td>
+										 <td><?php echo (is_object($report->ActiveDirectorPreviousBusinessinterests->JudgmentsCount)?"":$report->ActiveDirectorPreviousBusinessinterests->JudgmentsCount);?></td>
+									</tr>
+									<tr>
+										 <td><strong><span>Default Count</strong></span></td>
+										 <td><?php echo (is_object($report->ActiveDirectorPreviousBusinessinterests->DefaultCount)?"":$report->ActiveDirectorPreviousBusinessinterests->DefaultCount);?></td>
+									</tr>
+									<tr>
+										 <td><strong><span>Liquidation</strong></span></td>
+										 <td><?php echo (is_object($report->ActiveDirectorPreviousBusinessinterests->Liquidation)?"":$report->ActiveDirectorPreviousBusinessinterests->Liquidation);?></td>
+									</tr>
+								</table>
+							</td>
+							<td>
+								<table class="table">
+									<tr>
+										 <td><strong><span>Age Of Business</strong></span></td>
+										 <td><?php echo (is_object($report->ActiveDirectorPreviousBusinessinterests->AgeOfBusiness)?"":$report->ActiveDirectorPreviousBusinessinterests->AgeOfBusiness);?></td>
+									</tr>
+									<tr>
+										 <td><strong><span>Judgment Status</strong></span></td>
+										 <td><?php echo (is_object($report->ActiveDirectorPreviousBusinessinterests->JudgmentStatus)?"":$report->ActiveDirectorPreviousBusinessinterests->JudgmentStatus);?></td>
+									</tr>
+									<tr>
+										 <td><strong><span>Director Status Date</strong></span></td>
+										 <td><?php echo (is_object($report->ActiveDirectorPreviousBusinessinterests->DirectorStatusDate)?"":$report->ActiveDirectorPreviousBusinessinterests->DirectorStatusDate);?></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					 </table>	
+				</div>
 			</div>
-			<div class="panel-body">
-			<table class="table table-striped">
-				<tr>
-					<td>
-						<table class="table">
+			<?php } else {
+				$count = 0;
+				foreach($report->ActiveDirectorPreviousBusinessinterests as $ActiveDirectorPreviousBusinessinterests){  
+				 if($ActiveDirectorCurrentBusinessinterests->DirectorID == $ActiveDirectorPreviousBusinessinterests->DirectorID){				
+				?>
+					<div class="panel panel-primary">
+						<div class="panel-heading"> Active Director Previous Business interests-<?php echo ++$count." of ".count($report->ActiveDirectorPreviousBusinessinterests);?><br>
+							<?php echo (is_object($ActiveDirectorPreviousBusinessinterests->CommercialName)?"":$ActiveDirectorPreviousBusinessinterests->CommercialName);?>
+						</div>
+						<div class="panel-body">
+						<table class="table table-striped">
 							<tr>
-								 <td><strong><span>Commercial Name</strong></span></td>
-								 <td><?php echo (is_object($report->ActiveDirectorPreviousBusinessinterests->CommercialName)?"":$report->ActiveDirectorPreviousBusinessinterests->CommercialName);?></td>
+								<td>
+									<table class="table">
+										<tr>
+											 <td><strong><span>Commercial Name</strong></span></td>
+											 <td><?php echo (is_object($ActiveDirectorPreviousBusinessinterests->CommercialName)?"":$ActiveDirectorPreviousBusinessinterests->CommercialName);?></td>
+										</tr>
+										<tr>
+											 <td><strong><span>Registration No</strong></span></td>
+											 <td><?php echo (is_object($ActiveDirectorPreviousBusinessinterests->RegistrationNo)?"":$ActiveDirectorPreviousBusinessinterests->RegistrationNo);?></td>
+										</tr>
+										<tr>
+											 <td><strong><span>Commercial Status</strong></span></td>
+											 <td><?php echo (is_object($ActiveDirectorPreviousBusinessinterests->CommercialStatus)?"":$ActiveDirectorPreviousBusinessinterests->CommercialStatus);?></td>
+										</tr>
+									</table>
+								</td>
+								<td>
+									<table class="table">
+										<tr>
+											 <td><strong><span>Judgments Count</strong></span></td>
+											 <td><?php echo (is_object($ActiveDirectorPreviousBusinessinterests->JudgmentsCount)?"":$ActiveDirectorPreviousBusinessinterests->JudgmentsCount);?></td>
+										</tr>
+										<tr>
+											 <td><strong><span>Default Count</strong></span></td>
+											 <td><?php echo (is_object($ActiveDirectorPreviousBusinessinterests->DefaultCount)?"":$ActiveDirectorPreviousBusinessinterests->DefaultCount);?></td>
+										</tr>
+										<tr>
+											 <td><strong><span>Liquidation</strong></span></td>
+											 <td><?php echo (is_object($ActiveDirectorPreviousBusinessinterests->Liquidation)?"":$ActiveDirectorPreviousBusinessinterests->Liquidation);?></td>
+										</tr>
+									</table>
+								</td>
+								<td>
+									<table class="table">
+										<tr>
+											 <td><strong><span>Age Of Business</strong></span></td>
+											 <td><?php echo (is_object($ActiveDirectorPreviousBusinessinterests->AgeOfBusiness)?"":$ActiveDirectorPreviousBusinessinterests->AgeOfBusiness);?></td>
+										</tr>
+										<tr>
+											 <td><strong><span>Judgment Status</strong></span></td>
+											 <td><?php echo (is_object($ActiveDirectorPreviousBusinessinterests->JudgmentStatus)?"":$ActiveDirectorPreviousBusinessinterests->JudgmentStatus);?></td>
+										</tr>
+										<tr>
+											 <td><strong><span>Director Status Date</strong></span></td>
+											 <td><?php echo (is_object($ActiveDirectorPreviousBusinessinterests->DirectorStatusDate)?"":$ActiveDirectorPreviousBusinessinterests->DirectorStatusDate);?></td>
+										</tr>
+									</table>
+								</td>
 							</tr>
-							<tr>
-								 <td><strong><span>Registration No</strong></span></td>
-								 <td><?php echo (is_object($report->ActiveDirectorPreviousBusinessinterests->RegistrationNo)?"":$report->ActiveDirectorPreviousBusinessinterests->RegistrationNo);?></td>
-							</tr>
-							<tr>
-								 <td><strong><span>Commercial Status</strong></span></td>
-								 <td><?php echo (is_object($report->ActiveDirectorPreviousBusinessinterests->CommercialStatus)?"":$report->ActiveDirectorPreviousBusinessinterests->CommercialStatus);?></td>
-							</tr>
-			
-						</table>
-					</td>
-					<td>
-						<table class="table">
-							<tr>
-								 <td><strong><span>Judgments Count</strong></span></td>
-								 <td><?php echo (is_object($report->ActiveDirectorPreviousBusinessinterests->JudgmentsCount)?"":$report->ActiveDirectorPreviousBusinessinterests->JudgmentsCount);?></td>
-							</tr>
-							<tr>
-								 <td><strong><span>Default Count</strong></span></td>
-								 <td><?php echo (is_object($report->ActiveDirectorPreviousBusinessinterests->DefaultCount)?"":$report->ActiveDirectorPreviousBusinessinterests->DefaultCount);?></td>
-							</tr>
-							<tr>
-								 <td><strong><span>Liquidation</strong></span></td>
-								 <td><?php echo (is_object($report->ActiveDirectorPreviousBusinessinterests->Liquidation)?"":$report->ActiveDirectorPreviousBusinessinterests->Liquidation);?></td>
-							</tr>
-						</table>
-					</td>
-					<td>
-						<table class="table">
-							<tr>
-								 <td><strong><span>Age Of Business</strong></span></td>
-								 <td><?php echo (is_object($report->ActiveDirectorPreviousBusinessinterests->AgeOfBusiness)?"":$report->ActiveDirectorPreviousBusinessinterests->AgeOfBusiness);?></td>
-							</tr>
-							<tr>
-								 <td><strong><span>Judgment Status</strong></span></td>
-								 <td><?php echo (is_object($report->ActiveDirectorPreviousBusinessinterests->JudgmentStatus)?"":$report->ActiveDirectorPreviousBusinessinterests->JudgmentStatus);?></td>
-							</tr>
-							<tr>
-								 <td><strong><span>Director Status Date</strong></span></td>
-								 <td><?php echo (is_object($report->ActiveDirectorPreviousBusinessinterests->DirectorStatusDate)?"":$report->ActiveDirectorPreviousBusinessinterests->DirectorStatusDate);?></td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-			 </table>	
-		</div>
-	</div>
-	<?php } else { 
-			$count = 0;
-			foreach($report->ActiveDirectorPreviousBusinessinterests as $ActiveDirectorPreviousBusinessinterests){  
-			 if($ActiveDirectorCurrentBusinessinterests->DirectorID == $ActiveDirectorPreviousBusinessinterests->DirectorID){
-			?>
-			<div class="panel panel-primary">
-			<div class="panel-heading"> Active Director Previous Business interests-<?php echo ++$count." of ".count($report->ActiveDirectorPreviousBusinessinterests);?><br>
-				<?php echo (is_object($ActiveDirectorPreviousBusinessinterests->CommercialName)?"":$ActiveDirectorPreviousBusinessinterests->CommercialName);?>
-			</div>
-			<div class="panel-body">
-			<table class="table table-striped">
-				<tr>
-					<td>
-						<table class="table">
-							<tr>
-								 <td><strong><span>Commercial Name</strong></span></td>
-								 <td><?php echo (is_object($ActiveDirectorPreviousBusinessinterests->CommercialName)?"":$ActiveDirectorPreviousBusinessinterests->CommercialName);?></td>
-							</tr>
-							<tr>
-								 <td><strong><span>Registration No</strong></span></td>
-								 <td><?php echo (is_object($ActiveDirectorPreviousBusinessinterests->RegistrationNo)?"":$ActiveDirectorPreviousBusinessinterests->RegistrationNo);?></td>
-							</tr>
-							<tr>
-								 <td><strong><span>Commercial Status</strong></span></td>
-								 <td><?php echo (is_object($ActiveDirectorPreviousBusinessinterests->CommercialStatus)?"":$ActiveDirectorPreviousBusinessinterests->CommercialStatus);?></td>
-							</tr>
-						</table>
-					</td>
-					<td>
-						<table class="table">
-							<tr>
-								 <td><strong><span>Judgments Count</strong></span></td>
-								 <td><?php echo (is_object($ActiveDirectorPreviousBusinessinterests->JudgmentsCount)?"":$ActiveDirectorPreviousBusinessinterests->JudgmentsCount);?></td>
-							</tr>
-							<tr>
-								 <td><strong><span>Default Count</strong></span></td>
-								 <td><?php echo (is_object($ActiveDirectorPreviousBusinessinterests->DefaultCount)?"":$ActiveDirectorPreviousBusinessinterests->DefaultCount);?></td>
-							</tr>
-							<tr>
-								 <td><strong><span>Liquidation</strong></span></td>
-								 <td><?php echo (is_object($ActiveDirectorPreviousBusinessinterests->Liquidation)?"":$ActiveDirectorPreviousBusinessinterests->Liquidation);?></td>
-							</tr>
-						</table>
-					</td>
-					<td>
-						<table class="table">
-							<tr>
-								 <td><strong><span>Age Of Business</strong></span></td>
-								 <td><?php echo (is_object($ActiveDirectorPreviousBusinessinterests->AgeOfBusiness)?"":$ActiveDirectorPreviousBusinessinterests->AgeOfBusiness);?></td>
-							</tr>
-							<tr>
-								 <td><strong><span>Judgment Status</strong></span></td>
-								 <td><?php echo (is_object($ActiveDirectorPreviousBusinessinterests->JudgmentStatus)?"":$ActiveDirectorPreviousBusinessinterests->JudgmentStatus);?></td>
-							</tr>
-							<tr>
-								 <td><strong><span>Director Status Date</strong></span></td>
-								 <td><?php echo (is_object($ActiveDirectorPreviousBusinessinterests->DirectorStatusDate)?"":$ActiveDirectorPreviousBusinessinterests->DirectorStatusDate);?></td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-			 </table>	
-		</div>
-	</div>
-	 <?php }
+						 </table>	
+					</div>
+				</div>
+
+		<?php } 
+		 }
 			}
-}	
-} else { 
-	?>	
-	
-		<div class="panel panel-primary">
-			<div class="panel-heading"> Active Director Previous Business interests</div>
-			<div class="panel-body">
-				<span>Previous Business Interests Not Found</span><br>
+		} else {
+		?>
+			<div class="panel panel-primary">
+				<div class="panel-heading"> Active Director Previous Business interests</div>
+				<div class="panel-body">
+					<span>Previous Business Interests Not Found</span><br>
+				</div>
 			</div>
-		</div>
-<?php }?>	
-</div>
+		<?php } ?>		
+		
 		<!-- ActiveDirectorPreviousBusinessinterests -->
 				</div>
 			</div>

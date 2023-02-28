@@ -67,7 +67,7 @@
 						</tr>
 						<tr>
 							<td>User Name</td>
-							<td><?php echo $report->SubscriberInputDetails->SubscriberUserName;?></td>
+							<td><?php echo $this->session->userdata('fullname');?></td>
 						</tr>
 						<tr>
 							<td>Enquiry Input</td>

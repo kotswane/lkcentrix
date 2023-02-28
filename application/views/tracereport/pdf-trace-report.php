@@ -43,7 +43,7 @@
         </tr>
         <tr class="tr-label">
         <td class="td-label">Subscriber User Name</td>
-        <td class="td-value"><?php echo $report->SubscriberInputDetails->SubscriberUserName;?></td>
+        <td class="td-value"><?php echo  $this->session->userdata('fullname');?></td>
         </tr>
          <tr class="tr-label">
         <td class="td-label">Enquiry Input</td>

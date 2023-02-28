@@ -143,6 +143,8 @@ class User extends CI_Controller {
 									$data = array('id'=>$login[0]->username,'site'=>'tracing portal prod');
 									$responseApi = $this->redisclient->generate($data);
 									
+									$fullname = $login[0]->name." ".$login[0]->surname;
+									
 									if($responseApi->status == "success"){
 										$this->session->set_userdata(array(
 										'username' => $this->input->post("username"),
@@ -152,7 +154,8 @@ class User extends CI_Controller {
 										'isactive'=>$login[0]->isactive,
 										'usermenu'=>$loggeinUserMenu,
 										'isadmin'=>$isAdmin,
-										'submenu'=>$loggeinUserSubMenuData));
+										'submenu'=>$loggeinUserSubMenuData,
+										'fullname'=> $fullname));
 										redirect('disclaimer');
 									}else {
 										$data['errorSession'] = "You have an active session in another computer, please logout and login here"; 

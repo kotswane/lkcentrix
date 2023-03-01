@@ -185,6 +185,7 @@ class Indigentreport extends CI_Controller {
 		$data["reports_type"] = $this->reports_type;
 		$data["reports"] = $this->reports;
 		$response = $this->getSearchData($this->uri->segment(3), $this->uri->segment(4));
+
 		if($response->Error){
 			$data["XDSError"] = "Error Processing <b>Income and Scoring Request</b>, Please content Developer";
 		}
@@ -206,6 +207,7 @@ class Indigentreport extends CI_Controller {
 					'IdNumber' => $idnumber));
 				$xml = simplexml_load_string($response->ConnectGetFamilyIDPhotoVerificationResult);
 		
+
 	
 		if ($xml->Error || $xml->NotFound){
 			
@@ -220,7 +222,7 @@ class Indigentreport extends CI_Controller {
 			"auditlog_issuccess" => false);
 			$this->Auditlog_model->save($auditlog);
 
-			
+			$data["XDSError"] = $xml->Error;
 			$data["familyData"] = array();
 			$this->session->set_userdata(array('familyData' =>$data['familyData']));
 			$data["content"] = "indigentreport/showreport";
@@ -355,7 +357,7 @@ class Indigentreport extends CI_Controller {
 					$this->session->set_userdata(array('directorship' =>$data['directorship']));
 					
 					$searchdataArray = array("directorship" => $data['directorship'], 'familyData' => $data['familyData'], 'report' => $data['report']);
-					
+
 					$searchHistory = array(
 							"reportname"=>"indigentreport",
 							"userId"=>$this->session->userdata('userId'),

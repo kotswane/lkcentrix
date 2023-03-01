@@ -65,19 +65,24 @@
 			}
 		}
 		 
-		 if (is_object($myData->HANames)){
-			 $firstName = $report->ConsumerDetail->FirstName." ";
+		 if (!is_array($report['ConsumerDetail']['FirstName'])){
+			 $firstName = $report['ConsumerDetail']['FirstName']." ";
 		 }
-		 if (!is_array($report->ConsumerDetail->SecondName)){
-			 $secondName = $report->ConsumerDetail->SecondName;
+		 if (!is_array($report['ConsumerDetail']['SecondName'])){
+			 $secondName = $report['ConsumerDetail']['SecondName'];
 		 }
+		 
+		 if (!is_array($report['ConsumerDetail']['Surname'])){
+			 $Surname = $report['ConsumerDetail']['Surname'];
+		 }
+		 
+		 $ID = $report['ConsumerDetail']['IDNo'];
 		 $name=$firstName.$secondName;
-
-
-		if(!is_object($myData->HAErrorDescription)){?>
-				<div class="alert alert-danger" role="alert"><?php echo $myData->HAErrorDescription;?></div>
-		<?php } if($XDSError!=""){?>
+		 
+		if($XDSError!=""){ ?>
 				<div class="alert alert-danger" role="alert"><?php echo $XDSError;?></div>
+		<?php }else if(!is_object($myData->HAErrorDescription)){?>
+				<div class="alert alert-danger" role="alert"><?php echo $myData->HAErrorDescription;?></div>
 		<?php } ?>
         <div class="box-body no-padding">
 
@@ -87,7 +92,7 @@
 					 <table class="table">
 							<tr>
 							<td>ID No</td>
-							<td><?php echo (is_object($myData->HAIDNO)?$ID:$myData->HAIDNO);?></td>
+							<td><?php echo $ID;?></td>
 							<td rowspan="7">
 							<?php
 							if($hasMultiRecords == true){
@@ -108,11 +113,11 @@
 							</tr>
 							 <tr>
 							<td>First Name</td>
-							<td><?php echo (is_object($myData->HANames)?$name:$myData->HANames);?></td>
+							<td><?php echo $name;?></td>
 							</tr>
 							 <tr>
 							<td>Surname</td>
-							<td><?php echo (is_object($myData->HASurname)?$Surname:$myData->HASurname);?></td>
+							<td><?php echo $Surname;?></td>
 							</tr>
 							<tr>
 							<td>Deceased Status</td>

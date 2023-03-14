@@ -415,14 +415,18 @@ class Procurementreport extends CI_Controller {
 		}
 		$data['personaldetails']['details'] = array();
 		
+
 		if(!$response->NotFound || !$xml->response){
 			if($response->CommercialActivePrincipalInformation){
+
 				if(is_array($response->CommercialActivePrincipalInformation)){
 					foreach($response->CommercialActivePrincipalInformation as $CommercialActivePrincipalInformation){
 					  $data['personaldetails']['details'][$CommercialActivePrincipalInformation->IDNo] = $this->getConsumerMatch($CommercialActivePrincipalInformation->IDNo,$this->uri->segment(5));			  
 					}
 				}else{
+
 					 $data['personaldetails']['details'][$response->CommercialActivePrincipalInformation->IDNo]=$this->getConsumerMatch($response->CommercialActivePrincipalInformation->IDNo,$this->uri->segment(5));
+					
 				}
 			}
 			
@@ -677,7 +681,8 @@ class Procurementreport extends CI_Controller {
 		}else {
 			
 			$objJsonDocument = json_encode($xml);
-			$arrOutput = json_decode($objJsonDocument, TRUE);
+			$arrOutput = json_decode($objJsonDocument);
+
 
 			$auditlog = array(
 				"auditlog_reportname"=>"procurementreport",
@@ -692,8 +697,15 @@ class Procurementreport extends CI_Controller {
 			);
 			$this->Auditlog_model->save($auditlog);
 			
-			return $this->getSearchDataConsumer($arrOutput['ConsumerDetails']['EnquiryID'], $arrOutput['ConsumerDetails']['EnquiryResultID'],$type);
-								
+			$dataArray["details"] = array();
+			if(is_array($arrOutput->ConsumerDetails)){
+				foreach($arrOutput->ConsumerDetails as $arrOutputKey => $arrOutputVal){
+					return $this->getSearchDataConsumer($arrOutputVal->EnquiryID, $arrOutputVal->EnquiryResultID,$type);
+				}
+			}else{
+				return getSearchDataConsumer($arrOutput->ConsumerDetails->EnquiryID, $arrOutput->ConsumerDetails->EnquiryResultID,$type);
+			}
+			
 		}
 	}
 	

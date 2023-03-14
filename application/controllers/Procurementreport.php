@@ -703,7 +703,7 @@ class Procurementreport extends CI_Controller {
 					return $this->getSearchDataConsumer($arrOutputVal->EnquiryID, $arrOutputVal->EnquiryResultID,$type);
 				}
 			}else{
-				return getSearchDataConsumer($arrOutput->ConsumerDetails->EnquiryID, $arrOutput->ConsumerDetails->EnquiryResultID,$type);
+				return $this->getSearchDataConsumer($arrOutput->ConsumerDetails->EnquiryID, $arrOutput->ConsumerDetails->EnquiryResultID,$type);
 			}
 			
 		}

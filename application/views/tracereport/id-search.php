@@ -78,12 +78,54 @@
             <input type="hidden" name="postback" value="post"/>
         </form>
         
+	<?php
+	 if (count($consumerList['details']) > 0){
+	?>
+    <div>
+      	 <h5><span><strong>Search Results List</strong></span></h5>
+          <table class="table table-striped" id="addresssearch_table">
+            <thead>
+			<tr>
+            <th>Reference No</th>
+              <th>Names</th>
+              <th>Id Number</th>
+              <th>Details Viewed</th>
+              <th>View</th>
+            </tr>
+			</thead>
+			<tbody>
+			<?php 
+				
+				foreach($consumerList['details'] as $consumerListKey => $consumerListValue){
+			print_r($consumerListValue);
+			?>
+			
+            <tr>
+              <td><?php echo $consumerListValue->Reference;?></td>
+              <td><?php echo $consumerListValue->FirstName." ".$consumerListValue->Surname;?></td>
+              <td><?php echo $consumerListValue->IDNo;?></td>
+              <td><?php echo $consumerList['DetailsViewed'][$consumerListKey];?></td>
+              <td>
+               <a type="button" onClick="fnRedirect('<?php echo site_url()?>/tracereport/tracedata/<?php echo $consumerListValue->EnquiryID;?>/<?php echo $consumerListValue->EnquiryResultID;?>')"  class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;View</a>              
+			  </td>
+            </tr>
+			<?php }?>
+			</tbody>
+          </table>
+       </div>
+	<?php } ?>
     </div>
 </section>
 </body>
 
 <script type="text/javascript">
 $(document).ready(function(){
+	
+	$('#addresssearch_table').DataTable({
+        /* No ordering applied by DataTables during initialisation */
+        "order": []
+    });
+	
     $('#button-search').click(function() {
 		
 		$("#loadMe").modal({
@@ -95,6 +137,18 @@ $(document).ready(function(){
 		$('#form-search').submit();
     });
 });
+
+
+function fnRedirect(strVal){
+	
+		$("#loadMe").modal({
+		  backdrop: "static", //remove ability to close modal with click
+		  keyboard: false, //remove option to close with keyboard
+		  show: true //Display loader!
+		});
+		
+	location.href = strVal;
+}
 
 </script>
 </html>

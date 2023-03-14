@@ -166,6 +166,7 @@ class Tracereport extends CI_Controller {
 					}else{
 						$data["errorMessage"] = $xml->NotFound;
 					}
+					$data["consumerList"]["details"] = array();
 					$data["content"] = "tracereport/id-search";
 					$this->load->view('site',$data);
 				}else {
@@ -187,9 +188,77 @@ class Tracereport extends CI_Controller {
 					$this->Auditlog_model->save($auditlog);
 					$data['report'] = array();
 					
-					$myEnquiryResultID = $arrOutput->ConsumerDetails->EnquiryResultID;
-					$myEnquiryID = $arrOutput->ConsumerDetails->EnquiryID;
-										
+					//$myEnquiryResultID = $arrOutput->ConsumerDetails->EnquiryResultID;
+					//$myEnquiryID = $arrOutput->ConsumerDetails->EnquiryID;
+			
+					if(is_object($arrOutput->ConsumerDetails)){
+									
+							$data["consumerList"]["details"][]= $arrOutput->ConsumerDetails;
+							
+							$resp = $this->client->IsTicketValid($IsTicketValid);
+							if($resp->IsTicketValidResult != true || $resp->IsTicketValidResult ==""){
+								$this->session->set_userdata(array('tokensession' =>'Session expired, please login again'));
+								redirect('user/login');
+							}
+							
+
+							$response = $this->client->AdminEnquiryResult(array(
+							'ConnectTicket' => $this->session->userdata('tokenId'),
+							'EnquiryResultID' => $arrOutput->ConsumerDetails->EnquiryResultID));
+					
+							 
+						 
+							$auditlog = array(
+								"auditlog_reportname"=>"tracereport",
+								"auditlog_userId"=>$this->session->userdata('userId'),
+								"auditlog_reporttype"=>"addresssearch",
+								"auditlog_searchdata"=>json_encode(array(
+								'EnquiryResultID' =>  $arrOutput->ConsumerDetails->EnquiryResultID)),
+								"auditlog_fnexecuted" => "AdminEnquiryResult",
+								"auditlog_issuccess" => true
+							);
+							$this->Auditlog_model->save($auditlog);
+					
+							$xml = simplexml_load_string($response->AdminEnquiryResultResult,"SimpleXMLElement");
+							$objJsonDocument = json_encode($xml);
+							$arrOutput = json_decode($objJsonDocument, TRUE);
+							$data["consumerList"]["DetailsViewed"][]= (($arrOutput["Result"]["DetailsViewedYN"]=="true")? "Yes":"No");
+							
+					} else {
+							foreach($arrOutput->ConsumerDetails as $arrOutputListValueListKey => $arrOutputListValueListValue){
+								
+								
+								$data["consumerList"]["details"][]= $arrOutputListValueListValue;
+								$resp = $this->client->IsTicketValid($IsTicketValid);
+								if($resp->IsTicketValidResult != true || $resp->IsTicketValidResult ==""){
+									$this->session->set_userdata(array('tokensession' =>'Session expired, please login again'));
+									redirect('user/login');
+								}
+								
+								$response = $this->client->AdminEnquiryResult(array(
+								'ConnectTicket' => $this->session->userdata('tokenId'),
+								'EnquiryResultID' => $arrOutputListValueListValue->EnquiryResultID));
+								
+								$auditlog = array(
+									"auditlog_reportname"=>"tracereport",
+									"auditlog_userId"=>$this->session->userdata('userId'),
+									"auditlog_reporttype"=>"addresssearch",
+									"auditlog_searchdata"=>json_encode(array(
+									'EnquiryResultID' => $arrOutputListValueListValue->EnquiryResultID)),
+									"auditlog_fnexecuted" => "AdminEnquiryResult",
+									"auditlog_issuccess" => true
+								);
+								$this->Auditlog_model->save($auditlog);
+								
+								$xml = simplexml_load_string($response->AdminEnquiryResultResult,"SimpleXMLElement");
+								$objJsonDocument = json_encode($xml);
+								$arrOutput = json_decode($objJsonDocument, TRUE);
+								$data["consumerList"]["DetailsViewed"][]= (($arrOutput["Result"]["DetailsViewedYN"]=="true")? "Yes":"No");
+							}								
+					}			
+					
+					
+					/*
 					
 					$connectGetBonusSegments = $this->client->ConnectGetBonusSegments(array(
 					'ConnectTicket'=>$this->session->userdata('tokenId'),
@@ -271,6 +340,9 @@ class Tracereport extends CI_Controller {
 					$this->SearchHistory_model->create($searchHistory);
 					$this->session->set_userdata(array('report' =>$data['report']));
 					$data["content"] = "tracereport/trace-report";
+					$this->load->view('site',$data);*/
+					
+					$data["content"] = "tracereport/id-search";
 					$this->load->view('site',$data);
 				}
 
@@ -281,6 +353,136 @@ class Tracereport extends CI_Controller {
 			$this->load->view('site',$data);
 		}
 	}
+	
+	public function tracedata(){
+		
+		if(!$this->session->userdata('username')){
+			 redirect('user/login');
+		}	
+
+		/*$hasAccess = $this->checkpermission->hasAccess($this->session->userdata('usermenu'),$this->session->userdata('submenu'),'tracereport','idsearch');
+
+		if($hasAccess->hasAccessToController === true && $hasAccess->hasAccessToFunction === false){
+			$data["content"] = 'permissions/access_denied';
+			return $this->load->view('site',$data);
+		}else if($hasAccess->hasAccessToController === false && $hasAccess->hasAccessToFunction === false){
+			$data["content"] = 'permissions/access_denied';
+			return $this->load->view('site',$data);
+		}*/
+		
+		if(!$this->session->userdata('agreed_tc_and_c')){
+			 redirect('user/logout');
+		}		
+		$data = array('id'=>$this->session->userdata('username'),'site'=>'tracing portal prod');
+		$response = $this->redisclient->request($data);
+
+		if($response->status != "success"){
+			$this->session->set_userdata(array('tokensession' => 'Session expired, please login again'));
+			redirect('user/login');
+		}
+
+		$data["successFlash"] = "";
+		$data["infoFlash"] = "";
+		$data["errorFlash"] = "";
+		$data["errorMessage"] = "";
+		$data["reports_type"] = $this->reports_type;
+		$data["reports"] = $this->reports;
+		
+		$IsTicketValid = array("XDSConnectTicket"=>$this->session->userdata('tokenId'));
+		$this->client = $this->mysoapclient->getClient();
+		$resp = $this->client->IsTicketValid($IsTicketValid);
+		if($resp->IsTicketValidResult != true || $resp->IsTicketValidResult ==""){
+			$this->session->set_userdata(array('tokensession' =>'Session expired, please login again'));
+			redirect('user/login');
+		}
+		
+		$myEnquiryResultID = $this->uri->segment(4);
+		$myEnquiryID = $this->uri->segment(3);
+		
+		$connectGetBonusSegments = $this->client->ConnectGetBonusSegments(array(
+		'ConnectTicket'=>$IsTicketValid,
+		'EnquiryResultID' => $myEnquiryResultID,
+		'EnquiryReason' => 'Consumer Trace'
+		));
+		
+		$strConnectGetBonusSegments = simplexml_load_string($connectGetBonusSegments->ConnectGetBonusSegmentsResult,"SimpleXMLElement");
+		$objJsonDocument = json_encode($strConnectGetBonusSegments);
+		$arrOutput = json_decode($objJsonDocument);
+			
+		if(is_object($arrOutput->Segments)){
+			$strConnectGetBonusSegments->Segments->BonusViewed='True';
+		}else{
+			foreach($arrOutput->Segments as $segmenValK => $segmenValV){
+				$arrOutput->Segments[$segmenValK]->BonusViewed='True';
+			}	
+		}
+
+
+		 $document = new DOMDocument();
+		 $document->appendChild($bonusSegments = $document->createElement('BonusSegments'));
+		 $hasSegments =false;
+		 if(!is_object($arrOutput->Segments)){
+			 foreach($arrOutput->Segments as $segmenValK => $segmenValV){
+
+				$bonusSegments->appendChild($segments = $document->createElement('Segments')); 
+				$segments->appendChild($document->createElement('DataSegmentID'))->textContent = $segmenValV->DataSegmentID;
+				$segments->appendChild($document->createElement('DataSegmentName'))->textContent = $segmenValV->DataSegmentName;
+				$segments->appendChild($document->createElement('DataSegmentDisplayText'))->textContent = $segmenValV->DataSegmentDisplayText;
+				$segments->appendChild($document->createElement('BonusViewed'))->textContent = $segmenValV->BonusViewed;
+				$segments->appendChild($document->createElement('BonusPrice'))->textContent = $segmenValV->BonusPrice;
+				$hasSegments = true;
+			 }
+		 }else{
+			  if($arrOutput->Segments){
+				$hasSegments = true;
+				$bonusSegments->appendChild($segments = $document->createElement('Segments')); 
+				$segments->appendChild($document->createElement('DataSegmentID'))->textContent = $arrOutput->Segments->DataSegmentID;
+				$segments->appendChild($document->createElement('DataSegmentName'))->textContent = $arrOutput->Segments->DataSegmentName;
+				$segments->appendChild($document->createElement('DataSegmentDisplayText'))->textContent = $arrOutput->Segments->DataSegmentDisplayText;
+				$segments->appendChild($document->createElement('BonusViewed'))->textContent = $arrOutput->Segments->BonusViewed;
+				$segments->appendChild($document->createElement('BonusPrice'))->textContent = $arrOutput->Segments->BonusPrice;
+			  }							
+		 }
+		 
+		if ($hasSegments == true){ 
+			$document->formatOutput = true;
+
+			$responseConnectGetResult = $this->client->ConnectGetResult(array(
+			'EnquiryID' => $myEnquiryID,
+			'EnquiryResultID' => $myEnquiryResultID, 
+			'ConnectTicket' => $this->session->userdata('tokenId'), 
+			'ProductID' => 2,
+			'BonusXML' => $document->saveXML()));	
+		}else{
+			$responseConnectGetResult = $this->client->ConnectGetResult(array(
+			'EnquiryID' => $myEnquiryID,
+			'EnquiryResultID' => $myEnquiryResultID, 
+			'ConnectTicket' => $this->session->userdata('tokenId'), 
+			'ProductID' => 2));
+		}
+
+
+		$xml = simplexml_load_string($responseConnectGetResult->ConnectGetResultResult,"SimpleXMLElement");
+		$objJsonDocument = json_encode($xml);
+		$arrOutput = json_decode($objJsonDocument);
+		$data['report'] = $arrOutput;
+
+		$searchdataArray =(array)$data['report'];
+		$searchHistory = array(
+				"reportname"=>"tracereport",
+				"userId"=>$this->session->userdata('userId'),
+				"searchdata"=>json_encode($this->session->userdata('searchdata')),
+				"outputdata" => json_encode($searchdataArray),
+				"reporttype" => 'idsearch'
+		);
+		
+		$this->SearchHistory_model->create($searchHistory);
+		$this->session->set_userdata(array('report' =>$data['report']));
+		$data["content"] = "tracereport/trace-report";
+		$this->load->view('site',$data);	
+		
+	}
+	
 	
 	public function addresssearch(){
 		if(!$this->session->userdata('username')){

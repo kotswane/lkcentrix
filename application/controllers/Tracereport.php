@@ -101,6 +101,7 @@ class Tracereport extends CI_Controller {
 		$data["errorMessage"] = "";
 		$data["reports_type"] = $this->reports_type;
 		$data["reports"] = $this->reports;
+		$data["consumerList"]["details"] = array();
 		
 		if ($this->input->post("postback")=="post"){
 			

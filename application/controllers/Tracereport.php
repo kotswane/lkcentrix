@@ -349,6 +349,7 @@ class Tracereport extends CI_Controller {
 			}				
 			
 		}else{
+			$data["consumerList"]["details"] = array();
 			$data["content"] = "tracereport/id-search";
 			$this->load->view('site',$data);
 		}

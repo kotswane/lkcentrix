@@ -97,7 +97,7 @@
 			<?php 
 				
 				foreach($consumerList['details'] as $consumerListKey => $consumerListValue){
-			print_r($consumerListValue);
+
 			?>
 			
             <tr>

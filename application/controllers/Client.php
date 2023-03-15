@@ -217,7 +217,8 @@ class Client extends CI_Controller {
 			$data["title"] = "Total Count Per Report between ".$this->input->post("start-date")." and ".$this->input->post("end-date");
 		}
 		
-		
+		$data["sdate"]= $sdate;
+		$data["edate"]= $edate;		
 		$data["reportCount"] = $this->SearchHistory_model->getTotalByClient($client,$sdate,$edate);
 		
 		$data["procurementCount"] = 0;
@@ -226,7 +227,8 @@ class Client extends CI_Controller {
 		
 		$data["userReportInfo"]["detail"] = array();
 		foreach($data["reportCount"] as $reportCountKey => $reportCountVal){
-			
+
+			$data["userReportInfo"]["detail"][$reportCountVal->user]["id"] = $reportCountVal->id;
 			if($reportCountVal->report == "indigentreport"){
 				$data["userReportInfo"]["detail"][$reportCountVal->user]["indigentreport"]+= $reportCountVal->totalCount;
 				$data["indigentCount"] += $reportCountVal->totalCount;
@@ -243,6 +245,200 @@ class Client extends CI_Controller {
 		}
 		
 		$data["content"]= "client/viewstats";
+		$this->load->view('site',$data);
+	}
+	
+	
+	public function reportperuser(){	
+		if(!$this->session->userdata('username')){
+			 redirect('user/login');
+		}
+		
+		if(!$this->session->userdata('isadmin')){
+			$data["content"] = 'permissions/access_denied';
+			return $this->load->view('site',$data);
+		}
+
+		
+		$data["reports_type"] = $this->reports_type;
+		$data["reports"] = $this->reports;
+		$data["title"] = "Total Count Per Report For Last 7 Days";
+		
+		$client = $this->input->post('reportnumber');
+		$data["reportnumber"] = $this->input->post('reportnumber');
+		$data["cid"] = $this->input->post('cid');
+		$data["user"] = $this->input->post('user');
+		
+		$data["title"] = " Report For Last 7 Days For ".$this->input->post('user');
+		if($this->input->post("sdate") && $this->input->post("edate")){
+
+			$data["title"] = " Report between ".$this->input->post("sdate")." and ".$this->input->post("edate")." for ".$this->input->post('user');
+		}
+		
+		$data["consumerList"] = $this->SearchHistory_model->getTotalByUser($client,$this->input->post("sdate"),$this->input->post("edate"));	
+		$data["sdate"] = $this->input->post("sdate");
+		$data["edate"] = $this->input->post("edate");
+		$data["content"]= "client/clientsearchhistory";
+		$this->load->view('site',$data);
+	}
+	
+	
+	public function tracereport(){
+		
+		$data["reportnumber"] = $this->input->post('reportnumber');
+		$data["cid"] = $this->input->post('cid');
+		$data["user"] = $this->input->post('user');
+		$data["sdate"] = $this->input->post("sdate");
+		$data["edate"] = $this->input->post("edate");	
+		$data["page"] = $this->input->post("page");
+		
+		if(!$this->session->userdata('username')){
+			 redirect('user/login');
+		}
+		
+		/**$hasAccess = $this->checkpermission->hasAccess($this->session->userdata('usermenu'),$this->session->userdata('submenu'),'searchhistory','view');
+
+		if($hasAccess->hasAccessToController === true && $hasAccess->hasAccessToFunction === false){
+			$data["content"] = 'permissions/access_denied';
+			return $this->load->view('site',$data);
+		}else if($hasAccess->hasAccessToController === false && $hasAccess->hasAccessToFunction === false){
+			$data["content"] = 'permissions/access_denied';
+			return $this->load->view('site',$data);
+		}
+		*/
+		
+		if(!$this->session->userdata('agreed_tc_and_c')){
+			 redirect('user/logout');
+		}		
+		$data = array('id'=>$this->session->userdata('username'),'site'=>'tracing portal prod');
+		$response = $this->redisclient->request($data);
+
+		if($response->status != "success"){
+			$this->session->set_userdata(array('tokensession' => 'Session expired, please login again'));
+			redirect('user/login');
+		}
+
+
+		$this->load->model("SearchHistory_model");
+		$data["reports_type"] = $this->reports_type;
+		$data["reports"] = $this->reports;		
+		$data["successFlash"] = "";
+		$data["infoFlash"] = "";
+		$data["errorFlash"] = "";
+		$data["errorMessage"] = "";
+		$response = $this->SearchHistory_model->findById($this->input->post('page'));
+		$data['report'] = json_decode($response[0]->outputdata);
+		$this->session->set_userdata(array('report_download'=>$data['report']));
+		$data["content"] = "client/trace-report";
+		$this->load->view('site',$data);
+	}
+	
+	public function indigentreport(){
+		
+		$data["reportnumber"] = $this->input->post('reportnumber');
+		$data["cid"] = $this->input->post('cid');
+		$data["user"] = $this->input->post('user');
+		$data["sdate"] = $this->input->post("sdate");
+		$data["edate"] = $this->input->post("edate");
+		$data["page"] = $this->input->post("page");
+		
+		if(!$this->session->userdata('username')){
+			 redirect('user/login');
+		}
+		
+		/**$hasAccess = $this->checkpermission->hasAccess($this->session->userdata('usermenu'),$this->session->userdata('submenu'),'searchhistory','view');
+
+		if($hasAccess->hasAccessToController === true && $hasAccess->hasAccessToFunction === false){
+			$data["content"] = 'permissions/access_denied';
+			return $this->load->view('site',$data);
+		}else if($hasAccess->hasAccessToController === false && $hasAccess->hasAccessToFunction === false){
+			$data["content"] = 'permissions/access_denied';
+			return $this->load->view('site',$data);
+		}
+		*/
+		
+		if(!$this->session->userdata('agreed_tc_and_c')){
+			 redirect('user/logout');
+		}		
+		$data = array('id'=>$this->session->userdata('username'),'site'=>'tracing portal prod');
+		$response = $this->redisclient->request($data);
+
+		if($response->status != "success"){
+			$this->session->set_userdata(array('tokensession' => 'Session expired, please login again'));
+			redirect('user/login');
+		}
+
+
+		$this->load->model("SearchHistory_model");
+		$data["reports_type"] = $this->reports_type;
+		$data["reports"] = $this->reports;		
+		$data["successFlash"] = "";
+		$data["infoFlash"] = "";
+		$data["errorFlash"] = "";
+		$data["errorMessage"] = "";
+		$response = $this->SearchHistory_model->findById($this->input->post('page'));
+		$responseX = json_decode($response[0]->outputdata);
+		$data['familyData'] = $responseX->familyData;
+		$data['directorship'] = $responseX->directorship;
+		$data['report'] = $responseX->report;
+		$this->session->set_userdata(array('report_download'=>$responseX));
+		$data["content"] = "client/showreport";
+		$this->load->view('site',$data);
+	}
+	
+	
+	public function procurementreport(){
+		
+
+		
+		$data["reportnumber"] = $this->input->post('reportnumber');
+		$data["cid"] = $this->input->post('cid');
+		$data["user"] = $this->input->post('user');
+		$data["sdate"] = $this->input->post("sdate");
+		$data["edate"] = $this->input->post("edate");
+		$data["page"] = $this->input->post("page");
+		
+		if(!$this->session->userdata('username')){
+			 redirect('user/login');
+		}
+		
+		/**$hasAccess = $this->checkpermission->hasAccess($this->session->userdata('usermenu'),$this->session->userdata('submenu'),'searchhistory','view');
+
+		if($hasAccess->hasAccessToController === true && $hasAccess->hasAccessToFunction === false){
+			$data["content"] = 'permissions/access_denied';
+			return $this->load->view('site',$data);
+		}else if($hasAccess->hasAccessToController === false && $hasAccess->hasAccessToFunction === false){
+			$data["content"] = 'permissions/access_denied';
+			return $this->load->view('site',$data);
+		}
+		*/
+		
+		if(!$this->session->userdata('agreed_tc_and_c')){
+			 redirect('user/logout');
+		}		
+		$data = array('id'=>$this->session->userdata('username'),'site'=>'tracing portal prod');
+		$response = $this->redisclient->request($data);
+
+		if($response->status != "success"){
+			$this->session->set_userdata(array('tokensession' => 'Session expired, please login again'));
+			redirect('user/login');
+		}
+
+
+		$this->load->model("SearchHistory_model");
+		$data["reports_type"] = $this->reports_type;
+		$data["reports"] = $this->reports;		
+		$data["successFlash"] = "";
+		$data["infoFlash"] = "";
+		$data["errorFlash"] = "";
+		$data["errorMessage"] = "";
+		$response = $this->SearchHistory_model->findById($this->input->post('page'));
+		$responseX = json_decode($response[0]->outputdata);
+		$data['report'] = $responseX->report;
+		$data['personaldetails']['details'] = $responseX->personaldetails;
+		$data['blackListed']=$responseX->blackListed;
+		$this->session->set_userdata(array('report_download'=>$responseX));
+		$data["content"] = "client/customerdatalist.php";
 		$this->load->view('site',$data);
 	}
 }

@@ -142,7 +142,8 @@
 							<td>Trace Report</td>
 							<td>Indigent Report</td>
 							<td>Procurement Report</td>
-							<td class="pull-right">Total</td>
+							<td><span class="pull-left">Total</span></td>
+							<td><span class="pull-right">Detailed Report</span></td>
 						 </tr>
 						<?php
 
@@ -154,7 +155,17 @@
 							<td><span class="pull-left"><?php echo (($reportCountVal["traceCount"] != "")?$reportCountVal["traceCount"]:0);?></span></td>
 							<td><span class="pull-left"><?php echo (($reportCountVal["indigentreport"]!= "")?$reportCountVal["indigentreport"]:0);?></span></td>
 							<td><span class="pull-left"><?php echo (($reportCountVal["procurementCount"]!= "")?$reportCountVal["procurementCount"]:0);?></span></td>
-							<td><span class="pull-right"><?php echo (($total != "")?$total:0);?></span></td>
+							<td><span class="pull-left"><?php echo (($total != "")?$total:0);?></span></td>
+							<td><span class="pull-right">
+								<form data-toggle="validator" role="Users form" action="<?php echo site_url();?>/client/reportperuser" method="post" id="form-search">
+									<input type="hidden" name="reportnumber" id="reportnumber" value="<?php echo $reportCountVal["id"];?>" />
+									<input type="hidden" name="sdate" id="sdate" value="<?php echo $sdate;?>" />
+									<input type="hidden" name="edate" id="edate" value="<?php echo $edate;?>" />
+									<input type="hidden" name="cid" id="cid" value="<?php echo $cid;?>" />
+									<input type="hidden" name="user" id="user" value="<?php echo $reportCountKey;?>" />
+									<button class="btn btn-primary" type="submit"><i class="fa fa-search" aria-hidden="true"></i>&nbsp; View</button>
+								</form>
+							</span></td>
 						 </tr>
 						<?php } ?>
 						</table>

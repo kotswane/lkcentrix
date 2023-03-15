@@ -50,6 +50,16 @@
 				return $query->result();
         }
 		
+		public function getTotalByUser($userId,$startDate="",$endDate="")
+        {
+			$sql = "SELECT * FROM search_history WHERE userId='".$userId."' AND created BETWEEN '".$startDate."' AND '".$endDate."';";
+			if(($startDate == "") && ($endDate == "")){
+				$sql = "SELECT * FROM search_history WHERE userId='".$userId."' AND created >=DATE(NOW()) - INTERVAL 7 DAY;";
+			}
+			$query=$this->db->query($sql);
+			return $query->result();
+        }
+		
 		public function findById($id)
         {
                 $query = $this->db->get_where('search_history', array('id' => $id));
@@ -57,9 +67,9 @@
         }
 		
 		public function getTotalByClient($clientId,$startDate="",$endDate=""){
-			$sql = "select u.username as user,s.reportname as report, count(s.reportname) as totalCount from users u inner join search_history s on u.id=s.userId AND u.clientId='".$clientId."' AND s.created BETWEEN '".$startDate."' AND '".$endDate."' group by s.reportname,u.username;";
+			$sql = "select u.id, u.username as user,s.reportname as report, count(s.reportname) as totalCount from users u inner join search_history s on u.id=s.userId AND u.clientId='".$clientId."' AND s.created BETWEEN '".$startDate."' AND '".$endDate."' group by s.reportname,u.username;";
 			if(($startDate == "") && ($endDate == "")){
-				$sql = "select u.username as user,s.reportname as report, count(s.reportname) as totalCount from users u inner join search_history s on u.id=s.userId AND u.clientId='".$clientId."' AND s.created >=DATE(NOW()) - INTERVAL 117 DAY GROUP BY s.reportname,u.username;";		
+				$sql = "select u.id, u.username as user,s.reportname as report, count(s.reportname) as totalCount from users u inner join search_history s on u.id=s.userId AND u.clientId='".$clientId."' AND s.created >=DATE(NOW()) - INTERVAL 7 DAY GROUP BY s.reportname,u.username;";		
 			}
 			//print_r($sql);
 			$query=$this->db->query($sql);

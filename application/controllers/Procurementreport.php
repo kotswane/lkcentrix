@@ -86,7 +86,7 @@ class Procurementreport extends CI_Controller {
 		if ($this->input->post("postback")=="post"){
 				
 			
-			$recaptchaResponse = trim($this->input->post('g-recaptcha-response'));
+			/*$recaptchaResponse = trim($this->input->post('g-recaptcha-response'));
 			
 			$userIp=$this->input->ip_address();
 			$secret = $this->config->item('google_secret');
@@ -98,18 +98,18 @@ class Procurementreport extends CI_Controller {
 			$output = curl_exec($ch); 
 			curl_close($ch);      
 			 
-			$status = json_decode($output, true);	
+			$status = json_decode($output, true);*/	
 
 			if ($this->input->post("fromlist")=="back"){
 				$status['success'] = true;
 			}	
 			
-			if ($status['success'] == false){
+			/*if ($status['success'] == false){
 				$data['errorMessage'] = 'Sorry Recaptcha Unsuccessful!!';
 				$data["content"] = "procurementreport/companyname";
 				$data["consumerList"] = new stdClass();
 				$this->load->view('site',$data);
-			} else {
+			} else {*/
 
 				$IsTicketValid = array("XDSConnectTicket"=>$this->session->userdata('tokenId'));
 				
@@ -198,7 +198,7 @@ class Procurementreport extends CI_Controller {
 						
 					}
 				}
-			}
+			//}
 		}else {
 			$data["consumerList"] = new stdClass();
 			$data["content"] = "procurementreport/companyname";
@@ -244,7 +244,7 @@ class Procurementreport extends CI_Controller {
 		if ($this->input->post("postback")=="post"){
 				
 			
-			$recaptchaResponse = trim($this->input->post('g-recaptcha-response'));
+			/*$recaptchaResponse = trim($this->input->post('g-recaptcha-response'));
 			
 			$userIp=$this->input->ip_address();
 			$secret = $this->config->item('google_secret');
@@ -255,17 +255,17 @@ class Procurementreport extends CI_Controller {
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
 			$output = curl_exec($ch); 
 			curl_close($ch);      
-			$status = json_decode($output, true);
+			$status = json_decode($output, true);*/
 			if ($this->input->post("fromlist")=="back"){
 				$status['success'] = true;
 			}
 						
-			if ($status['success'] == false){
+			/*if ($status['success'] == false){
 				$data['errorMessage'] = 'Sorry Recaptcha Unsuccessful!!';
 				$data["content"] = "procurementreport/companyregistrationno";
 
 				$this->load->view('site',$data);
-			} else {
+			} else {*/
 
 				$IsTicketValid = array("XDSConnectTicket"=>$this->session->userdata('tokenId'));
 				
@@ -351,7 +351,7 @@ class Procurementreport extends CI_Controller {
 						
 					}
 				}
-			}
+			//}
 		}else {
 			$data["content"] = "procurementreport/companyregistrationno";
 			$this->load->view('site',$data);

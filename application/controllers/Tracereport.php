@@ -105,7 +105,7 @@ class Tracereport extends CI_Controller {
 		
 		if ($this->input->post("postback")=="post"){
 			
-			$recaptchaResponse = trim($this->input->post('g-recaptcha-response'));
+			/*$recaptchaResponse = trim($this->input->post('g-recaptcha-response'));
 			$userIp=$this->input->ip_address();
 			$secret = $this->config->item('google_secret');
 			$url="https://www.google.com/recaptcha/api/siteverify?secret=".$secret."&response=".$recaptchaResponse."&remoteip=".$userIp;
@@ -122,7 +122,7 @@ class Tracereport extends CI_Controller {
 				$data['errorMessage'] = 'Sorry Recaptcha Unsuccessful!!';
 				$data["content"] = "tracereport/id-search";
 				$this->load->view('site',$data);
-			} else {
+			} else {*/
 				
 				$IsTicketValid = array("XDSConnectTicket"=>$this->session->userdata('tokenId'));
 			
@@ -256,98 +256,13 @@ class Tracereport extends CI_Controller {
 								$arrOutput = json_decode($objJsonDocument, TRUE);
 								$data["consumerList"]["DetailsViewed"][]= (($arrOutput["Result"]["DetailsViewedYN"]=="true")? "Yes":"No");
 							}								
-					}			
-					
-					
-					/*
-					
-					$connectGetBonusSegments = $this->client->ConnectGetBonusSegments(array(
-					'ConnectTicket'=>$this->session->userdata('tokenId'),
-					'EnquiryResultID' => $myEnquiryResultID,
-					'EnquiryReason' => 'Consumer Trace'
-					));
-					
-					$strConnectGetBonusSegments = simplexml_load_string($connectGetBonusSegments->ConnectGetBonusSegmentsResult,"SimpleXMLElement");
-					$objJsonDocument = json_encode($strConnectGetBonusSegments);
-					$arrOutput = json_decode($objJsonDocument);
-						
-					if(is_object($arrOutput->Segments)){
-						$strConnectGetBonusSegments->Segments->BonusViewed='True';
-					}else{
-						foreach($arrOutput->Segments as $segmenValK => $segmenValV){
-							$arrOutput->Segments[$segmenValK]->BonusViewed='True';
-						}	
 					}
-	
-	
-					 $document = new DOMDocument();
-					 $document->appendChild($bonusSegments = $document->createElement('BonusSegments'));
-					 $hasSegments =false;
-					 if(!is_object($arrOutput->Segments)){
-						 foreach($arrOutput->Segments as $segmenValK => $segmenValV){
-
-							$bonusSegments->appendChild($segments = $document->createElement('Segments')); 
-							$segments->appendChild($document->createElement('DataSegmentID'))->textContent = $segmenValV->DataSegmentID;
-							$segments->appendChild($document->createElement('DataSegmentName'))->textContent = $segmenValV->DataSegmentName;
-							$segments->appendChild($document->createElement('DataSegmentDisplayText'))->textContent = $segmenValV->DataSegmentDisplayText;
-							$segments->appendChild($document->createElement('BonusViewed'))->textContent = $segmenValV->BonusViewed;
-							$segments->appendChild($document->createElement('BonusPrice'))->textContent = $segmenValV->BonusPrice;
-							$hasSegments = true;
-						 }
-					 }else{
-						  if($arrOutput->Segments){
-							$hasSegments = true;
-							$bonusSegments->appendChild($segments = $document->createElement('Segments')); 
-							$segments->appendChild($document->createElement('DataSegmentID'))->textContent = $arrOutput->Segments->DataSegmentID;
-							$segments->appendChild($document->createElement('DataSegmentName'))->textContent = $arrOutput->Segments->DataSegmentName;
-							$segments->appendChild($document->createElement('DataSegmentDisplayText'))->textContent = $arrOutput->Segments->DataSegmentDisplayText;
-							$segments->appendChild($document->createElement('BonusViewed'))->textContent = $arrOutput->Segments->BonusViewed;
-							$segments->appendChild($document->createElement('BonusPrice'))->textContent = $arrOutput->Segments->BonusPrice;
-						  }							
-					 }
-					 
-					if ($hasSegments == true){ 
-						$document->formatOutput = true;
-
-						$responseConnectGetResult = $this->client->ConnectGetResult(array(
-						'EnquiryID' => $myEnquiryID,
-						'EnquiryResultID' => $myEnquiryResultID, 
-						'ConnectTicket' => $this->session->userdata('tokenId'), 
-						'ProductID' => 2,
-						'BonusXML' => $document->saveXML()));	
-					}else{
-						$responseConnectGetResult = $this->client->ConnectGetResult(array(
-						'EnquiryID' => $myEnquiryID,
-						'EnquiryResultID' => $myEnquiryResultID, 
-						'ConnectTicket' => $this->session->userdata('tokenId'), 
-						'ProductID' => 2));
-					}
-
-
-					$xml = simplexml_load_string($responseConnectGetResult->ConnectGetResultResult,"SimpleXMLElement");
-					$objJsonDocument = json_encode($xml);
-					$arrOutput = json_decode($objJsonDocument);
-					$data['report'] = $arrOutput;
-
-					$searchdataArray =(array)$data['report'];
-					$searchHistory = array(
-							"reportname"=>"tracereport",
-							"userId"=>$this->session->userdata('userId'),
-							"searchdata"=>json_encode($this->session->userdata('searchdata')),
-							"outputdata" => json_encode($searchdataArray),
-							"reporttype" => 'idsearch'
-					);
-					
-					$this->SearchHistory_model->create($searchHistory);
-					$this->session->set_userdata(array('report' =>$data['report']));
-					$data["content"] = "tracereport/trace-report";
-					$this->load->view('site',$data);*/
 					
 					$data["content"] = "tracereport/id-search";
 					$this->load->view('site',$data);
 				}
 
-			}				
+			//}				
 			
 		}else{
 			$data["consumerList"]["details"] = array();
@@ -526,7 +441,7 @@ class Tracereport extends CI_Controller {
 		if ($this->input->post("postback")=="post"){
 			
 			
-			$recaptchaResponse = trim($this->input->post('g-recaptcha-response'));
+			/*$recaptchaResponse = trim($this->input->post('g-recaptcha-response'));
 			$userIp=$this->input->ip_address();
 			$secret = $this->config->item('google_secret');
 			$url="https://www.google.com/recaptcha/api/siteverify?secret=".$secret."&response=".$recaptchaResponse."&remoteip=".$userIp;
@@ -543,7 +458,7 @@ class Tracereport extends CI_Controller {
 				$data['errorMessage'] = 'Sorry Recaptcha Unsuccessful!!';
 				$data["content"] = "tracereport/addresssearch";
 				$this->load->view('site',$data);
-			} else {
+			} else {*/
 				if(!$this->input->post('listprovinces')){
 					redirect('tracereport/addresssearch');
 				}
@@ -696,7 +611,7 @@ class Tracereport extends CI_Controller {
 				}
 				$data["content"] = "tracereport/addresssearch";
 				$this->load->view('site',$data);
-			}			
+			//}			
 		}else{
 			$data["consumerList"]["details"] = array();
 			$data["content"] = "tracereport/addresssearch";
@@ -740,7 +655,7 @@ class Tracereport extends CI_Controller {
 		$data["consumerList"] = array();
 		
 		if ($this->input->post("postback")=="post"){
-			$recaptchaResponse = trim($this->input->post('g-recaptcha-response'));
+			/*$recaptchaResponse = trim($this->input->post('g-recaptcha-response'));
 			$userIp=$this->input->ip_address();
 			$secret = $this->config->item('google_secret');
 			$url="https://www.google.com/recaptcha/api/siteverify?secret=".$secret."&response=".$recaptchaResponse."&remoteip=".$userIp;
@@ -757,7 +672,7 @@ class Tracereport extends CI_Controller {
 				$data['errorMessage'] = 'Sorry Recaptcha Unsuccessful!!';
 				$data["content"] = "tracereport/telephone-search";
 				$this->load->view('site',$data);
-			} else {			
+			} else {*/			
 				if((!$this->input->post('cellphoneNo')) && (!$this->input->post('telephoneNo'))){
 					redirect('tracereport/telephonesearch');
 				}	
@@ -874,7 +789,7 @@ class Tracereport extends CI_Controller {
 					}
 
 				}
-			}
+			//}
 		} else {
 			$data["consumerList"]["details"] = array();
 		}

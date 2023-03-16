@@ -61,9 +61,7 @@
                   <label class="col-form-label">Postal Code</label>
                     <input type="text"  class="form-control" id="postalCode" name="postalCode" value="<?php echo set_value('postalCode');?>" placeholder="Ente Postal Code" />
                  </div>
-				  <div class="form-group has-feedback">
-					<div class="g-recaptcha" data-sitekey="<?php echo $this->config->item('google_key') ?>"></div>
-                  </div>
+
                  </div>
                   
                 </div> 

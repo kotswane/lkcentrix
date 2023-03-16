@@ -31,9 +31,7 @@
                     <input type="text"  class="form-control" value="<?php echo set_value('companyname');?>" id="companyname" name="companyname" placeholder="Company Name" maxlength="60" autofocus required />
                  </div>
             </div>
-				<div class="form-group has-feedback">
-					<div class="g-recaptcha" data-sitekey="<?php echo $this->config->item('google_key') ?>"></div>
-				</div>
+	
             <div class="box-footer">
                 <button class="btn btn-primary" type="button" id="button-search"><i class="fa fa-search" aria-hidden="true"></i>&nbsp; Search</button>
             </div>

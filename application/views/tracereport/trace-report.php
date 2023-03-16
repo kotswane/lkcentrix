@@ -208,7 +208,7 @@
               </div>
  
 			<div class="panel panel-primary">
-                <div class="panel-heading">Potential Fraud Indicators</div>
+                <div class="panel-heading">Home Affairs Verification</div>
                 <div class="panel-body">
                     <div class="col">
 					

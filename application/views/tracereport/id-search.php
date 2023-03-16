@@ -70,9 +70,7 @@
 				<div id="spinner" class="spinner" style="display:none;"  class="form-group has-feedback">
 					<strong>please wait while loading ....</strong>
 				</div>
-				<div class="form-group has-feedback">
-						<div class="g-recaptcha" data-sitekey="<?php echo $this->config->item('google_key') ?>"></div>
-				</div>
+
                 <button class="btn btn-primary" id="button-search" type="button"><i class="fa fa-search" aria-hidden="true"></i>&nbsp; Search</button>
             </div>
             <input type="hidden" name="postback" value="post"/>

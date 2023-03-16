@@ -75,7 +75,7 @@ class Indigentreport extends CI_Controller {
 		
 		if ($this->input->post("postback")=="post"){
 		
-			$recaptchaResponse = trim($this->input->post('g-recaptcha-response'));
+			/*$recaptchaResponse = trim($this->input->post('g-recaptcha-response'));
 			$userIp=$this->input->ip_address();
 			$secret = $this->config->item('google_secret');
 			$url="https://www.google.com/recaptcha/api/siteverify?secret=".$secret."&response=".$recaptchaResponse."&remoteip=".$userIp;
@@ -92,7 +92,7 @@ class Indigentreport extends CI_Controller {
 				$data['errorMessage'] = 'Sorry Recaptcha Unsuccessful!!';
 				//$data["content"] = "indigentreport/idsearch";
 				//$this->load->view('site',$data);
-			}else {		
+			}else {	*/	
 				$IsTicketValid = array("XDSConnectTicket"=>$this->session->userdata('tokenId'));
 				$this->client = $this->mysoapclient->getClient();
 				$resp = $this->client->IsTicketValid($IsTicketValid);
@@ -157,7 +157,7 @@ class Indigentreport extends CI_Controller {
 				
 				}
 				
-			}
+			//}
 		}
 		$data["content"] = "indigentreport/idsearch";
 		$this->load->view('site',$data);

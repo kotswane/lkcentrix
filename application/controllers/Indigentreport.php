@@ -163,6 +163,130 @@ class Indigentreport extends CI_Controller {
 		$this->load->view('site',$data);
 	}
 	
+	public function lineage(){
+		if(!$this->session->userdata('username')){
+			 redirect('user/login');
+		}
+		
+		$hasAccess = $this->checkpermission->hasAccess($this->session->userdata('usermenu'),$this->session->userdata('submenu'),'indigentreport','idsearch');
+
+		if($hasAccess->hasAccessToController === true && $hasAccess->hasAccessToFunction === false){
+			$data["content"] = 'permissions/access_denied';
+			return $this->load->view('site',$data);
+		}else if($hasAccess->hasAccessToController === false && $hasAccess->hasAccessToFunction === false){
+			$data["content"] = 'permissions/access_denied';
+			return $this->load->view('site',$data);
+		}
+		
+		if(!$this->session->userdata('agreed_tc_and_c')){
+			 redirect('user/logout');
+		}		
+		$data = array('id'=>$this->session->userdata('username'),'site'=>'tracing portal prod');
+		$response = $this->redisclient->request($data);
+
+		if($response->status != "success"){
+			$this->session->set_userdata(array('tokensession' => 'Session expired, please login again'));
+			redirect('user/login');
+		}
+		$data["reports_type"] = $this->reports_type;
+		$data["reports"] = $this->reports;		
+		$data["successFlash"] = "";
+		$data["infoFlash"] = "";
+		$data["errorFlash"] = "";
+		$data["errorMessage"] = "";
+		$data["consumerList"] = array();
+		
+		
+		if ($this->input->post("postback")=="post"){
+		
+			/*$recaptchaResponse = trim($this->input->post('g-recaptcha-response'));
+			$userIp=$this->input->ip_address();
+			$secret = $this->config->item('google_secret');
+			$url="https://www.google.com/recaptcha/api/siteverify?secret=".$secret."&response=".$recaptchaResponse."&remoteip=".$userIp;
+	 
+			$ch = curl_init(); 
+			curl_setopt($ch, CURLOPT_URL, $url); 
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+			$output = curl_exec($ch); 
+			curl_close($ch);      
+			 
+			$status= json_decode($output, true);
+
+			if ($status['success'] == false){
+				$data['errorMessage'] = 'Sorry Recaptcha Unsuccessful!!';
+				//$data["content"] = "indigentreport/idsearch";
+				//$this->load->view('site',$data);
+			}else {	*/	
+				$IsTicketValid = array("XDSConnectTicket"=>$this->session->userdata('tokenId'));
+				$this->client = $this->mysoapclient->getClient();
+				$resp = $this->client->IsTicketValid($IsTicketValid);
+				if($resp->IsTicketValidResult != true || $resp->IsTicketValidResult ==""){
+					$this->session->set_userdata(array('tokenssion' =>'Session expired, please login again'));
+					redirect('user/login');
+				}
+				
+				
+				$responseConsumer = $this->client->ConnectConsumerMatch(array(
+				'IdNumber'=>$this->input->post('idno'),
+				'ConnectTicket'=>$this->session->userdata('tokenId'),
+				'ProductId' => 132,
+				'EnquiryReason' => 'Consumer Trace'
+				));
+				
+				$xml = simplexml_load_string($responseConsumer->ConnectConsumerMatchResult);
+			
+				
+				if ($xml->Error || $xml->NotFound){
+					
+					$auditlog = array(
+						"auditlog_reportname"=>"indigentreport",
+						"auditlog_userId"=>$this->session->userdata('userId'),
+						"auditlog_reporttype"=>"lineage",
+						"auditlog_searchdata"=>json_encode(array(
+						'IdNumber'=>$this->input->post('idno'),
+						'ProductId' => 132,
+						'EnquiryReason' => 'Consumer Trace'
+						)),
+						"auditlog_fnexecuted" => "ConnectConsumerMatch",
+						"auditlog_issuccess" => false
+					);
+					$this->Auditlog_model->save($auditlog);
+					
+					if($xml->Error){
+						$data["errorMessage"] = $xml->Error[0];
+					}else{
+						$data["errorMessage"] = $xml->NotFound;
+					}				
+				}else{
+					
+					$objJsonDocument = json_encode($xml);
+					$arrOutput = json_decode($objJsonDocument);
+					$data["consumerList"] = $arrOutput;
+					$auditlog = array(
+						"auditlog_reportname"=>"indigentreport",
+						"auditlog_userId"=>$this->session->userdata('userId'),
+						"auditlog_reporttype"=>"lineage",
+						"auditlog_searchdata"=>json_encode(array(
+						'IdNumber'=>$this->input->post('idno'),
+						'ProductId' => 132,
+						'EnquiryReason' => 'Consumer Trace'
+						)),
+						"auditlog_fnexecuted" => "ConnectConsumerMatch",
+						"auditlog_issuccess" => true
+					);
+					$this->Auditlog_model->save($auditlog);
+					
+					$this->session->set_userdata(array('searchdata' => array('IdNumber'=>$this->input->post('idno'),'ProductId' => 132,'EnquiryReason' => 'Consumer Trace')));
+					$this->session->set_userdata(array('reporttype'=>'lineage'));
+				
+				}
+				
+			//}
+		}
+		$data["content"] = "indigentreport/lineage";
+		$this->load->view('site',$data);
+	}
+	
 	public function getreport(){
 		if(!$this->session->userdata('username')){
 			 redirect('user/login');
@@ -201,6 +325,14 @@ class Indigentreport extends CI_Controller {
 		
 		
 		$idnumber = $this->uri->segment(5);
+		$lineage = $this->uri->segment(6);
+		
+		if($lineage == "lineage"){
+			$searhtype = "lineage";
+		}else{
+			$searhtype = "id-search";
+		}
+		
 		$response = $this->client->ConnectGetFamilyIDPhotoVerification(array(
 					'ConnectTicket' => $this->session->userdata('tokenId'), 
 					'ProductID' => 239, 
@@ -225,14 +357,18 @@ class Indigentreport extends CI_Controller {
 			$data["XDSError"] = $xml->Error;
 			$data["familyData"] = array();
 			$this->session->set_userdata(array('familyData' =>$data['familyData']));
-			$data["content"] = "indigentreport/showreport";
+			if($lineage == "lineage"){
+				$data["content"] = "indigentreport/showlineagereport";
+			}else{
+				$data["content"] = "indigentreport/showreport";
+			}
 			
 			$this->load->view('site',$data);
 		}else {
 			$auditlog = array(
 			"auditlog_reportname"=>"indigentreport",
 			"auditlog_userId"=>$this->session->userdata('userId'),
-			"auditlog_reporttype"=>"id-search",
+			"auditlog_reporttype"=>$searhtype,
 			"auditlog_searchdata"=>json_encode(array(
 			'ProductID' => 239, 
 			'IdNumber' => $idnumber)),
@@ -274,10 +410,11 @@ class Indigentreport extends CI_Controller {
 				$objJsonDocument = json_encode($xml);
 			    $arrOutput = json_decode($objJsonDocument);				
 
+			
 				$auditlog = array(
 				"auditlog_reportname"=>"indigentreport",
 				"auditlog_userId"=>$this->session->userdata('userId'),
-				"auditlog_reporttype"=>"id-search",
+				"auditlog_reporttype"=> $searhtype,
 				"auditlog_searchdata"=>json_encode(array('IdNumber' => $idnumber)),
 				"auditlog_fnexecuted" => "ConnectDirectorMatch",
 				"auditlog_issuccess" => true);
@@ -289,35 +426,76 @@ class Indigentreport extends CI_Controller {
 					redirect('user/login');
 				}
 				
-				$data['directorship'] = array();
-				if(is_object($arrOutput->DirectorDetails))
-				{
-						$response = $this->client->ConnectGetResult(array(
-						'EnquiryID' => $arrOutput->DirectorDetails->EnquiryID,
-						'EnquiryResultID' => $arrOutput->DirectorDetails->EnquiryResultID, 
-						'ConnectTicket' => $this->session->userdata('tokenId'), 
-						'ProductID' => 14));
+				if($lineage != "lineage"){
+					$data['directorship'] = array();
+					if(is_object($arrOutput->DirectorDetails))
+					{
+							$response = $this->client->ConnectGetResult(array(
+							'EnquiryID' => $arrOutput->DirectorDetails->EnquiryID,
+							'EnquiryResultID' => $arrOutput->DirectorDetails->EnquiryResultID, 
+							'ConnectTicket' => $this->session->userdata('tokenId'), 
+							'ProductID' => 14));
 
-						$auditlog = array(
-						"auditlog_reportname"=>"indigentreport",
-						"auditlog_userId"=>$this->session->userdata('userId'),
-						"auditlog_reporttype"=>"id-search",
-						"auditlog_searchdata"=>json_encode(array(
-						'EnquiryID' => $arrOutput->DirectorDetails->EnquiryID,
-						'EnquiryResultID' => $arrOutput->DirectorDetails->EnquiryResultID,
-						'ProductID' => 14)),
-						"auditlog_fnexecuted" => "ConnectGetResult",
-						"auditlog_issuccess" => true);
-						$this->Auditlog_model->save($auditlog);
+							$auditlog = array(
+							"auditlog_reportname"=>"indigentreport",
+							"auditlog_userId"=>$this->session->userdata('userId'),
+							"auditlog_reporttype"=>"id-search",
+							"auditlog_searchdata"=>json_encode(array(
+							'EnquiryID' => $arrOutput->DirectorDetails->EnquiryID,
+							'EnquiryResultID' => $arrOutput->DirectorDetails->EnquiryResultID,
+							'ProductID' => 14)),
+							"auditlog_fnexecuted" => "ConnectGetResult",
+							"auditlog_issuccess" => true);
+							$this->Auditlog_model->save($auditlog);
+							
+							$xml = simplexml_load_string($response->ConnectGetResultResult,"SimpleXMLElement");
+							$objJsonDocument = json_encode($xml);
+							$arrOutput = json_decode($objJsonDocument);
+							$data['directorship'][] = $arrOutput->ConsumerDirectorShipLink;
+							$this->session->set_userdata(array('directorship' =>$data['directorship']));
+							
+							$searchdataArray = array("directorship" => $data['directorship'], 'familyData' => $data['familyData'], 'report' => $data['report']);
+							
+							$searchHistory = array(
+									"reportname"=>"indigentreport",
+									"userId"=>$this->session->userdata('userId'),
+									"searchdata"=>json_encode($this->session->userdata('searchdata')),
+									"outputdata" => json_encode($searchdataArray),
+									"reporttype" => $this->session->userdata('reporttype')
+							);
+					
+							$this->SearchHistory_model->create($searchHistory);
+					}else{
+						foreach($arrOutput->DirectorDetails as $DirectorDetails)
+						{
+							$response = $this->client->ConnectGetResult(array(
+							'EnquiryID' => $DirectorDetails->EnquiryID,
+							'EnquiryResultID' => $DirectorDetails->EnquiryResultID, 
+							'ConnectTicket' => $this->session->userdata('tokenId'), 
+							'ProductID' => 14));
+
+							$auditlog = array(
+							"auditlog_reportname"=>"indigentreport",
+							"auditlog_userId"=>$this->session->userdata('userId'),
+							"auditlog_reporttype"=>"id-search",
+							"auditlog_searchdata"=>json_encode(array(
+							'EnquiryID' => $DirectorDetails->EnquiryID,
+							'EnquiryResultID' => $DirectorDetails->EnquiryResultID,
+							'ProductID' => 14)),
+							"auditlog_fnexecuted" => "ConnectGetResult",
+							"auditlog_issuccess" => true);
+							$this->Auditlog_model->save($auditlog);
+							
+							$xml = simplexml_load_string($response->ConnectGetResultResult,"SimpleXMLElement");
+							$objJsonDocument = json_encode($xml);
+							$arrOutputDirectorDetails = json_decode($objJsonDocument);
+							$data['directorship'][] = $arrOutputDirectorDetails->ConsumerDirectorShipLink;
+						}
 						
-						$xml = simplexml_load_string($response->ConnectGetResultResult,"SimpleXMLElement");
-						$objJsonDocument = json_encode($xml);
-						$arrOutput = json_decode($objJsonDocument);
-						$data['directorship'][] = $arrOutput->ConsumerDirectorShipLink;
 						$this->session->set_userdata(array('directorship' =>$data['directorship']));
 						
 						$searchdataArray = array("directorship" => $data['directorship'], 'familyData' => $data['familyData'], 'report' => $data['report']);
-						
+
 						$searchHistory = array(
 								"reportname"=>"indigentreport",
 								"userId"=>$this->session->userdata('userId'),
@@ -327,54 +505,23 @@ class Indigentreport extends CI_Controller {
 						);
 				
 						$this->SearchHistory_model->create($searchHistory);
-				}else{
-					foreach($arrOutput->DirectorDetails as $DirectorDetails)
-					{
-						$response = $this->client->ConnectGetResult(array(
-						'EnquiryID' => $DirectorDetails->EnquiryID,
-						'EnquiryResultID' => $DirectorDetails->EnquiryResultID, 
-						'ConnectTicket' => $this->session->userdata('tokenId'), 
-						'ProductID' => 14));
-
-						$auditlog = array(
-						"auditlog_reportname"=>"indigentreport",
-						"auditlog_userId"=>$this->session->userdata('userId'),
-						"auditlog_reporttype"=>"id-search",
-						"auditlog_searchdata"=>json_encode(array(
-						'EnquiryID' => $DirectorDetails->EnquiryID,
-						'EnquiryResultID' => $DirectorDetails->EnquiryResultID,
-						'ProductID' => 14)),
-						"auditlog_fnexecuted" => "ConnectGetResult",
-						"auditlog_issuccess" => true);
-						$this->Auditlog_model->save($auditlog);
 						
-						$xml = simplexml_load_string($response->ConnectGetResultResult,"SimpleXMLElement");
-						$objJsonDocument = json_encode($xml);
-						$arrOutputDirectorDetails = json_decode($objJsonDocument);
-						$data['directorship'][] = $arrOutputDirectorDetails->ConsumerDirectorShipLink;
 					}
-					
-					$this->session->set_userdata(array('directorship' =>$data['directorship']));
-					
-					$searchdataArray = array("directorship" => $data['directorship'], 'familyData' => $data['familyData'], 'report' => $data['report']);
-
-					$searchHistory = array(
-							"reportname"=>"indigentreport",
-							"userId"=>$this->session->userdata('userId'),
-							"searchdata"=>json_encode($this->session->userdata('searchdata')),
-							"outputdata" => json_encode($searchdataArray),
-							"reporttype" => $this->session->userdata('reporttype')
-					);
-			
-					$this->SearchHistory_model->create($searchHistory);
-					
-				}
 				
+			
+				}
 			}
-			$data["content"] = "indigentreport/showreport";
+			
+			if($lineage == "lineage"){
+				$data["content"] = "indigentreport/showlineagereport";
+			}else{
+				$data["content"] = "indigentreport/showreport";
+			}
+			
 			$this->load->view('site',$data);
 		}
 	}
+	
 	private function getSearchData($enquiryID, $enquiryResultID){
 		if(!$this->session->userdata('username')){
 			 redirect('user/login');

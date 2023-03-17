@@ -65,18 +65,18 @@
 			}
 		}
 		 
-		 if (!is_array($report['ConsumerDetail']['FirstName'])){
-			 $firstName = $report['ConsumerDetail']['FirstName']." ";
+		 if (!is_array($report->ConsumerDetail->FirstName)){
+			 $firstName = $report->ConsumerDetail->FirstName." ";
 		 }
-		 if (!is_array($report['ConsumerDetail']['SecondName'])){
-			 $secondName = $report['ConsumerDetail']['SecondName'];
-		 }
-		 
-		 if (!is_array($report['ConsumerDetail']['Surname'])){
-			 $Surname = $report['ConsumerDetail']['Surname'];
+		 if (!is_array($report->ConsumerDetail->SecondName)){
+			 $secondName = $report->ConsumerDetail->SecondName;
 		 }
 		 
-		 $ID = $report['ConsumerDetail']['IDNo'];
+		 if (!is_array($report->ConsumerDetail->Surname)){
+			 $Surname = $report->ConsumerDetail->Surname;
+		 }
+		 
+		 $ID = $report->ConsumerDetail->IDNo;
 		 $name=$firstName.$secondName;
 		 
 		if($XDSError!=""){ ?>

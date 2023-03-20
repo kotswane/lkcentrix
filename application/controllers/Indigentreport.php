@@ -602,5 +602,38 @@ class Indigentreport extends CI_Controller {
 		}
 
 	}
+	
+	
+	public function downloadidreportlineage(){
+		if(!$this->session->userdata('username')){
+			 redirect('user/login');
+		}
+		if(!$this->session->userdata('agreed_tc_and_c')){
+			 redirect('user/logout');
+		}		
+		$data = array('id'=>$this->session->userdata('username'),'site'=>'tracing portal prod');
+		$response = $this->redisclient->request($data);
+
+		if($response->status != "success"){
+			$this->session->set_userdata(array('tokensession' => 'Session expired, please login again'));
+			redirect('user/login');
+		}
+
+
+		try{
+			ob_clean();
+
+			$data['familyData'] = $this->session->userdata('familyData');
+			//$data['directorship'] = $this->session->userdata('directorship');
+			
+			$this->load->library('pdf');
+			$html = $this->load->view('indigentreport/pdf-lineage-report',$data, true);
+			$this->pdf->createPDF($html, "lineage-report-".time(), true);
+
+		}catch(Exception $ex){
+			print_r($ex);
+		}
+
+	}
 
 }

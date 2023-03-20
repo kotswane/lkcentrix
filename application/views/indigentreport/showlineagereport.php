@@ -124,7 +124,7 @@
 							<table class="table">
 								<tr>
 								<td>ID No</td>
-								<td><?php echo $ID;?></td>
+								<td><?php echo (is_object($myData->HAIDNO)?"":$myData->HAIDNO);?></td>
 								<td rowspan="7">
 								<?php	
 								if($familyData->Consumer->BioMetricVerificationResult->HasImage == 'True'){

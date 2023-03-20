@@ -346,7 +346,7 @@ class Indigentreport extends CI_Controller {
 			$auditlog = array(
 			"auditlog_reportname"=>"indigentreport",
 			"auditlog_userId"=>$this->session->userdata('userId'),
-			"auditlog_reporttype"=>"id-search",
+			"auditlog_reporttype"=>$searhtype,
 			"auditlog_searchdata"=>json_encode(array( 
 			'ProductID' => 239, 
 			'IdNumber' => $idnumber)),
@@ -392,6 +392,7 @@ class Indigentreport extends CI_Controller {
 			$response = $this->client->ConnectDirectorMatch(array(
 					'ConnectTicket' => $this->session->userdata('tokenId'), 
 					'IdNumber' => $idnumber));
+					
 			$xml = simplexml_load_string($response->ConnectDirectorMatchResult);		
 			if ($xml->Error || $xml->NotFound){
 				$data['directorship']= "";
@@ -399,7 +400,7 @@ class Indigentreport extends CI_Controller {
 				$auditlog = array(
 				"auditlog_reportname"=>"indigentreport",
 				"auditlog_userId"=>$this->session->userdata('userId'),
-				"auditlog_reporttype"=>"id-search",
+				"auditlog_reporttype"=>$searhtype,
 				"auditlog_searchdata"=>json_encode(array('IdNumber' => $idnumber)),
 				"auditlog_fnexecuted" => "ConnectDirectorMatch",
 				"auditlog_issuccess" => false);
@@ -439,7 +440,7 @@ class Indigentreport extends CI_Controller {
 							$auditlog = array(
 							"auditlog_reportname"=>"indigentreport",
 							"auditlog_userId"=>$this->session->userdata('userId'),
-							"auditlog_reporttype"=>"id-search",
+							"auditlog_reporttype"=>$searhtype,
 							"auditlog_searchdata"=>json_encode(array(
 							'EnquiryID' => $arrOutput->DirectorDetails->EnquiryID,
 							'EnquiryResultID' => $arrOutput->DirectorDetails->EnquiryResultID,
@@ -461,7 +462,7 @@ class Indigentreport extends CI_Controller {
 									"userId"=>$this->session->userdata('userId'),
 									"searchdata"=>json_encode($this->session->userdata('searchdata')),
 									"outputdata" => json_encode($searchdataArray),
-									"reporttype" => $this->session->userdata('reporttype')
+									"reporttype" => $searhtype
 							);
 					
 							$this->SearchHistory_model->create($searchHistory);
@@ -477,7 +478,7 @@ class Indigentreport extends CI_Controller {
 							$auditlog = array(
 							"auditlog_reportname"=>"indigentreport",
 							"auditlog_userId"=>$this->session->userdata('userId'),
-							"auditlog_reporttype"=>"id-search",
+							"auditlog_reporttype"=>$searhtype,
 							"auditlog_searchdata"=>json_encode(array(
 							'EnquiryID' => $DirectorDetails->EnquiryID,
 							'EnquiryResultID' => $DirectorDetails->EnquiryResultID,
@@ -499,16 +500,26 @@ class Indigentreport extends CI_Controller {
 						$searchHistory = array(
 								"reportname"=>"indigentreport",
 								"userId"=>$this->session->userdata('userId'),
-								"searchdata"=>json_encode($this->session->userdata('searchdata')),
+								"searchdata"=>json_encode(array('IdNumber' => $idnumber)),
 								"outputdata" => json_encode($searchdataArray),
-								"reporttype" => $this->session->userdata('reporttype')
+								"reporttype" => $searhtype
 						);
 				
 						$this->SearchHistory_model->create($searchHistory);
 						
 					}
+				}else{
+						
+						$searchdataArray = array('familyData' => $data['familyData']);
+						$searchHistory = array(
+								"reportname"=>"indigentreport",
+								"userId"=>$this->session->userdata('userId'),
+								"searchdata"=>json_encode(array('IdNumber' => $idnumber)),
+								"outputdata" => json_encode($searchdataArray),
+								"reporttype" => $searhtype
+						);
 				
-			
+						$this->SearchHistory_model->create($searchHistory);
 				}
 			}
 			

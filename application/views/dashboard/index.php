@@ -93,15 +93,21 @@
 							$detailedProcurementCompanyNumber = $detailedReportLastSevenDaysVal->Total;
 						}
 					}else if($detailedReportLastSevenDaysVal->Report == "tracereport"){
+
 						if($detailedReportLastSevenDaysVal->Type == "addresssearch"){
 							$detailedTraceAddressSearch = $detailedReportLastSevenDaysVal->Total;
-						} else if($detailedReportLastSevenDaysVal->Type == "id-search"){
+						} else if($detailedReportLastSevenDaysVal->Type == "idsearch" || $detailedReportLastSevenDaysVal->Type == "search"){
 							$detailedTraceIdSearch = $detailedReportLastSevenDaysVal->Total;
 						} else if($detailedReportLastSevenDaysVal->Type == "telephonesearch"){
 							$detailedTraceTelephoneSearch = $detailedReportLastSevenDaysVal->Total;
 						}
 					}else if($detailedReportLastSevenDaysVal->Report == "indigentreport"){
-						$detailedIndigentIdSearch = $detailedReportLastSevenDaysVal->Total;
+						if($detailedReportLastSevenDaysVal->Type == "id-search"){
+							$detailedIndigentIdSearch = $detailedReportLastSevenDaysVal->Total;
+						}else if($detailedReportLastSevenDaysVal->Type == "lineage"){
+							$detailedIndigentlineage = $detailedReportLastSevenDaysVal->Total;
+						}
+						
 					}
 				}
 				
@@ -214,6 +220,10 @@
 						 <tr>
 							<td>ID Search</td>
 							<td><strong><span class="pull-right"><?php echo $detailedIndigentIdSearch;?></span></strong></span></td>
+						 </tr>						 
+						 <tr>
+							<td>Lineage</td>
+							<td><strong><span class="pull-right"><?php echo $detailedIndigentlineage;?></span></strong></span></td>
 						 </tr>
 					</table>
 					</div>

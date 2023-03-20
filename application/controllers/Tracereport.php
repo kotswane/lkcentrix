@@ -308,6 +308,7 @@ class Tracereport extends CI_Controller {
 		$IsTicketValid = array("XDSConnectTicket"=>$this->session->userdata('tokenId'));
 		$this->client = $this->mysoapclient->getClient();
 		$resp = $this->client->IsTicketValid($IsTicketValid);
+
 		if($resp->IsTicketValidResult != true || $resp->IsTicketValidResult ==""){
 			$this->session->set_userdata(array('tokensession' =>'Session expired, please login again'));
 			redirect('user/login');
@@ -317,12 +318,13 @@ class Tracereport extends CI_Controller {
 		$myEnquiryID = $this->uri->segment(3);
 		
 		$connectGetBonusSegments = $this->client->ConnectGetBonusSegments(array(
-		'ConnectTicket'=>$IsTicketValid,
+		'ConnectTicket'=>$this->session->userdata('tokenId'),
 		'EnquiryResultID' => $myEnquiryResultID,
 		'EnquiryReason' => 'Consumer Trace'
 		));
 		
 		$strConnectGetBonusSegments = simplexml_load_string($connectGetBonusSegments->ConnectGetBonusSegmentsResult,"SimpleXMLElement");
+
 		$objJsonDocument = json_encode($strConnectGetBonusSegments);
 		$arrOutput = json_decode($objJsonDocument);
 			

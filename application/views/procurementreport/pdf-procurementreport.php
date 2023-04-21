@@ -237,19 +237,19 @@ Current Contact, Address, and Employment Info.</h5>
 					</tr class="border_bottom">
 					<tr>
 						<td><strong><span>1 - 89</strong></span></td>
-						<td><strong><span>Recieved a Very Poor scoring therefore the</br>risk is seen  to be very high when<br>undertaking dealings with the subject.</strong></span></td>
+						<td><strong><span>Received a Very Poor scoring therefore the</br>risk is seen  to be very high when<br>undertaking dealings with the subject.</strong></span></td>
 					</tr>
 					<tr class="border_bottom">
 						<td><strong><span>90 - 139</strong></span></td>
-						<td><strong><span>Recieved a Poor scoring therefore the risk</br>is seen  to be very high when<br>undertaking dealings with the subject.</strong></span></td>
+						<td><strong><span>Received a Poor scoring therefore the risk</br>is seen  to be very high when<br>undertaking dealings with the subject.</strong></span></td>
 					</tr>
 					<tr class="border_bottom">
 						<td><strong><span>140 - 189</strong></span></td>
-						<td><strong><span>Recieved an OK scoring therefore the risk</br>is seen to be low to medium when undertaking dealings with the subject.</strong></span></td>
+						<td><strong><span>Received an OK scoring therefore the risk</br>is seen to be low to medium when undertaking dealings with the subject.</strong></span></td>
 					</tr>
 					<tr class="border_bottom">
 						<td><strong><span>190 - 235</strong></span></td>
-						<td><strong><span>Recieved an Good scoring therefore the risk</br>is seen to be low when undertaking dealings with the subject.</strong></span></td>
+						<td><strong><span>Received an Good scoring therefore the risk</br>is seen to be low when undertaking dealings with the subject.</strong></span></td>
 					</tr>
 				</table>
 			</td>
@@ -980,7 +980,7 @@ if(is_object($report->CommercialPropertyInformation)){
 <?php if($report->CommercialBankCodeHistory){ 
 if(is_object($report->CommercialBankCodeHistory)){
 	?>
-		<div class="panel-heading">Bankcode 1</div>
+		<div class="panel-heading">Bank Code 1</div>
 		<table class="table-list">
 			<tr class="border_bottom">
 				<td>
@@ -1040,7 +1040,7 @@ if(is_object($report->CommercialBankCodeHistory)){
 	<?php
 } else {
 	foreach($report->CommercialBankCodeHistory as $CommercialBankCodeHistory){ ?>
-		<div class="panel-heading">Property Interest <?php echo ++$countCommercialBankCodeHistory;?></div>
+		<div class="panel-heading">Bank Code <?php echo ++$countCommercialBankCodeHistory;?></div>
 		<table class="table-list">
 			<tr class="border_bottom">
 				<td>

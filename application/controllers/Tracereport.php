@@ -384,6 +384,7 @@ class Tracereport extends CI_Controller {
 		$xml = simplexml_load_string($responseConnectGetResult->ConnectGetResultResult,"SimpleXMLElement");
 		$objJsonDocument = json_encode($xml);
 		$arrOutput = json_decode($objJsonDocument);
+
 		$data['report'] = $arrOutput;
 
 		$searchdataArray =(array)$data['report'];
@@ -850,7 +851,7 @@ class Tracereport extends CI_Controller {
 	$strConnectGetBonusSegments = simplexml_load_string($connectGetBonusSegments->ConnectGetBonusSegmentsResult,"SimpleXMLElement");
 	$objJsonDocument = json_encode($strConnectGetBonusSegments);
 	$arrOutput = json_decode($objJsonDocument);
-		
+
 	if(is_object($arrOutput->Segments)){
 		$strConnectGetBonusSegments->Segments->BonusViewed='True';
 	}else{
@@ -881,6 +882,7 @@ class Tracereport extends CI_Controller {
 	 
 	$document->formatOutput = true;
 
+	
 	$responseConnectGetResult = $this->client->ConnectGetResult(array(
 	'EnquiryID' => $myEnquiryID,
 	'EnquiryResultID' => $myEnquiryResultID, 
@@ -892,8 +894,7 @@ class Tracereport extends CI_Controller {
 	$objJsonDocument = json_encode($xml);
 	$arrOutput = json_decode($objJsonDocument);
 	$data['report'] = $arrOutput;
-
-		
+	
 	$searchdataArray =(array)$data['report'];
 	$searchHistory = array(
 			"reportname"=>"tracereport",
@@ -919,7 +920,6 @@ class Tracereport extends CI_Controller {
 		"auditlog_issuccess" => true
 	);
 	$this->Auditlog_model->save($auditlog);
-	
 
 		return $arrOutput;
 	}
@@ -954,6 +954,7 @@ class Tracereport extends CI_Controller {
 		$data["reports"] = $this->reports;
 		$response = $this->getSearchData($this->uri->segment(3), $this->uri->segment(4));
 		$data['report'] = $response;
+
 		$this->session->set_userdata(array('report' =>$data['report']));
 		
 		$searchdataArray =(array)$data['report'];

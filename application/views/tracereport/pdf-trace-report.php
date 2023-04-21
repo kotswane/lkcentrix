@@ -656,7 +656,7 @@ Current Contact, Address, and Employment Info.</h5>
 							} else { ?>
 									<table class="table-list">
 										<tr class="border_bottom">
-											<td>Tittle Deed Number</td>
+											<td>Title Deed Number</td>
 											<td><?php echo (is_object($report->ConsumerPropertyInformation->TitleDeedNo)?"":$report->ConsumerPropertyInformation->TitleDeedNo);?></td>
 											<td>Erf/Site No</td>
 											<td><?php echo (is_object($report->ConsumerPropertyInformation->ErfNo)?"":$report->ConsumerPropertyInformation->ErfNo);?></td>

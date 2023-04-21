@@ -352,17 +352,20 @@ class Tracereport extends CI_Controller {
 				$hasSegments = true;
 			 }
 		 }else{
+
 			  if($arrOutput->Segments){
+
 				$hasSegments = true;
 				$bonusSegments->appendChild($segments = $document->createElement('Segments')); 
 				$segments->appendChild($document->createElement('DataSegmentID'))->textContent = $arrOutput->Segments->DataSegmentID;
 				$segments->appendChild($document->createElement('DataSegmentName'))->textContent = $arrOutput->Segments->DataSegmentName;
 				$segments->appendChild($document->createElement('DataSegmentDisplayText'))->textContent = $arrOutput->Segments->DataSegmentDisplayText;
-				$segments->appendChild($document->createElement('BonusViewed'))->textContent = $arrOutput->Segments->BonusViewed;
+				$segments->appendChild($document->createElement('BonusViewed'))->textContent = 'True';
 				$segments->appendChild($document->createElement('BonusPrice'))->textContent = $arrOutput->Segments->BonusPrice;
 			  }							
 		 }
 		 
+
 		if ($hasSegments == true){ 
 			$document->formatOutput = true;
 

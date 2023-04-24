@@ -168,7 +168,7 @@ class Indigentreport extends CI_Controller {
 			 redirect('user/login');
 		}
 		
-		$hasAccess = $this->checkpermission->hasAccess($this->session->userdata('usermenu'),$this->session->userdata('submenu'),'indigentreport','idsearch');
+		$hasAccess = $this->checkpermission->hasAccess($this->session->userdata('usermenu'),$this->session->userdata('submenu'),'indigentreport','lineage');
 
 		if($hasAccess->hasAccessToController === true && $hasAccess->hasAccessToFunction === false){
 			$data["content"] = 'permissions/access_denied';
@@ -340,7 +340,7 @@ class Indigentreport extends CI_Controller {
 				$xml = simplexml_load_string($response->ConnectGetFamilyIDPhotoVerificationResult);
 		
 
-	
+
 		if ($xml->Error || $xml->NotFound){
 			
 			$auditlog = array(

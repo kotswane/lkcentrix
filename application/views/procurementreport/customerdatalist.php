@@ -2161,7 +2161,11 @@
 												<table class="table">
 													<tr>
 														 <td><strong><span>Employer Name</strong></span></td>
-														 <td><?php echo (string)$employer;?> </td>
+														 <?php
+																if (gettype($employer) == "string") {
+														 ?>
+															<td><?php echo (string)$employer;?> </td>
+															<?php } ?>
 													</tr>
 													<tr>
 														 <td><strong><span>Director Indicator</strong></span></td>

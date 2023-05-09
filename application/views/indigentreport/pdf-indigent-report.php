@@ -149,7 +149,7 @@ if($myData->HAMarriageStatus == "MARRIED"){
 		<td class="td-label" colspane="2"><?php echo (is_object($MaritalStatus)?"":$MaritalStatus);?></td>
 		<?php }?>
     </table>              
-		</div><br/><br/>
+	</div><br/><br/>
 
 	<div class="col">
 		<div class="title-head"><strong>Income and scoring</strong></div>
@@ -181,6 +181,242 @@ if($myData->HAMarriageStatus == "MARRIED"){
 			</tr>			
 		</table>
 	</div><br/><br/>
+	
+	<!-- Debt Summary -->
+							<div class="col">
+							 <div class="title-head"><strong>Debt Summary</strong></div>
+								<hr class="hr-line"/>
+									<?php if($consumerReport->ConsumerCPANLRDebtSummary){
+									?>
+									
+									<table class="table-list">
+									  <tr>
+										<td>Description</td>
+										<td>NLR</td>
+										<td>CPA</td>
+										<td>Total</td>
+									  </tr>
+									  <tr class="border_bottom">
+										<td>Total No. of Active Accounts</td>
+										<td><?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->NoOFActiveAccountsNLR)?"":$consumerReport->ConsumerCPANLRDebtSummary->NoOFActiveAccountsNLR);?></td>
+										<td><?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->NoOFActiveAccountsCPA)?"":$consumerReport->ConsumerCPANLRDebtSummary->NoOFActiveAccountsCPA);?></td>
+										<td><?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->NoOFActiveAccounts)?"":$consumerReport->ConsumerCPANLRDebtSummary->NoOFActiveAccounts);?></td>
+									  </tr>
+									  <tr class="border_bottom">
+										<td>Total No. of Accounts in Good Standing</td>
+										<td style="color: green;"><?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->NoOfAccountInGoodStandingNLR)?"":$consumerReport->ConsumerCPANLRDebtSummary->NoOfAccountInGoodStandingNLR);?></td>
+										<td style="color: green;"><?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->NoOfAccountInGoodStandingCPA)?"":$consumerReport->ConsumerCPANLRDebtSummary->NoOfAccountInGoodStandingCPA);?></td>
+										<td style="color: green;"><?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->NoOfAccountInGoodStanding)?"":$consumerReport->ConsumerCPANLRDebtSummary->NoOfAccountInGoodStanding);?></td>
+									  </tr>
+									  <tr class="border_bottom">
+										<td>Total No. of Accounts In Arrears</td>
+										<td style="color: red;"><?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->TotalArrearAmountNLR)?"":$consumerReport->ConsumerCPANLRDebtSummary->TotalArrearAmountNLR);?></td>
+										<td style="color: red;"><?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->TotalArrearAmountCPA)?"":$consumerReport->ConsumerCPANLRDebtSummary->TotalArrearAmountCPA);?></td>
+										<td style="color: red;"><?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->TotalArrearAmount)?"":$consumerReport->ConsumerCPANLRDebtSummary->TotalArrearAmount);?></td>
+									  </tr class="border_bottom">
+									  <tr class="border_bottom">
+										<td>Total No. of Paid Up or Closed Accounts (last 24 months)</td>
+										<td><?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->NoOfPaidUpOrClosedAccountsNLR)?"":$consumerReport->ConsumerCPANLRDebtSummary->NoOfPaidUpOrClosedAccountsNLR);?></td>
+										<td><?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->NoOfPaidUpOrClosedAccountsCPA)?"":$consumerReport->ConsumerCPANLRDebtSummary->NoOfPaidUpOrClosedAccountsCPA);?></td>
+										<td><?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->NoOfPaidUpOrClosedAccounts)?"":$consumerReport->ConsumerCPANLRDebtSummary->NoOfPaidUpOrClosedAccounts);?></td>
+									  </tr>							  
+									  <tr class="border_bottom">
+										<td>Total Monthly Instalments</td>
+										<td>R<?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->TotalMonthlyInstallmentNLR)?"":$consumerReport->ConsumerCPANLRDebtSummary->TotalMonthlyInstallmentNLR);?></td>
+										<td>R<?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->TotalMonthlyInstallmentCPA)?"":$consumerReport->ConsumerCPANLRDebtSummary->TotalMonthlyInstallmentCPA);?></td>
+										<td>R<?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->TotalMonthlyInstallment)?"":$consumerReport->ConsumerCPANLRDebtSummary->TotalMonthlyInstallment);?></td>
+									  </tr>
+									  <tr class="border_bottom">
+										<td>Total Outstanding Debt</td>
+										<td>R<?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->TotalOutStandingDebtNLR)?"":$consumerReport->ConsumerCPANLRDebtSummary->TotalOutStandingDebtNLR);?></td>
+										<td>R<?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->TotalOutStandingDebtCPA)?"":$consumerReport->ConsumerCPANLRDebtSummary->TotalOutStandingDebtCPA);?></td>
+										<td>R<?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->TotalOutStandingDebt)?"":$consumerReport->ConsumerCPANLRDebtSummary->TotalOutStandingDebt);?></td>
+									  </tr>
+									  <tr class="border_bottom">
+										<td>Total Arrear Amount</td>
+										<td>R<?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->TotalArrearAmountNLR)?"":$consumerReport->ConsumerCPANLRDebtSummary->TotalArrearAmountNLR);?></td>
+										<td>R<?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->TotalArrearAmountCPA)?"":$consumerReport->ConsumerCPANLRDebtSummary->TotalArrearAmountCPA);?></td>
+										<td>R<?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->TotalArrearAmount)?"":$consumerReport->ConsumerCPANLRDebtSummary->TotalArrearAmount);?></td>
+									  </tr>
+									  <tr class="border_bottom">
+										<td>Highest Months in Arrears (Last 24 Months)</td>
+										<td><?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->HighestMonthsinArrearsNLR)?"":$consumerReport->ConsumerCPANLRDebtSummary->HighestMonthsinArrearsNLR);?></td>
+										<td><?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->HighestMonthsinArrearsCPA)?"":$consumerReport->ConsumerCPANLRDebtSummary->HighestMonthsinArrearsCPA);?></td>
+										<td><?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->HighestMonthsInArrears)?"":$consumerReport->ConsumerCPANLRDebtSummary->HighestMonthsInArrears);?></td>
+									  </tr>							  
+									  <tr class="border_bottom">
+										<td>Total Adverse Amount (Write offs/Repossessions)</td>
+										<td>R<?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->TotalAdverseAmountNLR)?"":$consumerReport->ConsumerCPANLRDebtSummary->TotalAdverseAmountNLR);?></td>
+										<td>R<?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->TotalAdverseAmountCPA)?"":$consumerReport->ConsumerCPANLRDebtSummary->TotalAdverseAmountCPA);?></td>
+										<td>R<?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->TotalAdverseAmount)?"":$consumerReport->ConsumerCPANLRDebtSummary->TotalAdverseAmount);?></td>
+									  </tr>							  
+									  <tr class="border_bottom">
+										<td>Total Enquiries Done in the last 90 days by Subscriber</td>
+										<td><?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->NoOfEnquiriesLast90DaysOWNNLR)?"":$consumerReport->ConsumerCPANLRDebtSummary->NoOfEnquiriesLast90DaysOWNNLR);?></td>
+										<td><?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->NoOfEnquiriesLast90DaysOWNCPA)?"":$consumerReport->ConsumerCPANLRDebtSummary->NoOfEnquiriesLast90DaysOWNCPA);?></td>
+										<td><?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->NoOfEnquiriesLast90DaysOWN)?"":$consumerReport->ConsumerCPANLRDebtSummary->NoOfEnquiriesLast90DaysOWN);?></td>
+									  </tr>							  
+									  <tr>
+									  <tr class="border_bottom">
+										<td>Total Enquiries Done in the last 90 days by Other Subscribers</td>
+										<td><?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->NoOfEnquiriesLast90DaysOTHNLR)?"":$consumerReport->ConsumerCPANLRDebtSummary->NoOfEnquiriesLast90DaysOTHNLR);?></td>
+										<td><?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->NoOfEnquiriesLast90DaysOTHCPA)?"":$consumerReport->ConsumerCPANLRDebtSummary->NoOfEnquiriesLast90DaysOTHCPA);?></td>
+										<td><?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->NoOfEnquiriesLast90DaysOTH)?"":$consumerReport->ConsumerCPANLRDebtSummary->NoOfEnquiriesLast90DaysOTH);?></td>
+									  </tr>							  
+									  <tr>
+										<td>Total No. of Accounts opened within the last 45 days</td>
+										<td><?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->NoOfAccountsOpenedinLast45DaysNLR)?"":$consumerReport->ConsumerCPANLRDebtSummary->NoOfAccountsOpenedinLast45DaysNLR);?></td>
+										<td><?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->NoOfAccountsOpenedinLast45DaysCPA)?"":$consumerReport->ConsumerCPANLRDebtSummary->NoOfAccountsOpenedinLast45DaysCPA);?></td>
+										<td><?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->NoOfAccountsOpenedinLast45Days)?"":$consumerReport->ConsumerCPANLRDebtSummary->NoOfAccountsOpenedinLast45Days);?></td>
+									  </tr>
+
+										  <tr class="border_bottom">
+											<td>Description</td>
+											<td>Total</td>
+											<td>Amount</td>
+											<td>Most Recent Date</td>
+										  </tr>
+										  <tr class="border_bottom">
+											<td>Public Domain - Adverse / Defaults</td>
+											<td><?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->NoofAccountdefaults)?"":$consumerReport->ConsumerCPANLRDebtSummary->NoofAccountdefaults);?></td>
+											<td>R<?php echo (is_object($consumerReport->ConsumerCPANLRDebtSummary->TotalAdverseAmt)?"":$consumerReport->ConsumerCPANLRDebtSummary->TotalAdverseAmt);?></td>
+											<td><?php echo (is_object($consumerReport->ConsumerCPANLRDebtSummary->MostRecentAdverseDate)?"":$consumerReport->ConsumerCPANLRDebtSummary->MostRecentAdverseDate);?></td>
+										  </tr>
+										  <tr class="border_bottom">
+											<td>Default listing</td>
+											<td><?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->DefaultListingCount)?"":$consumerReport->ConsumerCPANLRDebtSummary->DefaultListingCount);?></td>
+											<td>R<?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->DefaultListingAmt)?"":$consumerReport->ConsumerCPANLRDebtSummary->DefaultListingAmt);?></td>
+											<td><?php echo (is_object($consumerReport->ConsumerCPANLRDebtSummary->RecentDefaultListingDate)?"":$consumerReport->ConsumerCPANLRDebtSummary->RecentDefaultListingDate);?></td>
+										  </tr>								  
+										  <tr class="border_bottom">
+											<td>Judgements</td>
+											<td><?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->JudgementCount)?"":$consumerReport->ConsumerCPANLRDebtSummary->JudgementCount);?></td>
+											<td>R<?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->TotalJudgmentAmt)?"":$consumerReport->ConsumerCPANLRDebtSummary->TotalJudgmentAmt);?></td>
+											<td><?php echo (is_object($consumerReport->ConsumerCPANLRDebtSummary->MostRecentJudgmentDate)?"":$consumerReport->ConsumerCPANLRDebtSummary->MostRecentJudgmentDate);?></td>
+										  </tr>
+										  <tr class="border_bottom">
+											<td>Court Notices (Admin Orders/Sequestrations/Rehabilitation Orders)</td>
+											<td><?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->NoOfEnqinLast24Months)?"":$consumerReport->ConsumerCPANLRDebtSummary->CourtNoticeCount);?></td>
+											<td>R<?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->TotalCourtNoticeAmt)?"":$consumerReport->ConsumerCPANLRDebtSummary->TotalCourtNoticeAmt);?></td>
+											<td><?php (is_object($consumerReport->ConsumerCPANLRDebtSummary->MostRecentAdverseDate)?"":$consumerReport->ConsumerCPANLRDebtSummary->MostRecentAdverseDate);?></td>
+										  </tr>
+										  <tr class="border_bottom">
+											<td>Enquiries (last 24 months)</td>
+											<td><?php echo (int)(is_object($consumerReport->ConsumerCPANLRDebtSummary->NoOfEnqinLast24Months)?"":$consumerReport->ConsumerCPANLRDebtSummary->NoOfEnqinLast24Months);?></td>
+											<td></td>
+											<td><?php echo (is_object($consumerReport->ConsumerCPANLRDebtSummary->MostRecentEnqDateLast24Months)?"":$consumerReport->ConsumerCPANLRDebtSummary->MostRecentEnqDateLast24Months);?></td>
+										  </tr>								  
+										  
+										  <tr class="border_bottom">
+											<td>Debt Review Status</td>
+											<td colspan="3"><?php echo (is_object($consumerReport->ConsumerCPANLRDebtSummary->DebtReviewStatus)?"":$consumerReport->ConsumerCPANLRDebtSummary->DebtReviewStatus);?></td>
+										  </tr>								  
+										  <tr class="border_bottom">
+											<td>Dispute Information</td>
+											<td colspan="3"><?php echo (is_object($consumerReport->ConsumerCPANLRDebtSummary->DisputeMessage)?"":$consumerReport->ConsumerCPANLRDebtSummary->DisputeMessage);?></td>
+										  </tr>
+									</table>
+								<?php } else {?>
+									<span>Debt Summary not found</span><br>
+								<?php } ?>								
+							</div><br/><br/>
+						<!-- Debt Summary -->
+	
+	<!-- Property Interest -->
+				<?php 
+				if($consumerReport->ConsumerPropertyInformation){ ?>
+                <div>
+				 <div class="title-head"><strong>Property Interest</strong></div>
+				   <hr class="hr-line"/>
+						<div class="col">
+							
+							<?php if(is_array($consumerReport->ConsumerPropertyInformation)){
+										foreach($consumerReport->ConsumerPropertyInformation as $ConsumerPropertyInformation ){
+										?>
+										<table class="table-list">
+											<tr class="border_bottom">
+												<td>Tittle Deed Number</td>
+												<td><?php echo (is_object($ConsumerPropertyInformation->TitleDeedNo)?"":$ConsumerPropertyInformation->TitleDeedNo);?></td>
+												<td>Erf/Site No</td>
+												<td><?php echo (is_object($ConsumerPropertyInformation->ErfNo)?"":$ConsumerPropertyInformation->ErfNo);?></td>
+											</tr>
+											<tr class="border_bottom">
+												<td>Deed Office</td>
+												<td><?php echo (is_object($ConsumerPropertyInformation->DeedsOffice)?"":$ConsumerPropertyInformation->DeedsOffice);?></td>
+												<td>Physical Address</td>
+												<td><?php echo (is_object($ConsumerPropertyInformation->PhysicalAddress)?"":$ConsumerPropertyInformation->PhysicalAddress);?></td>
+											</tr>
+											<tr class="border_bottom">
+												<td>Property Type</td>
+												<td><?php echo (is_object($ConsumerPropertyInformation->PropertyTypeDesc)?"":$ConsumerPropertyInformation->PropertyTypeDesc);?></td>
+												<td>Extent/Size</td>
+												<td><?php echo (is_object($ConsumerPropertyInformation->ErfSize)?"":$ConsumerPropertyInformation->ErfSize);?></td>
+											</tr>
+											<tr class="border_bottom">
+												<td>Purchase Date</td>
+												<td><?php echo (is_object($ConsumerPropertyInformation->PurchaseDate)?"":$ConsumerPropertyInformation->PurchaseDate);?></td>
+												<td>Purchase Price</td>
+												<td><?php echo (is_object($ConsumerPropertyInformation->PurchasePriceAmt)?"":$ConsumerPropertyInformation->PurchasePriceAmt);?></td>
+											</tr>
+											<tr class="border_bottom">
+												<td>Bond Holder</td>
+												<td><?php echo (is_object($ConsumerPropertyInformation->BondHolderName)?"":$ConsumerPropertyInformation->BondHolderName);?></td>
+												<td>Bond Amount</td>
+												<td><?php echo (is_object($ConsumerPropertyInformation->BondAmt)?"":$ConsumerPropertyInformation->BondAmt);?></td>
+											</tr>
+											<tr class="border_bottom">
+												<td>Bond Number</td>
+												<td><?php echo (is_object($ConsumerPropertyInformation->BondAccountNo)?"":$ConsumerPropertyInformation->BondAccountNo);?></td>
+												<td></td>
+												<td></td>
+											</tr>
+										</table>
+										<hr>
+									<?php }
+							} else { ?>
+									<table class="table-list">
+										<tr class="border_bottom">
+											<td>Title Deed Number</td>
+											<td><?php echo (is_object($consumerReport->ConsumerPropertyInformation->TitleDeedNo)?"":$consumerReport->ConsumerPropertyInformation->TitleDeedNo);?></td>
+											<td>Erf/Site No</td>
+											<td><?php echo (is_object($consumerReport->ConsumerPropertyInformation->ErfNo)?"":$consumerReport->ConsumerPropertyInformation->ErfNo);?></td>
+										</tr>
+										<tr class="border_bottom">
+											<td>Deed Office</td>
+											<td><?php echo (is_object($consumerReport->ConsumerPropertyInformation->DeedsOffice)?"":$consumerReport->ConsumerPropertyInformation->DeedsOffice);?></td>
+											<td>Physical Address</td>
+											<td><?php echo (is_object($consumerReport->ConsumerPropertyInformation->PhysicalAddress)?"":$consumerReport->ConsumerPropertyInformation->PhysicalAddress);?></td>
+										</tr>
+										<tr class="border_bottom">
+											<td>Property Type</td>
+											<td><?php echo (is_object($consumerReport->ConsumerPropertyInformation->PropertyTypeDesc)?"":$consumerReport->ConsumerPropertyInformation->PropertyTypeDesc);?></td>
+											<td>Extent/Size</td>
+											<td><?php echo (is_object($consumerReport->ConsumerPropertyInformation->ErfSize)?"":$consumerReport->ConsumerPropertyInformation->ErfSize);?></td>
+										</tr>
+										<tr class="border_bottom">
+											<td>Purchase Date</td>
+											<td><?php echo (is_object($consumerReport->ConsumerPropertyInformation->PurchaseDate)?"":$consumerReport->ConsumerPropertyInformation->PurchaseDate);?></td>
+											<td>Purchase Price</td>
+											<td><?php echo (is_object($consumerReport->ConsumerPropertyInformation->PurchasePriceAmt)?"":$consumerReport->ConsumerPropertyInformation->PurchasePriceAmt);?></td>
+										</tr>
+										<tr class="border_bottom">
+											<td>Bond Holder</td>
+											<td><?php echo (is_object($consumerReport->ConsumerPropertyInformation->BondHolderName)?"":$consumerReport->ConsumerPropertyInformation->BondHolderName);?></td>
+											<td>Bond Amount</td>
+											<td><?php echo (is_object($consumerReport->ConsumerPropertyInformation->BondAmt)?"":$consumerReport->ConsumerPropertyInformation->BondAmt);?></td>
+										</tr>
+										<tr class="border_bottom">
+											<td>Bond Number</td>
+											<td><?php echo (is_object($consumerReport->ConsumerPropertyInformation->BondAccountNo)?"":$consumerReport->ConsumerPropertyInformation->BondAccountNo);?></td>
+											<td></td>
+											<td></td>
+										</tr>
+									</table>
+							<?php }?>
+						</div>
+              </div><br/><br/>
+			  <?php } ?>
+			  
 
 		<div class="title-head"><strong>Directorship(s)</strong></div>
 		<hr class="hr-line"/>

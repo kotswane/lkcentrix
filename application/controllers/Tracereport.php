@@ -387,6 +387,7 @@ class Tracereport extends CI_Controller {
 		$xml = simplexml_load_string($responseConnectGetResult->ConnectGetResultResult,"SimpleXMLElement");
 		$objJsonDocument = json_encode($xml);
 		$arrOutput = json_decode($objJsonDocument);
+		
 
 		$data['report'] = $arrOutput;
 

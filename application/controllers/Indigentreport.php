@@ -71,7 +71,7 @@ class Indigentreport extends CI_Controller {
 		$data["errorFlash"] = "";
 		$data["errorMessage"] = "";
 		$data["consumerList"] = array();
-		
+		$this->session->unset_userdata('consumerReport');
 		
 		if ($this->input->post("postback")=="post"){
 		
@@ -135,6 +135,85 @@ class Indigentreport extends CI_Controller {
 					}				
 				}else{
 					
+		$consumerData = $this->getConsumerReport($this->input->post('idno'));
+				
+				
+		$myEnquiryResultID = $consumerData->ConsumerDetails->EnquiryResultID;
+		$myEnquiryID = $consumerData->ConsumerDetails->EnquiryID;
+		
+		$connectGetBonusSegments = $this->client->ConnectGetBonusSegments(array(
+		'ConnectTicket'=>$this->session->userdata('tokenId'),
+		'EnquiryResultID' => $myEnquiryResultID,
+		'EnquiryReason' => 'Consumer Trace'
+		));
+		
+		$strConnectGetBonusSegments = simplexml_load_string($connectGetBonusSegments->ConnectGetBonusSegmentsResult,"SimpleXMLElement");
+
+		$objJsonDocument = json_encode($strConnectGetBonusSegments);
+		$arrOutput = json_decode($objJsonDocument);
+			
+		if(is_object($arrOutput->Segments)){
+			$strConnectGetBonusSegments->Segments->BonusViewed='True';
+		}else{
+			foreach($arrOutput->Segments as $segmenValK => $segmenValV){
+				$arrOutput->Segments[$segmenValK]->BonusViewed='True';
+			}	
+		}
+
+
+		 $document = new DOMDocument();
+		 $document->appendChild($bonusSegments = $document->createElement('BonusSegments'));
+		 $hasSegments =false;
+		 if(!is_object($arrOutput->Segments)){
+			 foreach($arrOutput->Segments as $segmenValK => $segmenValV){
+
+				$bonusSegments->appendChild($segments = $document->createElement('Segments')); 
+				$segments->appendChild($document->createElement('DataSegmentID'))->textContent = $segmenValV->DataSegmentID;
+				$segments->appendChild($document->createElement('DataSegmentName'))->textContent = $segmenValV->DataSegmentName;
+				$segments->appendChild($document->createElement('DataSegmentDisplayText'))->textContent = $segmenValV->DataSegmentDisplayText;
+				$segments->appendChild($document->createElement('BonusViewed'))->textContent = $segmenValV->BonusViewed;
+				$segments->appendChild($document->createElement('BonusPrice'))->textContent = $segmenValV->BonusPrice;
+				$hasSegments = true;
+			 }
+		 }else{
+
+			  if($arrOutput->Segments){
+
+				$hasSegments = true;
+				$bonusSegments->appendChild($segments = $document->createElement('Segments')); 
+				$segments->appendChild($document->createElement('DataSegmentID'))->textContent = $arrOutput->Segments->DataSegmentID;
+				$segments->appendChild($document->createElement('DataSegmentName'))->textContent = $arrOutput->Segments->DataSegmentName;
+				$segments->appendChild($document->createElement('DataSegmentDisplayText'))->textContent = $arrOutput->Segments->DataSegmentDisplayText;
+				$segments->appendChild($document->createElement('BonusViewed'))->textContent = 'True';
+				$segments->appendChild($document->createElement('BonusPrice'))->textContent = $arrOutput->Segments->BonusPrice;
+			  }							
+		 }
+		 
+
+		if ($hasSegments == true){ 
+			$document->formatOutput = true;
+
+			$responseConnectGetResult = $this->client->ConnectGetResult(array(
+			'EnquiryID' => $myEnquiryID,
+			'EnquiryResultID' => $myEnquiryResultID, 
+			'ConnectTicket' => $this->session->userdata('tokenId'), 
+			'ProductID' => 2,
+			'BonusXML' => $document->saveXML()));	
+		}else{
+			$responseConnectGetResult = $this->client->ConnectGetResult(array(
+			'EnquiryID' => $myEnquiryID,
+			'EnquiryResultID' => $myEnquiryResultID, 
+			'ConnectTicket' => $this->session->userdata('tokenId'), 
+			'ProductID' => 2));
+		}
+
+
+		$xmlConsumer = simplexml_load_string($responseConnectGetResult->ConnectGetResultResult,"SimpleXMLElement");
+		$objJsonDocumentConsumer = json_encode($xmlConsumer);
+		$arrOutputConsumer = json_decode($objJsonDocumentConsumer);
+		$this->session->set_userdata(array('consumerReport'=>$arrOutputConsumer));
+
+
 					$objJsonDocument = json_encode($xml);
 					$arrOutput = json_decode($objJsonDocument);
 					$data["consumerList"] = $arrOutput;
@@ -233,6 +312,7 @@ class Indigentreport extends CI_Controller {
 				'EnquiryReason' => 'Consumer Trace'
 				));
 				
+
 				$xml = simplexml_load_string($responseConsumer->ConnectConsumerMatchResult);
 			
 				
@@ -308,6 +388,7 @@ class Indigentreport extends CI_Controller {
 		
 		$data["reports_type"] = $this->reports_type;
 		$data["reports"] = $this->reports;
+		$data['consumerReport'] = $this->session->userdata('consumerReport');
 		$response = $this->getSearchData($this->uri->segment(3), $this->uri->segment(4));
 
 		if($response->Error){
@@ -427,7 +508,10 @@ class Indigentreport extends CI_Controller {
 					redirect('user/login');
 				}
 				
+
 				if($lineage != "lineage"){
+					
+					
 					$data['directorship'] = array();
 					if(is_object($arrOutput->DirectorDetails))
 					{
@@ -579,6 +663,9 @@ class Indigentreport extends CI_Controller {
 			"auditlog_fnexecuted" => "ConnectGetResult",
 			"auditlog_issuccess" => true);
 		$this->Auditlog_model->save($auditlog);
+		
+		
+
 		return $arrOutput;
 	}
 	
@@ -603,7 +690,7 @@ class Indigentreport extends CI_Controller {
 			$data['report'] = $this->session->userdata('report');
 			$data['familyData'] = $this->session->userdata('familyData');
 			$data['directorship'] = $this->session->userdata('directorship');
-			
+			$data['consumerReport'] = $this->session->userdata('consumerReport');
 			$this->load->library('pdf');
 			$html = $this->load->view('indigentreport/pdf-indigent-report',$data, true);
 			$this->pdf->createPDF($html, "indigent-report-".time(), true);
@@ -645,6 +732,83 @@ class Indigentreport extends CI_Controller {
 			print_r($ex);
 		}
 
+	}
+	
+	private function getConsumerReport($id){
+		
+		$IsTicketValid = array("XDSConnectTicket"=>$this->session->userdata('tokenId'));
+			
+				$this->client = $this->mysoapclient->getClient();
+				$this->latestclient = $this->mysoapclient->getClientlatest();
+				$resp = $this->client->IsTicketValid($IsTicketValid);
+				if($resp->IsTicketValidResult != true || $resp->IsTicketValidResult ==""){
+					$this->session->set_userdata(array('tokensession' =>'Session expired, please login again'));
+					redirect('user/login');
+				}
+				
+				$response = $this->client->ConnectConsumerMatch(array(
+				'IdNumber'=>$id,
+				'ConnectTicket'=>$this->session->userdata('tokenId'),
+				'ProductId' => 2,
+				'EnquiryReason' => 'Consumer Trace'
+				));
+				
+			
+				$xml = simplexml_load_string($response->ConnectConsumerMatchResult);
+				
+				
+				if ($xml->Error || $xml->NotFound){
+					
+					$auditlog = array(
+						"auditlog_reportname"=>"tracereport",
+						"auditlog_userId"=>$this->session->userdata('userId'),
+						"auditlog_reporttype"=>"id-search",
+						"auditlog_searchdata"=>json_encode(array(
+						'IdNumber'=>$id,
+						'ProductId' => 2,
+						'EnquiryReason' => 'Consumer Trace')),
+						"auditlog_fnexecuted" => "ConnectConsumerMatch",
+						"auditlog_issuccess" => false
+					);
+					$this->Auditlog_model->save($auditlog);
+				
+					if($xml->Error){
+						//$data["errorMessage"] = $xml->Error[0];
+					}else{
+						//$data["errorMessage"] = $xml->NotFound;
+					}
+					//$data["consumerList"]["details"] = array();
+					//$data["content"] = "tracereport/id-search";
+					//$this->load->view('site',$data);
+					 return new stdClass();
+					 
+				}else {
+					
+					$objJsonDocument = json_encode($xml);
+					$arrOutput = json_decode($objJsonDocument);
+
+					$auditlog = array(
+						"auditlog_reportname"=>"tracereport",
+						"auditlog_userId"=>$this->session->userdata('userId'),
+						"auditlog_reporttype"=>"id-search",
+						"auditlog_searchdata"=>json_encode(array(
+						'IdNumber'=>$id,
+						'ProductId' => 2,
+						'EnquiryReason' => 'Consumer Trace')),
+						"auditlog_fnexecuted" => "ConnectConsumerMatch",
+						"auditlog_issuccess" => true
+					);
+					$this->Auditlog_model->save($auditlog);
+					
+					
+					//$myEnquiryResultID = $arrOutput->ConsumerDetails->EnquiryResultID;
+					//$myEnquiryID = $arrOutput->ConsumerDetails->EnquiryID;
+			
+					
+					
+					return $arrOutput;
+				}
+				
 	}
 
 }

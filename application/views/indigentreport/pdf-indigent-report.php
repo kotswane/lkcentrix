@@ -541,7 +541,8 @@ if($myData->HAMarriageStatus == "MARRIED"){
 		 <div class="title-head"><strong>Employment History</strong></div>
 		<hr class="hr-line"/>
 		<div class="col">
-		<?php if($myConsumerEmploymentHistory){ ?>
+		<?php 
+		if($consumerReport->ConsumerEmploymentHistory){ ?>
 			<table class ="table-list">
 			<tr class="tr-list">
 				<th class = "th-list">Employer Name</th>
@@ -549,8 +550,8 @@ if($myData->HAMarriageStatus == "MARRIED"){
 				<th class = "th-list">LastUpdatedDate</th>
 			</tr>
 		<?php 
-			if(!is_object($myConsumerEmploymentHistory)){
-				foreach($myConsumerEmploymentHistory as $ConsumerEmploymentHistory){?>
+			if(!is_object($consumerReport->ConsumerEmploymentHistory)){
+				foreach($consumerReport->ConsumerEmploymentHistory as $ConsumerEmploymentHistory){?>
 				<tr class="border_bottom">
 						<td><?php echo (is_object($ConsumerEmploymentHistory->EmployerDetail)?"":$ConsumerEmploymentHistory->EmployerDetail);?></td>
 						<td><?php echo (is_object($ConsumerEmploymentHistory->Designation)?"":$ConsumerEmploymentHistory->Designation);?></td>									
@@ -559,9 +560,9 @@ if($myData->HAMarriageStatus == "MARRIED"){
 			<?php }
 			} else{?>
 				<tr class="border_bottom">
-						<td><?php echo (is_object($myConsumerEmploymentHistory->EmployerDetail)?"":$myConsumerEmploymentHistory->EmployerDetail);?></td>
-						<td><?php echo (is_object($myConsumerEmploymentHistory->Designation)?"":$myConsumerEmploymentHistory->Designation);?></td>
-						<td><?php echo (is_object($myConsumerEmploymentHistory->LastUpdatedDate)?"":$myConsumerEmploymentHistory->LastUpdatedDate);?></td>
+						<td><?php echo (is_object($consumerReport->ConsumerEmploymentHistory->EmployerDetail)?"":$consumerReport->ConsumerEmploymentHistory->EmployerDetail);?></td>
+						<td><?php echo (is_object($consumerReport->ConsumerEmploymentHistory->Designation)?"":$consumerReport->ConsumerEmploymentHistory->Designation);?></td>
+						<td><?php echo (is_object($consumerReport->ConsumerEmploymentHistory->LastUpdatedDate)?"":$consumerReport->ConsumerEmploymentHistory->LastUpdatedDate);?></td>
 				</tr>						
 			<?php } ?>
 			</table>

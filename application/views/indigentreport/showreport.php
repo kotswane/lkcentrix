@@ -565,7 +565,7 @@
 					</table>
 					<?php } else { ?>
 					 <div>
-						<span>Employment History Not Found</span><br>
+						<span>Telephone History Not Found</span><br>
 					</div>
 					<?php } ?>
 				</div>
@@ -574,7 +574,7 @@
            <div class="panel panel-primary">
             <div class="panel-heading">Consumer Employment History</div>
             <div class="panel-body">
-			<?php if($myConsumerEmploymentHistory){ ?>
+			<?php if($consumerReport->ConsumerEmploymentHistory){?>
                 <table class="table table-striped" id="myConsumerEmploymentHistory">
                     <tr>
                         <th>Employer Name</th>
@@ -582,8 +582,8 @@
                         <th>LastUpdatedDate</th>
                     </tr>
 					<?php 
-						if(!is_object($myConsumerEmploymentHistory)){
-							foreach($myConsumerEmploymentHistory as $ConsumerEmploymentHistory){?>
+						if(!is_object($consumerReport->ConsumerEmploymentHistory)){
+							foreach($consumerReport->ConsumerEmploymentHistory as $ConsumerEmploymentHistory){?>
 								<tr>
 									<td><?php echo (is_object($ConsumerEmploymentHistory->EmployerDetail)?"":$ConsumerEmploymentHistory->EmployerDetail);?></td>
 									<td><?php echo (is_object($ConsumerEmploymentHistory->Designation)?"":$ConsumerEmploymentHistory->Designation);?></td>									
@@ -593,9 +593,9 @@
 						<?php } 
 						} else { ?>
 								<tr>
-										<td><?php echo (is_object($myConsumerEmploymentHistory->EmployerDetail)?"":$myConsumerEmploymentHistory->EmployerDetail);?></td>
-										<td><?php echo (is_object($myConsumerEmploymentHistory->Designation)?"":$myConsumerEmploymentHistory->Designation);?></td>
-										<td><?php echo (is_object($myConsumerEmploymentHistory->LastUpdatedDate)?"":$myConsumerEmploymentHistory->LastUpdatedDate);?></td>
+										<td><?php echo (is_object($consumerReport->ConsumerEmploymentHistory->EmployerDetail)?"":$consumerReport->ConsumerEmploymentHistory->EmployerDetail);?></td>
+										<td><?php echo (is_object($consumerReport->ConsumerEmploymentHistory->Designation)?"":$consumerReport->ConsumerEmploymentHistory->Designation);?></td>
+										<td><?php echo (is_object($consumerReport->ConsumerEmploymentHistory->LastUpdatedDate)?"":$consumerReport->ConsumerEmploymentHistory->LastUpdatedDate);?></td>
 								</tr>
 						<?php } ?>
                 </table>

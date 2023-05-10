@@ -437,6 +437,7 @@ class Indigentreport extends CI_Controller {
 
 			$data["XDSError"] = $xml->Error;
 			$data["familyData"] = array();
+			$data['directorship']= "";
 			$this->session->set_userdata(array('familyData' =>$data['familyData']));
 			if($lineage == "lineage"){
 				$data["content"] = "indigentreport/showlineagereport";
@@ -444,6 +445,18 @@ class Indigentreport extends CI_Controller {
 				$data["content"] = "indigentreport/showreport";
 			}
 			
+			$searchdataArray = array("directorship" => $data['directorship'], 'familyData' => $data['familyData'], 'report' => $data['report']);
+
+			$searchHistory = array(
+					"reportname"=>"indigentreport",
+					"userId"=>$this->session->userdata('userId'),
+					"searchdata"=>json_encode(array('IdNumber' => $idnumber)),
+					"outputdata" => json_encode($searchdataArray),
+					"reporttype" => $searhtype
+			);
+	
+			$this->SearchHistory_model->create($searchHistory);
+						
 			$this->load->view('site',$data);
 		}else {
 			$auditlog = array(
@@ -589,6 +602,7 @@ class Indigentreport extends CI_Controller {
 								"reporttype" => $searhtype
 						);
 				
+	
 						$this->SearchHistory_model->create($searchHistory);
 						
 					}

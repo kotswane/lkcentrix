@@ -72,12 +72,16 @@ if ($result->num_rows > 0) {
 			
 		$docs = $awardsTender->tender->documents;
 		foreach($docs as $doc){
-			 $insert = "Insert into ocdsreleasesdocs (ocid,id,url,title,dateModified) values ('".mysqli_real_escape_string($conn,$row["ocid"])."','".mysqli_real_escape_string($conn,$doc->id)."','".mysqli_real_escape_string($conn,$doc->url)."','".mysqli_real_escape_string($conn,$doc->title)."','".mysqli_real_escape_string($conn,$doc->dateModified)."');";
-			if ($conn->query($insert) === TRUE) {
-			  $last_id = $conn->insert_id;
-			  echo "New record ocdsreleasesdocs created successfully. Last inserted ID is: " . $last_id."\n";
-			}
-			
+				$sql = "SELECT ocid FROM ocdsreleasesdocs where ocid='".$row["ocid"]."';";
+				$result = $conn->query($sql);
+				if ($result->num_rows == 0) {
+					 $insert = "Insert into ocdsreleasesdocs (ocid,id,url,title,dateModified) values ('".mysqli_real_escape_string($conn,$row["ocid"])."','".mysqli_real_escape_string($conn,$doc->id)."','".mysqli_real_escape_string($conn,$doc->url)."','".mysqli_real_escape_string($conn,$doc->title)."','".mysqli_real_escape_string($conn,$doc->dateModified)."');";
+					if ($conn->query($insert) === TRUE) {
+					  $last_id = $conn->insert_id;
+					  echo "New record ocdsreleasesdocs created successfully. Last inserted ID is: " . $last_id."\n";
+					}
+				}
+				
 		}
 		
 	 }

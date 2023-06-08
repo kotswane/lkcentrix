@@ -19,7 +19,7 @@
            	<?php
 			
 				if($report->SubscriberInputDetails->EnquiryType =='Consumer Telephone Trace'){
-					$backMenu = "tracereport/idsearch";
+					$backMenu = "tracereportoptions/idsearch";
 					?>
 						<h3 class="box-title">&nbsp;&nbsp;<?php echo $report->SubscriberInputDetails->EnquiryType." Report";?></h3>
 					<?php
@@ -29,10 +29,10 @@
            <div class="box-tools pull-right">
 		   <?php
 				if($report->SubscriberInputDetails->EnquiryType =='Consumer Telephone Trace'){
-					$backMenu = "tracereport/telephonesearch";
+					$backMenu = "tracereportoptions/telephonesearch";
 					?>
 				<div>
-					 <a href="<?php echo site_url();?>/tracereport/downloadidreport">
+					 <a href="<?php echo site_url();?>/tracereportoptions/downloadidreport">
 						<img src="<?php echo base_url();?>dist/img/pdf_icon.png" height="35" width="35"/>
 						<span>Download PDF Document</span>
 					</a>
@@ -41,7 +41,7 @@
 				}
 				if($report->SubscriberInputDetails->EnquiryType =='Consumer Easy Trace'){?>
 				<div>
-					 <a href="<?php echo site_url();?>/tracereport/downloadidreport">
+					 <a href="<?php echo site_url();?>/tracereportoptions/downloadidreport">
 						<img src="<?php echo base_url();?>dist/img/pdf_icon.png" height="35" width="35"/>
 						<span>Download PDF Document</span>
 					</a>
@@ -49,10 +49,10 @@
 			<?php
 				}
 				if($report->SubscriberInputDetails->EnquiryType =='Consumer Address Trace'){
-					$backMenu = "tracereport/addresssearch";
+					$backMenu = "tracereportoptions/addresssearch";
 					?>
 				<div>
-					 <a href="<?php echo site_url();?>/tracereport/downloadidreport">
+					 <a href="<?php echo site_url();?>/tracereportoptions/downloadidreport">
 						<img src="<?php echo base_url();?>dist/img/pdf_icon.png" height="35" width="35"/>
 						<span>Download PDF Document</span>
 					</a>
@@ -60,10 +60,10 @@
 			<?php
 				}
 				if($report->SubscriberInputDetails->EnquiryType =='Consumer Trace'){
-					$backMenu = "tracereport/idsearch";
+					$backMenu = "tracereportoptions/idsearch";
 				?>
 				<div>
-					 <a href="<?php echo site_url();?>/tracereport/downloadidreport">
+					 <a href="<?php echo site_url();?>/tracereportoptions/downloadidreport">
 						<img src="<?php echo base_url();?>dist/img/pdf_icon.png" height="35" width="35"/>
 						<span>Download PDF Document</span>
 					</a>
@@ -275,7 +275,7 @@
 						<span>Information not found</span>
 				<?php } ?>
                 </div>
-              </div>
+              </div> 
 
 
               <div class="panel panel-primary">

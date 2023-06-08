@@ -2,7 +2,7 @@
 //error_reporting(E_ALL);
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Tracereport extends CI_Controller {
+class TracereportOptions extends CI_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -74,7 +74,7 @@ class Tracereport extends CI_Controller {
 			 redirect('user/login');
 		}	
 
-		$hasAccess = $this->checkpermission->hasAccess($this->session->userdata('usermenu'),$this->session->userdata('submenu'),'tracereport','idsearch');
+		$hasAccess = $this->checkpermission->hasAccess($this->session->userdata('usermenu'),$this->session->userdata('submenu'),'tracereportoptions','idsearch');
 
 		if($hasAccess->hasAccessToController === true && $hasAccess->hasAccessToFunction === false){
 			$data["content"] = 'permissions/access_denied';
@@ -104,7 +104,18 @@ class Tracereport extends CI_Controller {
 		$data["consumerList"]["details"] = array();
 		
 		if ($this->input->post("postback")=="post"){
-			
+			$specialReports = $this->input->post('specialReport');
+			foreach($specialReports as $sp){
+				if($sp=="deed_property"){
+					$_SESSION['deed_property'] = "on";
+				}
+				if($sp=="telephone_linkage"){
+					$_SESSION['telephone_linkage'] = "on";
+				}
+				if($sp=='cipc_principal_information'){
+					$_SESSION['cipc_principal_information'] = "on";
+				}
+			}
 			/*$recaptchaResponse = trim($this->input->post('g-recaptcha-response'));
 			$userIp=$this->input->ip_address();
 			$secret = $this->config->item('google_secret');
@@ -120,7 +131,7 @@ class Tracereport extends CI_Controller {
 			
 			if ($status['success'] == false){
 				$data['errorMessage'] = 'Sorry Recaptcha Unsuccessful!!';
-				$data["content"] = "tracereport/id-search";
+				$data["content"] = "tracereportoptions/id-search";
 				$this->load->view('site',$data);
 			} else {*/
 				
@@ -150,7 +161,7 @@ class Tracereport extends CI_Controller {
 				if ($xml->Error || $xml->NotFound){
 					
 					$auditlog = array(
-						"auditlog_reportname"=>"tracereport",
+						"auditlog_reportname"=>"tracereportoptions",
 						"auditlog_userId"=>$this->session->userdata('userId'),
 						"auditlog_reporttype"=>"id-search",
 						"auditlog_searchdata"=>json_encode(array(
@@ -168,7 +179,7 @@ class Tracereport extends CI_Controller {
 						$data["errorMessage"] = $xml->NotFound;
 					}
 					$data["consumerList"]["details"] = array();
-					$data["content"] = "tracereport/id-search";
+					$data["content"] = "tracereportoptions/id-search";
 					$this->load->view('site',$data);
 				}else {
 					
@@ -176,7 +187,7 @@ class Tracereport extends CI_Controller {
 					$arrOutput = json_decode($objJsonDocument);
 
 					$auditlog = array(
-						"auditlog_reportname"=>"tracereport",
+						"auditlog_reportname"=>"tracereportoptions",
 						"auditlog_userId"=>$this->session->userdata('userId'),
 						"auditlog_reporttype"=>"id-search",
 						"auditlog_searchdata"=>json_encode(array(
@@ -210,7 +221,7 @@ class Tracereport extends CI_Controller {
 							 
 						 
 							$auditlog = array(
-								"auditlog_reportname"=>"tracereport",
+								"auditlog_reportname"=>"tracereportoptions",
 								"auditlog_userId"=>$this->session->userdata('userId'),
 								"auditlog_reporttype"=>"addresssearch",
 								"auditlog_searchdata"=>json_encode(array(
@@ -241,7 +252,7 @@ class Tracereport extends CI_Controller {
 								'EnquiryResultID' => $arrOutputListValueListValue->EnquiryResultID));
 								
 								$auditlog = array(
-									"auditlog_reportname"=>"tracereport",
+									"auditlog_reportname"=>"tracereportoptions",
 									"auditlog_userId"=>$this->session->userdata('userId'),
 									"auditlog_reporttype"=>"addresssearch",
 									"auditlog_searchdata"=>json_encode(array(
@@ -258,15 +269,18 @@ class Tracereport extends CI_Controller {
 							}								
 					}
 					
-					$data["content"] = "tracereport/id-search";
+					$data["content"] = "tracereportoptions/id-search";
 					$this->load->view('site',$data);
 				}
 
 			//}				
 			
 		}else{
+			unset($_SESSION['deed_property']);
+			unset($_SESSION['telephone_linkage']);
+			unset($_SESSION['cipc_principal_information']);
 			$data["consumerList"]["details"] = array();
-			$data["content"] = "tracereport/id-search";
+			$data["content"] = "tracereportoptions/id-search";
 			$this->load->view('site',$data);
 		}
 	}
@@ -328,17 +342,64 @@ class Tracereport extends CI_Controller {
 		$objJsonDocument = json_encode($strConnectGetBonusSegments);
 		$arrOutput = json_decode($objJsonDocument);
 			
-		if(is_object($arrOutput->Segments)){
-			$strConnectGetBonusSegments->Segments->BonusViewed='True';
-		}else{
-			foreach($arrOutput->Segments as $segmenValK => $segmenValV){
-				$arrOutput->Segments[$segmenValK]->BonusViewed='True';
-			}	
-		}
-
-		
-
 		 $document = new DOMDocument();
+		 $document->appendChild($bonusSegments = $document->createElement('BonusSegments'));
+		  $hasSegments =false;
+		 if(!is_object($arrOutput->Segments)){
+			 foreach($arrOutput->Segments as $segmenValK => $segmenValV){
+				
+				$bonusSegments->appendChild($segments = $document->createElement('Segments')); 
+				$segments->appendChild($document->createElement('DataSegmentID'))->textContent = $segmenValV->DataSegmentID;
+				$segments->appendChild($document->createElement('DataSegmentName'))->textContent = $segmenValV->DataSegmentName;
+				$segments->appendChild($document->createElement('DataSegmentDisplayText'))->textContent = $segmenValV->DataSegmentDisplayText;
+				if ($segmenValV->DataSegmentName == "ConsumerPropertyInformation" && $_SESSION['deed_property']=="on"){
+					$segments->appendChild($document->createElement('BonusViewed'))->textContent = 'True';
+				}else if($segmenValV->DataSegmentName == "ConsumerPropertyInformation" && $_SESSION['deed_property']!="on"){
+					$segments->appendChild($document->createElement('BonusViewed'))->textContent = 'False';
+				}
+				
+				if ($segmenValV->DataSegmentName == "ConsumerTelephoneLinkage" && $_SESSION['telephone_linkage']=="on"){
+					$segments->appendChild($document->createElement('BonusViewed'))->textContent = 'True';
+				}else if($segmenValV->DataSegmentName == "ConsumerTelephoneLinkage" && $_SESSION['telephone_linkage']!="on"){
+					$segments->appendChild($document->createElement('BonusViewed'))->textContent = 'False';
+				}
+				
+				if ($segmenValV->DataSegmentName == "ConsumerDirectorShipLink" && $_SESSION['cipc_principal_information']=="on"){
+					$segments->appendChild($document->createElement('BonusViewed'))->textContent = 'True';
+				}else if($segmenValV->DataSegmentName == "ConsumerDirectorShipLink" && $_SESSION['cipc_principal_information']!="on"){
+					$segments->appendChild($document->createElement('BonusViewed'))->textContent = 'False';
+				}
+				$segments->appendChild($document->createElement('BonusPrice'))->textContent = $segmenValV->BonusPrice;
+			 }
+			
+		 }else{
+				$bonusSegments->appendChild($segments = $document->createElement('Segments')); 
+				$segments->appendChild($document->createElement('DataSegmentID'))->textContent = $arrOutput->Segments->DataSegmentID;
+				$segments->appendChild($document->createElement('DataSegmentName'))->textContent = $arrOutput->Segments->DataSegmentName;
+				$segments->appendChild($document->createElement('DataSegmentDisplayText'))->textContent = $arrOutput->Segments->DataSegmentDisplayText;
+				
+				if ( $arrOutput->Segments->DataSegmentName == "ConsumerPropertyInformation" && $_SESSION['deed_property']=="on"){
+					$segments->appendChild($document->createElement('BonusViewed'))->textContent = 'True';
+				}else if( $arrOutput->Segments->DataSegmentName == "ConsumerPropertyInformation" && $_SESSION['deed_property']!="on"){
+					$segments->appendChild($document->createElement('BonusViewed'))->textContent = 'False';
+				}
+				
+				if ( $arrOutput->Segments->DataSegmentName == "ConsumerTelephoneLinkage" && $_SESSION['telephone_linkage']=="on"){
+					$segments->appendChild($document->createElement('BonusViewed'))->textContent = 'True';
+				}else if( $arrOutput->Segments->DataSegmentName == "ConsumerTelephoneLinkage" && $_SESSION['telephone_linkage']!="on"){
+					$segments->appendChild($document->createElement('BonusViewed'))->textContent = 'False';
+				}
+				
+				if ( $arrOutput->Segments->DataSegmentName == "ConsumerDirectorShipLink" && $_SESSION['cipc_principal_information']=="on"){
+					$segments->appendChild($document->createElement('BonusViewed'))->textContent = 'True';
+				}else if( $arrOutput->Segments->DataSegmentName == "ConsumerDirectorShipLink" && $_SESSION['cipc_principal_information']!="on"){
+					$segments->appendChild($document->createElement('BonusViewed'))->textContent = 'False';
+				}
+				//$segments->appendChild($document->createElement('BonusViewed'))->textContent = $arrOutput->Segments->BonusViewed;
+				$segments->appendChild($document->createElement('BonusPrice'))->textContent = $arrOutput->Segments->BonusPrice;			 
+		 }
+         $hasSegments = true;
+		/*$document = new DOMDocument();
 		 $document->appendChild($bonusSegments = $document->createElement('BonusSegments'));
 		 $hasSegments =false;
 		 if(!is_object($arrOutput->Segments)){
@@ -364,7 +425,7 @@ class Tracereport extends CI_Controller {
 				$segments->appendChild($document->createElement('BonusViewed'))->textContent = 'True';
 				$segments->appendChild($document->createElement('BonusPrice'))->textContent = $arrOutput->Segments->BonusPrice;
 			  }							
-		 }
+		 }*/
 		 
 				
 		if ($hasSegments == true){ 
@@ -388,13 +449,12 @@ class Tracereport extends CI_Controller {
 		$xml = simplexml_load_string($responseConnectGetResult->ConnectGetResultResult,"SimpleXMLElement");
 		$objJsonDocument = json_encode($xml);
 		$arrOutput = json_decode($objJsonDocument);
-		
 
 		$data['report'] = $arrOutput;
 
 		$searchdataArray =(array)$data['report'];
 		$searchHistory = array(
-				"reportname"=>"tracereport",
+				"reportname"=>"tracereportoptions",
 				"userId"=>$this->session->userdata('userId'),
 				"searchdata"=>json_encode($this->session->userdata('searchdata')),
 				"outputdata" => json_encode($searchdataArray),
@@ -403,7 +463,7 @@ class Tracereport extends CI_Controller {
 		
 		$this->SearchHistory_model->create($searchHistory);
 		$this->session->set_userdata(array('report' =>$data['report']));
-		$data["content"] = "tracereport/trace-report";
+		$data["content"] = "tracereportoptions/trace-report";
 		$this->load->view('site',$data);	
 		
 	}
@@ -414,7 +474,7 @@ class Tracereport extends CI_Controller {
 			 redirect('user/login');
 		}
 		
-		$hasAccess = $this->checkpermission->hasAccess($this->session->userdata('usermenu'),$this->session->userdata('submenu'),'tracereport','addresssearch');
+		$hasAccess = $this->checkpermission->hasAccess($this->session->userdata('usermenu'),$this->session->userdata('submenu'),'tracereportoptions','addresssearch');
 
 		if($hasAccess->hasAccessToController === true && $hasAccess->hasAccessToFunction === false){
 			$data["content"] = 'permissions/access_denied';
@@ -448,7 +508,18 @@ class Tracereport extends CI_Controller {
 		
 		if ($this->input->post("postback")=="post"){
 			
-			
+			$specialReports = $this->input->post('specialReport');
+			foreach($specialReports as $sp){
+				if($sp=="deed_property"){
+					$_SESSION['deed_property'] = "on";
+				}
+				if($sp=="telephone_linkage"){
+					$_SESSION['telephone_linkage'] = "on";
+				}
+				if($sp=='cipc_principal_information'){
+					$_SESSION['cipc_principal_information'] = "on";
+				}
+			}
 			/*$recaptchaResponse = trim($this->input->post('g-recaptcha-response'));
 			$userIp=$this->input->ip_address();
 			$secret = $this->config->item('google_secret');
@@ -464,11 +535,11 @@ class Tracereport extends CI_Controller {
 			if ($status['success'] == false){
 				$data["consumerList"]["details"] = array();
 				$data['errorMessage'] = 'Sorry Recaptcha Unsuccessful!!';
-				$data["content"] = "tracereport/addresssearch";
+				$data["content"] = "tracereportoptions/addresssearch";
 				$this->load->view('site',$data);
 			} else {*/
 				if(!$this->input->post('listprovinces')){
-					redirect('tracereport/addresssearch');
+					redirect('tracereportoptions/addresssearch');
 				}
 				
 				$IsTicketValid = array("XDSConnectTicket"=>$this->session->userdata('tokenId'));
@@ -496,7 +567,7 @@ class Tracereport extends CI_Controller {
 				if ($xml->Error || $xml->NotFound){
 					
 					$auditlog = array(
-						"auditlog_reportname"=>"tracereport",
+						"auditlog_reportname"=>"tracereportoptions",
 						"auditlog_userId"=>$this->session->userdata('userId'),
 						"auditlog_reporttype"=>"addresssearch",
 						"auditlog_searchdata"=>json_encode(array(
@@ -523,7 +594,7 @@ class Tracereport extends CI_Controller {
 					$objJsonDocument = json_encode($xml);
 					$arrOutput = json_decode($objJsonDocument);
 					$auditlog = array(
-						"auditlog_reportname"=>"tracereport",
+						"auditlog_reportname"=>"tracereportoptions",
 						"auditlog_userId"=>$this->session->userdata('userId'),
 						"auditlog_reporttype"=>"addresssearch",
 						"auditlog_searchdata"=>json_encode(array(
@@ -568,7 +639,7 @@ class Tracereport extends CI_Controller {
 								 
 							 
 								$auditlog = array(
-									"auditlog_reportname"=>"tracereport",
+									"auditlog_reportname"=>"tracereportoptions",
 									"auditlog_userId"=>$this->session->userdata('userId'),
 									"auditlog_reporttype"=>"addresssearch",
 									"auditlog_searchdata"=>json_encode(array(
@@ -599,7 +670,7 @@ class Tracereport extends CI_Controller {
 									'EnquiryResultID' => $arrOutputListValueListValue->EnquiryResultID));
 									
 									$auditlog = array(
-										"auditlog_reportname"=>"tracereport",
+										"auditlog_reportname"=>"tracereportoptions",
 										"auditlog_userId"=>$this->session->userdata('userId'),
 										"auditlog_reporttype"=>"addresssearch",
 										"auditlog_searchdata"=>json_encode(array(
@@ -617,12 +688,15 @@ class Tracereport extends CI_Controller {
 						}
 					
 				}
-				$data["content"] = "tracereport/addresssearch";
+				$data["content"] = "tracereportoptions/addresssearch";
 				$this->load->view('site',$data);
 			//}			
 		}else{
+			unset($_SESSION['deed_property']);
+			unset($_SESSION['telephone_linkage']);
+			unset($_SESSION['cipc_principal_information']);
 			$data["consumerList"]["details"] = array();
-			$data["content"] = "tracereport/addresssearch";
+			$data["content"] = "tracereportoptions/addresssearch";
 			$this->load->view('site',$data);
 		}
 			
@@ -633,7 +707,7 @@ class Tracereport extends CI_Controller {
 			 redirect('user/login');
 		}
 		
-		$hasAccess = $this->checkpermission->hasAccess($this->session->userdata('usermenu'),$this->session->userdata('submenu'),'tracereport','telephonesearch');
+		$hasAccess = $this->checkpermission->hasAccess($this->session->userdata('usermenu'),$this->session->userdata('submenu'),'tracereportoptions','telephonesearch');
 
 		if($hasAccess->hasAccessToController === true && $hasAccess->hasAccessToFunction === false){
 			$data["content"] = 'permissions/access_denied';
@@ -663,6 +737,20 @@ class Tracereport extends CI_Controller {
 		$data["consumerList"] = array();
 		
 		if ($this->input->post("postback")=="post"){
+			$specialReports = $this->input->post('specialReport');
+			foreach($specialReports as $sp){
+				if($sp=="deed_property"){
+					$_SESSION['deed_property'] = "on";
+				}
+				if($sp=="telephone_linkage"){
+					$_SESSION['telephone_linkage'] = "on";
+				}
+				if($sp=='cipc_principal_information'){
+					$_SESSION['cipc_principal_information'] = "on";
+				}
+			}
+
+			
 			/*$recaptchaResponse = trim($this->input->post('g-recaptcha-response'));
 			$userIp=$this->input->ip_address();
 			$secret = $this->config->item('google_secret');
@@ -678,11 +766,11 @@ class Tracereport extends CI_Controller {
 			if ($status['success'] == false){
 				$data["consumerList"]["details"] = array();
 				$data['errorMessage'] = 'Sorry Recaptcha Unsuccessful!!';
-				$data["content"] = "tracereport/telephone-search";
+				$data["content"] = "tracereportoptions/telephone-search";
 				$this->load->view('site',$data);
 			} else {*/			
 				if((!$this->input->post('cellphoneNo')) && (!$this->input->post('telephoneNo'))){
-					redirect('tracereport/telephonesearch');
+					redirect('tracereportoptions/telephonesearch');
 				}	
 				
 				if ($this->input->post("cellphoneNo") != ""){
@@ -718,7 +806,7 @@ class Tracereport extends CI_Controller {
 					$data["errorMessage"] = (($xml->NotFound)?$xml->NotFound:$xml->Error);
 					$data["consumerList"]["details"] = array();				
 					$auditlog = array(
-						"auditlog_reportname"=>"tracereport",
+						"auditlog_reportname"=>"tracereportoptions",
 						"auditlog_userId"=>$this->session->userdata('userId'),
 						"auditlog_reporttype"=>"telephonesearch",
 						"auditlog_searchdata"=>json_encode(array(
@@ -736,7 +824,7 @@ class Tracereport extends CI_Controller {
 					$arrOutput = json_decode($objJsonDocument);
 					
 					$auditlog = array(
-						"auditlog_reportname"=>"tracereport",
+						"auditlog_reportname"=>"tracereportoptions",
 						"auditlog_userId"=>$this->session->userdata('userId'),
 						"auditlog_reporttype"=>"telephonesearch",
 						"auditlog_searchdata"=>json_encode(array(
@@ -758,7 +846,7 @@ class Tracereport extends CI_Controller {
 							'EnquiryResultID' => $arrOutputListValueListValue->EnquiryResultID));
 							
 							$auditlog = array(
-								"auditlog_reportname"=>"tracereport",
+								"auditlog_reportname"=>"tracereportoptions",
 								"auditlog_userId"=>$this->session->userdata('userId'),
 								"auditlog_reporttype"=>"telephonesearch",
 								"auditlog_searchdata"=>json_encode(array(
@@ -780,7 +868,7 @@ class Tracereport extends CI_Controller {
 							'EnquiryResultID' => $arrOutput->ConsumerDetails->EnquiryResultID));
 
 							$auditlog = array(
-								"auditlog_reportname"=>"tracereport",
+								"auditlog_reportname"=>"tracereportoptions",
 								"auditlog_userId"=>$this->session->userdata('userId'),
 								"auditlog_reporttype"=>"telephonesearch",
 								"auditlog_searchdata"=>json_encode(array(
@@ -799,9 +887,12 @@ class Tracereport extends CI_Controller {
 				}
 			//}
 		} else {
+			unset($_SESSION['deed_property']);
+			unset($_SESSION['telephone_linkage']);
+			unset($_SESSION['cipc_principal_information']);
 			$data["consumerList"]["details"] = array();
 		}
-		$data["content"] = "tracereport/telephone-search";
+		$data["content"] = "tracereportoptions/telephone-search";
 		$this->load->view('site',$data);
 		
 	}
@@ -840,7 +931,7 @@ class Tracereport extends CI_Controller {
 	));
 	
 	$auditlog = array(
-		"auditlog_reportname"=>"tracereport",
+		"auditlog_reportname"=>"tracereportoptions",
 		"auditlog_userId"=>$this->session->userdata('userId'),
 		"auditlog_reporttype"=>"id-search",
 		"auditlog_searchdata"=>json_encode(array(
@@ -857,36 +948,69 @@ class Tracereport extends CI_Controller {
 	$objJsonDocument = json_encode($strConnectGetBonusSegments);
 	$arrOutput = json_decode($objJsonDocument);
 
-	if(is_object($arrOutput->Segments)){
-		$strConnectGetBonusSegments->Segments->BonusViewed='True';
-	}else{
-		foreach($arrOutput->Segments as $segmenValK => $segmenValV){
-			$arrOutput->Segments[$segmenValK]->BonusViewed='True';
-		}	
-	}
 
 	 $document = new DOMDocument();
 	 $document->appendChild($bonusSegments = $document->createElement('BonusSegments'));
 	 if(!is_object($arrOutput->Segments)){
 		 foreach($arrOutput->Segments as $segmenValK => $segmenValV){
+			
 			$bonusSegments->appendChild($segments = $document->createElement('Segments')); 
 			$segments->appendChild($document->createElement('DataSegmentID'))->textContent = $segmenValV->DataSegmentID;
 			$segments->appendChild($document->createElement('DataSegmentName'))->textContent = $segmenValV->DataSegmentName;
 			$segments->appendChild($document->createElement('DataSegmentDisplayText'))->textContent = $segmenValV->DataSegmentDisplayText;
-			$segments->appendChild($document->createElement('BonusViewed'))->textContent = $segmenValV->BonusViewed;
+			if ($segmenValV->DataSegmentName == "ConsumerPropertyInformation" && $_SESSION['deed_property']=="on"){
+				$segments->appendChild($document->createElement('BonusViewed'))->textContent = 'True';
+			}else if($segmenValV->DataSegmentName == "ConsumerPropertyInformation" && $_SESSION['deed_property']!="on"){
+				$segments->appendChild($document->createElement('BonusViewed'))->textContent = 'False';
+			}
+			
+			if ($segmenValV->DataSegmentName == "ConsumerTelephoneLinkage" && $_SESSION['telephone_linkage']=="on"){
+				$segments->appendChild($document->createElement('BonusViewed'))->textContent = 'True';
+			}else if($segmenValV->DataSegmentName == "ConsumerTelephoneLinkage" && $_SESSION['telephone_linkage']!="on"){
+				$segments->appendChild($document->createElement('BonusViewed'))->textContent = 'False';
+			}
+			
+			if ($segmenValV->DataSegmentName == "ConsumerDirectorShipLink" && $_SESSION['cipc_principal_information']=="on"){
+				$segments->appendChild($document->createElement('BonusViewed'))->textContent = 'True';
+			}else if($segmenValV->DataSegmentName == "ConsumerDirectorShipLink" && $_SESSION['cipc_principal_information']!="on"){
+				$segments->appendChild($document->createElement('BonusViewed'))->textContent = 'False';
+			}
 			$segments->appendChild($document->createElement('BonusPrice'))->textContent = $segmenValV->BonusPrice;
 		 }
+
 	 }else{
 			$bonusSegments->appendChild($segments = $document->createElement('Segments')); 
 			$segments->appendChild($document->createElement('DataSegmentID'))->textContent = $arrOutput->Segments->DataSegmentID;
 			$segments->appendChild($document->createElement('DataSegmentName'))->textContent = $arrOutput->Segments->DataSegmentName;
 			$segments->appendChild($document->createElement('DataSegmentDisplayText'))->textContent = $arrOutput->Segments->DataSegmentDisplayText;
-			$segments->appendChild($document->createElement('BonusViewed'))->textContent = $arrOutput->Segments->BonusViewed;
+			
+			if ( $arrOutput->Segments->DataSegmentName == "ConsumerPropertyInformation" && $_SESSION['deed_property']=="on"){
+				$segments->appendChild($document->createElement('BonusViewed'))->textContent = 'True';
+			}else if( $arrOutput->Segments->DataSegmentName == "ConsumerPropertyInformation" && $_SESSION['deed_property']!="on"){
+				$segments->appendChild($document->createElement('BonusViewed'))->textContent = 'False';
+			}
+			
+			if ( $arrOutput->Segments->DataSegmentName == "ConsumerTelephoneLinkage" && $_SESSION['telephone_linkage']=="on"){
+				$segments->appendChild($document->createElement('BonusViewed'))->textContent = 'True';
+			}else if( $arrOutput->Segments->DataSegmentName == "ConsumerTelephoneLinkage" && $_SESSION['telephone_linkage']!="on"){
+				$segments->appendChild($document->createElement('BonusViewed'))->textContent = 'False';
+			}
+			
+			if ( $arrOutput->Segments->DataSegmentName == "ConsumerDirectorShipLink" && $_SESSION['cipc_principal_information']=="on"){
+				$segments->appendChild($document->createElement('BonusViewed'))->textContent = 'True';
+			}else if( $arrOutput->Segments->DataSegmentName == "ConsumerDirectorShipLink" && $_SESSION['cipc_principal_information']!="on"){
+				$segments->appendChild($document->createElement('BonusViewed'))->textContent = 'False';
+			}
+			//$segments->appendChild($document->createElement('BonusViewed'))->textContent = $arrOutput->Segments->BonusViewed;
 			$segments->appendChild($document->createElement('BonusPrice'))->textContent = $arrOutput->Segments->BonusPrice;			 
 	 }
 	 
 	$document->formatOutput = true;
-
+	
+	
+	unset($_SESSION['deed_property']);
+	unset($_SESSION['telephone_linkage']);
+	unset($_SESSION['cipc_principal_information']);
 	
 	$responseConnectGetResult = $this->client->ConnectGetResult(array(
 	'EnquiryID' => $myEnquiryID,
@@ -900,31 +1024,32 @@ class Tracereport extends CI_Controller {
 	$arrOutput = json_decode($objJsonDocument);
 	$data['report'] = $arrOutput;
 	
+	
 	$searchdataArray =(array)$data['report'];
-	$searchHistory = array(
-			"reportname"=>"tracereport",
-			"userId"=>$this->session->userdata('userId'),
-			"searchdata"=>json_encode($this->session->userdata('searchdata')),
-			"outputdata" => json_encode($searchdataArray),
-			"reporttype" => $this->session->userdata('reporttype')
-	);
+			$searchHistory = array(
+					"reportname"=>"tracereportoptions",
+					"userId"=>$this->session->userdata('userId'),
+					"searchdata"=>json_encode($this->session->userdata('searchdata')),
+					"outputdata" => json_encode($searchdataArray),
+					"reporttype" => $this->session->userdata('reporttype')
+			);
 	
-	$this->SearchHistory_model->create($searchHistory);
-				
-	
-	$auditlog = array(
-		"auditlog_reportname"=>"tracereport",
-		"auditlog_userId"=>$this->session->userdata('userId'),
-		"auditlog_reporttype"=>"id-search",
-		"auditlog_searchdata"=>json_encode(array(
-			'EnquiryID' => $myEnquiryID,
-			'EnquiryResultID' => $myEnquiryResultID,
-			'ProductID' => 2,
-			'BonusXML' => $document->saveXML())),
-		"auditlog_fnexecuted" => "ConnectGetResult",
-		"auditlog_issuccess" => true
-	);
-	$this->Auditlog_model->save($auditlog);
+		$this->SearchHistory_model->create($searchHistory);
+					
+		
+		$auditlog = array(
+			"auditlog_reportname"=>"tracereportoptions",
+			"auditlog_userId"=>$this->session->userdata('userId'),
+			"auditlog_reporttype"=>"id-search",
+			"auditlog_searchdata"=>json_encode(array(
+				'EnquiryID' => $myEnquiryID,
+				'EnquiryResultID' => $myEnquiryResultID,
+				'ProductID' => 2,
+				'BonusXML' => $document->saveXML())),
+			"auditlog_fnexecuted" => "ConnectGetResult",
+			"auditlog_issuccess" => true
+		);
+		$this->Auditlog_model->save($auditlog);
 
 		return $arrOutput;
 	}
@@ -964,7 +1089,7 @@ class Tracereport extends CI_Controller {
 		
 		$searchdataArray =(array)$data['report'];
 		$searchHistory = array(
-				"reportname"=>"tracereport",
+				"reportname"=>"tracereportoptions",
 				"userId"=>$this->session->userdata('userId'),
 				"searchdata"=>json_encode($this->session->userdata('searchdata')),
 				"outputdata" => json_encode($searchdataArray),
@@ -975,7 +1100,7 @@ class Tracereport extends CI_Controller {
 					
 		#$this->session->unset_userdata('searchdata');
 		#$this->session->unset_userdata('reporttype');
-		$data["content"] = "tracereport/trace-report";
+		$data["content"] = "tracereportoptions/trace-report";
 		$this->load->view('site',$data);
 		
 	}
@@ -988,7 +1113,7 @@ class Tracereport extends CI_Controller {
 		$data["errorFlash"] = "";
 		$data["errorMessage"] = "";
 		$data["consumerList"] = array();
-		$data["content"] = "tracereport/fuzzy-search";
+		$data["content"] = "tracereportoptions/fuzzy-search";
 		$this->load->view('site',$data);
 		
 	}
@@ -1013,7 +1138,7 @@ class Tracereport extends CI_Controller {
 			ob_clean();
 			$data['report'] = $this->session->userdata('report');
 			$this->load->library('pdf');
-			$html = $this->load->view('tracereport/pdf-trace-report',$data, true);
+			$html = $this->load->view('tracereportoptions/pdf-trace-report',$data, true);
 			$this->pdf->createPDF($html, "customer-tracereport-".time(), true);
 
 		}catch(Exception $ex){

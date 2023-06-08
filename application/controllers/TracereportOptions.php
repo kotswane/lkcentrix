@@ -2,7 +2,7 @@
 //error_reporting(E_ALL);
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class TracereportOptions extends CI_Controller {
+class Tracereportoptions extends CI_Controller {
 
 	/**
 	 * Index Page for this controller.

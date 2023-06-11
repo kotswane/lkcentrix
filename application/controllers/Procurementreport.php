@@ -104,6 +104,7 @@ class Procurementreport extends CI_Controller {
 				$status['success'] = true;
 			}	
 			
+			
 			/*if ($status['success'] == false){
 				$data['errorMessage'] = 'Sorry Recaptcha Unsuccessful!!';
 				$data["content"] = "procurementreport/companyname";
@@ -129,73 +130,258 @@ class Procurementreport extends CI_Controller {
 					$this->load->view('site',$data);
 				} else {
 					
-					$this->session->set_userdata(array("searchstring" => $this->input->post('companyname')));
-					
-					$ref = $this->session->userdata('username')."-".uniqid()."-".rand(10,100);
-					$response = $this->client->ConnectBusinessMatch(array(
-						'Reg1' => '',
-						'Reg2' => '',
-						'Reg3' => '',
-						'BusinessName' => $this->input->post('companyname'),
-						'VatNo' => '',
-						'SolePropIDNo' => '',
-						'YourReference' => $ref,
-						'ConnectTicket' => $this->session->userdata('tokenId')));
-
-					$xml = simplexml_load_string($response->ConnectBusinessMatchResult,"SimpleXMLElement");
-					
-					if ($xml->NotFound || $xml->Error){
-						
-						$auditlog = array(
-						"auditlog_reportname"=>"procurementreport",
-						"auditlog_userId"=>$this->session->userdata('userId'),
-						"auditlog_reporttype"=>"companyname",
-						"auditlog_searchdata"=>json_encode(array(
-						'Reg1' => '',
-						'Reg2' => '',
-						'Reg3' => '',
-						'BusinessName' => $this->input->post('companyname'),
-						'VatNo' => '',
-						'SolePropIDNo' => '',
-						'YourReference' => $ref)),
-						"auditlog_fnexecuted" => "ConnectBusinessMatch",
-						"auditlog_issuccess" => false);
-						$this->Auditlog_model->save($auditlog);						
-						
-						
-						if ($xml->Error){
-							$data["errorMessage"] = $xml->Error;
-						}else{
-							$data["errorMessage"] = $xml->NotFound;
-						}
-						$data["consumerList"] = new stdClass();;
-						$data["content"] = "procurementreport/companyname";
+					$resp = $this->SearchHistory_model->findLastSevenDayRecords($this->input->post('companyname'));
+					if(count($resp)!=0){
+						$responseX = json_decode($resp[0]->outputdata);
+		
+						$data['report'] = $responseX;
+						$data['personaldetails']['details'] = $responseX->personaldetails;
+						$data['blackListed']=$responseX->blackListed;
+						$this->session->set_userdata(array('report_download'=>$responseX));
+						$data["content"] = "procurementreport/customerdatalist.php";
 						$this->load->view('site',$data);
-						
 					}else{
+					
+						$this->session->set_userdata(array("searchstring" => $this->input->post('companyname')));
 						
-						$auditlog = array(
-						"auditlog_reportname"=>"procurementreport",
-						"auditlog_userId"=>$this->session->userdata('userId'),
-						"auditlog_reporttype"=>"companyname",
-						"auditlog_searchdata"=>json_encode(array(
-						'Reg1' => '',
-						'Reg2' => '',
-						'Reg3' => '',
-						'BusinessName' => $this->input->post('companyname'),
-						'VatNo' => '',
-						'SolePropIDNo' => '',
-						'YourReference' => $ref)),
-						"auditlog_fnexecuted" => "ConnectBusinessMatch",
-						"auditlog_issuccess" => true);
-						$this->Auditlog_model->save($auditlog);
+						$ref = $this->session->userdata('username')."-".uniqid()."-".rand(10,100);
+						$response = $this->client->ConnectBusinessMatch(array(
+							'Reg1' => '',
+							'Reg2' => '',
+							'Reg3' => '',
+							'BusinessName' => $this->input->post('companyname'),
+							'VatNo' => '',
+							'SolePropIDNo' => '',
+							'YourReference' => $ref,
+							'ConnectTicket' => $this->session->userdata('tokenId')));
+
+						$xml = simplexml_load_string($response->ConnectBusinessMatchResult,"SimpleXMLElement");
 						
-						$objJsonDocument = json_encode($xml);
-						$data["consumerList"] = json_decode($objJsonDocument);
-						
-						$data["content"] = "procurementreport/companyname";
+						if ($xml->NotFound || $xml->Error){
+							
+							$auditlog = array(
+							"auditlog_reportname"=>"procurementreport",
+							"auditlog_userId"=>$this->session->userdata('userId'),
+							"auditlog_reporttype"=>"companyname",
+							"auditlog_searchdata"=>json_encode(array(
+							'Reg1' => '',
+							'Reg2' => '',
+							'Reg3' => '',
+							'BusinessName' => $this->input->post('companyname'),
+							'VatNo' => '',
+							'SolePropIDNo' => '',
+							'YourReference' => $ref)),
+							"auditlog_fnexecuted" => "ConnectBusinessMatch",
+							"auditlog_issuccess" => false);
+							$this->Auditlog_model->save($auditlog);						
+							
+							
+							if ($xml->Error){
+								$data["errorMessage"] = $xml->Error;
+							}else{
+								$data["errorMessage"] = $xml->NotFound;
+							}
+							$data["consumerList"] = new stdClass();;
+							$data["content"] = "procurementreport/companyname";
+							$this->load->view('site',$data);
+							
+						}else{
+							
+							$auditlog = array(
+							"auditlog_reportname"=>"procurementreport",
+							"auditlog_userId"=>$this->session->userdata('userId'),
+							"auditlog_reporttype"=>"companyname",
+							"auditlog_searchdata"=>json_encode(array(
+							'Reg1' => '',
+							'Reg2' => '',
+							'Reg3' => '',
+							'BusinessName' => $this->input->post('companyname'),
+							'VatNo' => '',
+							'SolePropIDNo' => '',
+							'YourReference' => $ref)),
+							"auditlog_fnexecuted" => "ConnectBusinessMatch",
+							"auditlog_issuccess" => true);
+							$this->Auditlog_model->save($auditlog);
+							
+							$objJsonDocument = json_encode($xml);
+							$data["consumerList"] = json_decode($objJsonDocument);
+							
+							$data["content"] = "procurementreport/companyname";
+							$this->load->view('site',$data);
+							
+						}
+					}
+				}
+			//}
+		}else {
+			$data["consumerList"] = new stdClass();
+			$data["content"] = "procurementreport/companyname";
+			$this->load->view('site',$data);
+		}		
+	}
+	
+	public function index(){
+		if(!$this->session->userdata('username')){
+			 redirect('user/login');
+		}
+
+		$hasAccess = $this->checkpermission->hasAccess($this->session->userdata('usermenu'),$this->session->userdata('submenu'),'procurementreport','companyname');
+
+		if($hasAccess->hasAccessToController === true && $hasAccess->hasAccessToFunction === false){
+			$data["content"] = 'permissions/access_denied';
+			return $this->load->view('site',$data);
+		}else if($hasAccess->hasAccessToController === false && $hasAccess->hasAccessToFunction === false){
+			$data["content"] = 'permissions/access_denied';
+			return $this->load->view('site',$data);
+		}
+		
+		if(!$this->session->userdata('agreed_tc_and_c')){
+			 redirect('user/logout');
+		}
+		$data = array('id'=>$this->session->userdata('username'),'site'=>'tracing portal prod');
+		$response = $this->redisclient->request($data);
+
+		if($response->status != "success"){
+			$this->session->set_userdata(array('tokensession' => 'Session expired, please login again'));
+			redirect('user/login');
+		}	
+		
+		$data["reports_type"] = $this->reports_type;
+		$data["reports"] = $this->reports;
+		$data["successFlash"] = "";
+		$data["infoFlash"] = "";
+		$data["errorFlash"] = "";
+		$data["errorMessage"] = "";
+		$data["consumerList"] = new stdClass();
+
+		
+		if ($this->input->post("postback")=="post"){
+				
+			
+			/*$recaptchaResponse = trim($this->input->post('g-recaptcha-response'));
+			
+			$userIp=$this->input->ip_address();
+			$secret = $this->config->item('google_secret');
+			$url="https://www.google.com/recaptcha/api/siteverify?secret=".$secret."&response=".$recaptchaResponse."&remoteip=".$userIp;
+	 
+			$ch = curl_init(); 
+			curl_setopt($ch, CURLOPT_URL, $url); 
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+			$output = curl_exec($ch); 
+			curl_close($ch);      
+			 
+			$status = json_decode($output, true);*/	
+
+			if ($this->input->post("fromlist")=="back"){
+				$status['success'] = true;
+			}	
+			
+			
+			/*if ($status['success'] == false){
+				$data['errorMessage'] = 'Sorry Recaptcha Unsuccessful!!';
+				$data["content"] = "procurementreport/companyname";
+				$data["consumerList"] = new stdClass();
+				$this->load->view('site',$data);
+			} else {*/
+
+				$IsTicketValid = array("XDSConnectTicket"=>$this->session->userdata('tokenId'));
+				
+				$this->client = $this->mysoapclient->getClient();
+				$this->latestclient = $this->mysoapclient->getClientlatest();
+				$resp = $this->client->IsTicketValid($IsTicketValid);
+				if($resp->IsTicketValidResult != true || $resp->IsTicketValidResult ==""){
+					$this->session->set_userdata(array('tokensession' =>'Session expired, please login again'));
+					redirect('user/login');
+				}
+			
+				
+				if($this->input->post('companyname') == "" ){
+					$data["consumerList"] = new stdClass();
+					$data["errorMessage"] = "Company name required";
+					$data["content"] = "procurementreport/companyname";
+					$this->load->view('site',$data);
+				} else {
+					
+					$resp = $this->SearchHistory_model->findLastSevenDayRecords($this->input->post('companyname'));
+					if(count($resp)!=0){
+						$responseX = json_decode($resp[0]->outputdata);
+		
+						$data['report'] = $responseX;
+						$data['personaldetails']['details'] = $responseX->personaldetails;
+						$data['blackListed']=$responseX->blackListed;
+						$this->session->set_userdata(array('report_download'=>$responseX));
+						$data["content"] = "procurementreport/customerdatalist.php";
 						$this->load->view('site',$data);
+					}else{
+					
+						$this->session->set_userdata(array("searchstring" => $this->input->post('companyname')));
 						
+						$ref = $this->session->userdata('username')."-".uniqid()."-".rand(10,100);
+						$response = $this->client->ConnectBusinessMatch(array(
+							'Reg1' => '',
+							'Reg2' => '',
+							'Reg3' => '',
+							'BusinessName' => $this->input->post('companyname'),
+							'VatNo' => '',
+							'SolePropIDNo' => '',
+							'YourReference' => $ref,
+							'ConnectTicket' => $this->session->userdata('tokenId')));
+
+						$xml = simplexml_load_string($response->ConnectBusinessMatchResult,"SimpleXMLElement");
+						
+						if ($xml->NotFound || $xml->Error){
+							
+							$auditlog = array(
+							"auditlog_reportname"=>"procurementreport",
+							"auditlog_userId"=>$this->session->userdata('userId'),
+							"auditlog_reporttype"=>"companyname",
+							"auditlog_searchdata"=>json_encode(array(
+							'Reg1' => '',
+							'Reg2' => '',
+							'Reg3' => '',
+							'BusinessName' => $this->input->post('companyname'),
+							'VatNo' => '',
+							'SolePropIDNo' => '',
+							'YourReference' => $ref)),
+							"auditlog_fnexecuted" => "ConnectBusinessMatch",
+							"auditlog_issuccess" => false);
+							$this->Auditlog_model->save($auditlog);						
+							
+							
+							if ($xml->Error){
+								$data["errorMessage"] = $xml->Error;
+							}else{
+								$data["errorMessage"] = $xml->NotFound;
+							}
+							$data["consumerList"] = new stdClass();;
+							$data["content"] = "procurementreport/companyname";
+							$this->load->view('site',$data);
+							
+						}else{
+							
+							$auditlog = array(
+							"auditlog_reportname"=>"procurementreport",
+							"auditlog_userId"=>$this->session->userdata('userId'),
+							"auditlog_reporttype"=>"companyname",
+							"auditlog_searchdata"=>json_encode(array(
+							'Reg1' => '',
+							'Reg2' => '',
+							'Reg3' => '',
+							'BusinessName' => $this->input->post('companyname'),
+							'VatNo' => '',
+							'SolePropIDNo' => '',
+							'YourReference' => $ref)),
+							"auditlog_fnexecuted" => "ConnectBusinessMatch",
+							"auditlog_issuccess" => true);
+							$this->Auditlog_model->save($auditlog);
+							
+							$objJsonDocument = json_encode($xml);
+							$data["consumerList"] = json_decode($objJsonDocument);
+							
+							$data["content"] = "procurementreport/companyname";
+							$this->load->view('site',$data);
+							
+						}
 					}
 				}
 			//}
@@ -285,70 +471,82 @@ class Procurementreport extends CI_Controller {
 					$this->load->view('site',$data);
 				} else {
 
-					$response = $this->client->ConnectBusinessMatch(array(
-						'Reg1' => $regnumb[0],
-						'Reg2' => $regnumb[1],
-						'Reg3' => $regnumb[2],
-						'BusinessName' => '',
-						'VatNo' => '',
-						'SolePropIDNo' => '',
-						'YourReference' => $ref,
-						'ConnectTicket' => $this->session->userdata('tokenId')));
-					
-
-					$xml = simplexml_load_string($response->ConnectBusinessMatchResult,"SimpleXMLElement");
-					
-					
-					if ($xml->NotFound || $xml->Error){
-						
-						if ($xml->Error){
-							$data["errorMessage"] = $xml->Error;
-						}else{
-							$data["errorMessage"] = $xml->NotFound;
-						}
-						
-						$auditlog = array(
-						"auditlog_reportname"=>"procurementreport",
-						"auditlog_userId"=>$this->session->userdata('userId'),
-						"auditlog_reporttype"=>"companyregistrationno",
-						"auditlog_searchdata"=>json_encode(array(
-						'Reg1' => $regnumb[0],
-						'Reg2' => $regnumb[1],
-						'Reg3' => $regnumb[2],
-						'BusinessName' => '',
-						'VatNo' => '',
-						'SolePropIDNo' => '',
-						'YourReference' => $ref)),
-						"auditlog_fnexecuted" => "ConnectBusinessMatch",
-						"auditlog_issuccess" => false);
-						$this->Auditlog_model->save($auditlog);	
-						
-						$data["content"] = "procurementreport/companyregistrationno";
+					$resp = $this->SearchHistory_model->findLastSevenDayRecords($this->input->post('companyregistrationno'));
+					if(count($resp)!=0){
+						$responseX = json_decode($resp[0]->outputdata);
+		
+						$data['report'] = $responseX;
+						$data['personaldetails']['details'] = $responseX->personaldetails;
+						$data['blackListed']=$responseX->blackListed;
+						$this->session->set_userdata(array('report_download'=>$responseX));
+						$data["content"] = "procurementreport/customerdatalist.php";
 						$this->load->view('site',$data);
-						
 					}else{
-						$this->session->set_userdata(array("searchstring" => $this->input->post('companyregistrationno')));
-						$auditlog = array(
-						"auditlog_reportname"=>"procurementreport",
-						"auditlog_userId"=>$this->session->userdata('userId'),
-						"auditlog_reporttype"=>"companyregistrationno",
-						"auditlog_searchdata"=>json_encode(array(
-						'Reg1' => $regnumb[0],
-						'Reg2' => $regnumb[1],
-						'Reg3' => $regnumb[2],
-						'BusinessName' => '',
-						'VatNo' => '',
-						'SolePropIDNo' => '',
-						'YourReference' => $ref)),
-						"auditlog_fnexecuted" => "ConnectBusinessMatch",
-						"auditlog_issuccess" => true);
-						$this->Auditlog_model->save($auditlog);		
-						
-						$objJsonDocument = json_encode($xml);
-						$data["consumerList"] = json_decode($objJsonDocument);
-						$data["content"] = "procurementreport/companyregistrationno";
-						$this->load->view('site',$data);
-						
+							$response = $this->client->ConnectBusinessMatch(array(
+								'Reg1' => $regnumb[0],
+								'Reg2' => $regnumb[1],
+								'Reg3' => $regnumb[2],
+								'BusinessName' => '',
+								'VatNo' => '',
+								'SolePropIDNo' => '',
+								'YourReference' => $ref,
+								'ConnectTicket' => $this->session->userdata('tokenId')));
+							
+
+							$xml = simplexml_load_string($response->ConnectBusinessMatchResult,"SimpleXMLElement");
+							
+							
+							if ($xml->NotFound || $xml->Error){
+								
+								if ($xml->Error){
+									$data["errorMessage"] = $xml->Error;
+								}else{
+									$data["errorMessage"] = $xml->NotFound;
+								}
+								
+								$auditlog = array(
+								"auditlog_reportname"=>"procurementreport",
+								"auditlog_userId"=>$this->session->userdata('userId'),
+								"auditlog_reporttype"=>"companyregistrationno",
+								"auditlog_searchdata"=>json_encode(array(
+								'Reg1' => $regnumb[0],
+								'Reg2' => $regnumb[1],
+								'Reg3' => $regnumb[2],
+								'BusinessName' => '',
+								'VatNo' => '',
+								'SolePropIDNo' => '',
+								'YourReference' => $ref)),
+								"auditlog_fnexecuted" => "ConnectBusinessMatch",
+								"auditlog_issuccess" => false);
+								$this->Auditlog_model->save($auditlog);	
+								
+								$data["content"] = "procurementreport/companyregistrationno";
+								$this->load->view('site',$data);
+								
+							}else{
+								$this->session->set_userdata(array("searchstring" => $this->input->post('companyregistrationno')));
+								$auditlog = array(
+								"auditlog_reportname"=>"procurementreport",
+								"auditlog_userId"=>$this->session->userdata('userId'),
+								"auditlog_reporttype"=>"companyregistrationno",
+								"auditlog_searchdata"=>json_encode(array(
+								'Reg1' => $regnumb[0],
+								'Reg2' => $regnumb[1],
+								'Reg3' => $regnumb[2],
+								'BusinessName' => '',
+								'VatNo' => '',
+								'SolePropIDNo' => '',
+								'YourReference' => $ref)),
+								"auditlog_fnexecuted" => "ConnectBusinessMatch",
+								"auditlog_issuccess" => true);
+								$this->Auditlog_model->save($auditlog);		
+								
+								$objJsonDocument = json_encode($xml);
+								$data["consumerList"] = json_decode($objJsonDocument);
+								$data["content"] = "procurementreport/companyregistrationno";
+								$this->load->view('site',$data);
+								
+							}
 					}
 				}
 			//}

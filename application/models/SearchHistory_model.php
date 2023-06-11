@@ -75,5 +75,13 @@
 			$query=$this->db->query($sql);
 			return $query->result();
 		}
+		
+		public function findLastSevenDayRecords($searchdata)
+        {
+			$sql = "select reportname,reporttype,searchdata,created,outputdata from search_history where reportname='procurementreport' and searchdata='".addslashes($searchdata)."' and created > now() - INTERVAL 7 day";
+			$query=$this->db->query($sql);
+			return $query->result();
+        }
+		
 	}
 ?>

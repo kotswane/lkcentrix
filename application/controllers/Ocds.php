@@ -38,9 +38,13 @@ class Ocds extends CI_Controller {
 
 
 	public function find(){
-		if (isset($_GET['companyname'])) {
-			$results = $this->Ocds_model->getByNameLike($_GET['companyname']);
-			echo json_encode($results);
+		if (isset($_GET['term'])) {
+			$results = $this->Ocds_model->getByNameLike($_GET['term']);
+			$companyNames = array();
+			foreach($results as $result){
+				$companyNames[] = $result->name;
+			}
+			echo json_encode($companyNames);
 		}
 	}
 
@@ -87,6 +91,8 @@ class Ocds extends CI_Controller {
 			if(count($results) > 0){
 				$data["doc"] = $this->Ocds_model->getDocsById($results[0]->ocid);
 				$data["details"] = $this->Ocds_model->getReleaseById($results[0]->ocid);
+			}else{
+				$data["errorMessage"] = "Record not found";
 			}
 			
 			

@@ -21,8 +21,8 @@
 					<strong>please wait while loading ....</strong>
 				</div>
                  <div class="form-group">
-                    <label for="idno">Company name</label>
-                    <input type="text"  class="form-control" value="<?php echo set_value('companyname');?>" id="idno" name="companyname" id="companyname" placeholder="Company Name" autofocus required />
+                    <label for="companyname">Company name</label>
+                    <input type="text"  class="form-control" value="<?php echo set_value('companyname');?>" name="companyname" id="companyname" placeholder="Company Name" autofocus required />
                  </div>
 
             </div>
@@ -122,6 +122,13 @@ $(document).ready(function(){
 		
 		$('#form-search').submit();
     });
+	
+	$("#companyname").autocomplete({  
+        minLength:3,
+        delay:0,
+        source:'<?php echo site_url('ocds/find'); ?>', 
+	});
+
 });
 
 function fnRedirect(strVal){
@@ -138,4 +145,5 @@ function fnRedirect(strVal){
 
 
 </script>
+
 </html>

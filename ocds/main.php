@@ -31,7 +31,7 @@ error_reporting(E_ERROR | E_PARSE);
 	$sql = "SELECT ocid FROM tender where ocid='".$release->ocid."';";
 	$result = $conn->query($sql);
 	if ($result->num_rows == 0) {
-		$sql = "INSERT INTO tender (ocid, id, date, initiationtype, tender) VALUES ('".$release->ocid."','".$release->id."','".$release->date."','".$release->initiationType."','".$tender."')";
+		$sql = "INSERT INTO tender (ocid, id, date, initiationtype, tender) VALUES ('".mysqli_real_escape_string($conn,$release->ocid)."','".mysqli_real_escape_string($conn,$release->id)."','".mysqli_real_escape_string($conn,$release->date)."','".mysqli_real_escape_string($conn,$release->initiationType)."','".mysqli_real_escape_string($conn,$tender)."')";
 		if ($conn->query($sql) === TRUE) {
 		  $last_id = $conn->insert_id;
 		  echo "New record tender created successfully. Last inserted ID is: " . $last_id."\n";

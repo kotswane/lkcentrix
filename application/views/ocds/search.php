@@ -99,7 +99,7 @@
             </tr>	
 			<tr>
 				<td><strong>url</strong></td>
-				<td colspan="2"><a href="<?php echo $detail[$count]->url;?>" target="_blank"><?php echo $detail[$count$count]->url;?></a></td>
+				<td colspan="2"><a href="<?php echo $detail[$count]->url;?>" target="_blank"><?php echo $detail[$count]->url;?></a></td>
 			</tr>
 			<?php } ?>
 			</tbody>

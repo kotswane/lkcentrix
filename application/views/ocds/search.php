@@ -91,15 +91,15 @@
 			</thead>
 			<tbody>
 			<?php  
-			foreach($doc as $detail){
+			foreach($doc as $count => $detail){
 			?>
             <tr>
-              <td><?php echo $detail[0]->title;?></td>
-              <td><?php echo $detail[0]->dateModified;?></td>
+              <td><?php echo $detail[$count]->title;?></td>
+              <td><?php echo $detail[$count]->dateModified;?></td>
             </tr>	
 			<tr>
 				<td><strong>url</strong></td>
-				<td colspan="2"><a href="<?php echo $detail[0]->url;?>" target="_blank"><?php echo $detail[0]->url;?></a></td>
+				<td colspan="2"><a href="<?php echo $detail[$count]->url;?>" target="_blank"><?php echo $detail[$count$count]->url;?></a></td>
 			</tr>
 			<?php } ?>
 			</tbody>

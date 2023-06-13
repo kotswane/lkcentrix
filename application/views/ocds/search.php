@@ -67,7 +67,7 @@
             </tr>	
 			<tr>
 				<td><strong>Description</strong></td>
-				<td colspan="7"><?php echo $detail[0]->description;?></td>
+				<td colspan="7"><?php echo $detail->description;?></td>
 			</tr>
 			<?php } ?>
 			</tbody>

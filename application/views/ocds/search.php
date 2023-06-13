@@ -33,7 +33,7 @@
         </form>
     </div>
 	<?php
-	 if ($details){
+	 if (count($details)>0){	 
 	?>
     <div>
       	 <h5><span><strong>Tender Details</strong></span></h5>
@@ -53,20 +53,21 @@
 			<tbody>
 			<?php  
 			foreach($details as $detail){
+			
 			?>
             <tr>
-              <td><?php echo $detail->tenderid;?></td>
-              <td><?php echo $detail->title;?></td>
-              <td><?php echo $detail->status;?></td>
-              <td><?php echo $detail->mainProcurementCategory;?></td>
-              <td><?php echo $detail->amount;?></td>
-              <td><?php echo $detail->currency;?></td>
-              <td><?php echo $detail->startDate;?></td>
-              <td><?php echo $detail->endDate;?></td>
+              <td><?php echo $detail[0]->tenderid;?></td>
+              <td><?php echo $detail[0]->title;?></td>
+              <td><?php echo $detail[0]->status;?></td>
+              <td><?php echo $detail[0]->mainProcurementCategory;?></td>
+              <td><?php echo $detail[0]->amount;?></td>
+              <td><?php echo $detail[0]->currency;?></td>
+              <td><?php echo $detail[0]->startDate;?></td>
+              <td><?php echo $detail[0]->endDate;?></td>
             </tr>	
 			<tr>
 				<td><strong>Description</strong></td>
-				<td colspan="7"><?php echo $detail->description;?></td>
+				<td colspan="7"><?php echo $detail[0]->description;?></td>
 			</tr>
 			<?php } ?>
 			</tbody>
@@ -77,7 +78,7 @@
 	<?php } ?>
 	
 	<?php
-	 if ($doc){
+	 if (count($doc)>0){
 	?>
     <div>
       	 <h5><span><strong>Tender Documents</strong></span></h5>
@@ -93,12 +94,12 @@
 			foreach($doc as $detail){
 			?>
             <tr>
-              <td><?php echo $detail->title;?></td>
-              <td><?php echo $detail->dateModified;?></td>
+              <td><?php echo $detail[0]->title;?></td>
+              <td><?php echo $detail[0]->dateModified;?></td>
             </tr>	
 			<tr>
 				<td><strong>url</strong></td>
-				<td colspan="2"><a href="<?php echo $detail->url;?>" target="_blank"><?php echo $detail->url;?></a></td>
+				<td colspan="2"><a href="<?php echo $detail[0]->url;?>" target="_blank"><?php echo $detail[0]->url;?></a></td>
 			</tr>
 			<?php } ?>
 			</tbody>

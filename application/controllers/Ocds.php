@@ -89,8 +89,11 @@ class Ocds extends CI_Controller {
 			
 			$results = $this->Ocds_model->getByName($this->input->post('companyname'));
 			if(count($results) > 0){
-				$data["doc"] = $this->Ocds_model->getDocsById($results[0]->ocid);
-				$data["details"] = $this->Ocds_model->getReleaseById($results[0]->ocid);
+				foreach($results as $result){
+					$data["doc"][] = $this->Ocds_model->getDocsById($result->ocid);
+					$data["details"][] = $this->Ocds_model->getReleaseById($result->ocid);
+				}
+									
 			}else{
 				$data["errorMessage"] = "Record not found";
 			}

@@ -84,16 +84,14 @@ if ($result->num_rows > 0) {
 		 if(count($awardsTender->awards) > 0){
 			 foreach($awardsTender->awards as $award){
 				 foreach($award->suppliers as $supplier){
-					$sql = "SELECT ocid FROM tenderaward where ocid='".$row["ocid"]."';";
-					$result = $conn->query($sql);
-					if ($result->num_rows == 0) { 
+ 
 						$insert = "Insert into tenderaward (ocid,name) values ('".mysqli_real_escape_string($conn,$row["ocid"])."','".mysqli_real_escape_string($conn,$supplier->name)."')";
 						if ($conn->query($insert) === TRUE) {
 						  $last_id = $conn->insert_id;
 						  echo "New record tenderaward created successfully. Last inserted ID is: " . $last_id."\n";
 						}
 					}
-				 }
+				 
 			 }
 			 
 		 }

@@ -56,14 +56,14 @@
 			
 			?>
             <tr>
-              <td><?php echo $detail[0]->tenderid;?></td>
-              <td><?php echo $detail[0]->title;?></td>
-              <td><?php echo $detail[0]->status;?></td>
-              <td><?php echo $detail[0]->mainProcurementCategory;?></td>
-              <td><?php echo $detail[0]->amount;?></td>
-              <td><?php echo $detail[0]->currency;?></td>
-              <td><?php echo $detail[0]->startDate;?></td>
-              <td><?php echo $detail[0]->endDate;?></td>
+              <td><?php echo $detail->tenderid;?></td>
+              <td><?php echo $detail->title;?></td>
+              <td><?php echo $detail->status;?></td>
+              <td><?php echo $detail->mainProcurementCategory;?></td>
+              <td><?php echo $detail->amount;?></td>
+              <td><?php echo $detail->currency;?></td>
+              <td><?php echo $detail->startDate;?></td>
+              <td><?php echo $detail->endDate;?></td>
             </tr>	
 			<tr>
 				<td><strong>Description</strong></td>

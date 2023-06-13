@@ -91,7 +91,7 @@ class Ocds extends CI_Controller {
 			if(count($results) > 0){
 				foreach($results as $result){
 					$data["doc"][] = $this->Ocds_model->getDocsById($result->ocid);
-					$data["details"][] = $this->Ocds_model->getReleaseById($result->ocid);
+					$data["details"] = $this->Ocds_model->getReleaseById($result->ocid);
 				}
 									
 			}else{

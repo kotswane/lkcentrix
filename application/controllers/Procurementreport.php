@@ -134,11 +134,11 @@ class Procurementreport extends CI_Controller {
 					if(count($resp)!=0){
 						$responseX = json_decode($resp[0]->outputdata);
 		
-						$data['report'] = $responseX;
+						$data['report'] = $responseX->report;
 						$data['personaldetails']['details'] = $responseX->personaldetails;
 						$data['blackListed']=$responseX->blackListed;
 						$this->session->set_userdata(array('report_download'=>$responseX));
-						$data["content"] = "procurementreport/customerdatalist.php";
+						$data["content"] = "searchhistory/customerdatalist.php";
 						$this->load->view('site',$data);
 					}else{
 					
@@ -306,11 +306,11 @@ class Procurementreport extends CI_Controller {
 					if(count($resp)!=0){
 						$responseX = json_decode($resp[0]->outputdata);
 		
-						$data['report'] = $responseX;
+						$data['report'] = $responseX->report;
 						$data['personaldetails']['details'] = $responseX->personaldetails;
 						$data['blackListed']=$responseX->blackListed;
 						$this->session->set_userdata(array('report_download'=>$responseX));
-						$data["content"] = "procurementreport/customerdatalist.php";
+						$data["content"] = "searchhistory/customerdatalist.php";
 						$this->load->view('site',$data);
 					}else{
 					
@@ -475,11 +475,11 @@ class Procurementreport extends CI_Controller {
 					if(count($resp)!=0){
 						$responseX = json_decode($resp[0]->outputdata);
 		
-						$data['report'] = $responseX;
+						$data['report'] = $responseX->report;
 						$data['personaldetails']['details'] = $responseX->personaldetails;
 						$data['blackListed']=$responseX->blackListed;
 						$this->session->set_userdata(array('report_download'=>$responseX));
-						$data["content"] = "procurementreport/customerdatalist.php";
+						$data["content"] = "searchhistory/customerdatalist.php";
 						$this->load->view('site',$data);
 					}else{
 							$response = $this->client->ConnectBusinessMatch(array(

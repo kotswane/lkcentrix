@@ -92,16 +92,18 @@
 			<tbody>
 			<?php  
 			foreach($doc as $count => $detail){
+				foreach($detail as $det){
 			?>
             <tr>
-              <td><?php echo $detail[$count]->title;?></td>
-              <td><?php echo $detail[$count]->dateModified;?></td>
+              <td><?php echo $det->title;?></td>
+              <td><?php echo $det->dateModified;?></td>
             </tr>	
 			<tr>
 				<td><strong>url</strong></td>
-				<td colspan="2"><a href="<?php echo $detail[$count]->url;?>" target="_blank"><?php echo $detail[$count]->url;?></a></td>
+				<td colspan="2"><a href="<?php echo $det->url;?>" target="_blank"><?php echo $det->url;?></a></td>
 			</tr>
-			<?php } ?>
+			<?php }
+			}			?>
 			</tbody>
           </table>
        </div>

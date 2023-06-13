@@ -35,7 +35,7 @@
 		}		
 		
 		public function getByNameLike($name){
-			$sql = "SELECT distinct(name) as name FROM `tenderaward` WHERE name like '%".$name."%';";
+			$sql = "SELECT distinct(name) as name FROM `tenderaward` WHERE name like '".$name."%';";
 			$query=$this->db->query($sql);
 			return $query->result();
 		}		

@@ -53,7 +53,9 @@ if ($result->num_rows > 0) {
 	 
 	 if($awardsTender->tender){
 			
-		
+		$sql = "SELECT ocid FROM ocdsreleases where ocid='".$row["ocid"]."';";
+		$result = $conn->query($sql);
+		if ($result->num_rows == 0) {
 			  $insert = "Insert into ocdsreleases (ocid,tid,date,tenderid,title,status,mainProcurementCategory,description,eligibilityCriteria,amount,currency,startDate,endDate) 
 			  values('".mysqli_real_escape_string($conn,$row["ocid"])."','".mysqli_real_escape_string($conn,$awardsTender->id)."','".mysqli_real_escape_string($conn,$awardsTender->date)."'
 			  ,'".mysqli_real_escape_string($conn,$awardsTender->tender->id)."','".mysqli_real_escape_string($conn,$awardsTender->tender->title)."','".mysqli_real_escape_string($conn,$awardsTender->tender->status)."'
@@ -65,18 +67,20 @@ if ($result->num_rows > 0) {
 				  $last_id = $conn->insert_id;
 				  echo "New record ocdsreleases created successfully. Last inserted ID is: " . $last_id."\n";
 				}
-				
+		}		
 			
 			
 		$docs = $awardsTender->tender->documents;
 		foreach($docs as $doc){
-				
-			$insert = "Insert into ocdsreleasesdocs (ocid,id,url,title,dateModified) values ('".mysqli_real_escape_string($conn,$row["ocid"])."','".mysqli_real_escape_string($conn,$doc->id)."','".mysqli_real_escape_string($conn,$doc->url)."','".mysqli_real_escape_string($conn,$doc->title)."','".mysqli_real_escape_string($conn,$doc->dateModified)."');";
-			if ($conn->query($insert) === TRUE) {
-			  $last_id = $conn->insert_id;
-			  echo "New record ocdsreleasesdocs created successfully. Last inserted ID is: " . $last_id."\n";
-			}
-				
+				$sql = "SELECT ocid FROM ocdsreleasesdocs where ocid='".$row["ocid"]."';";
+				$result = $conn->query($sql);
+				if ($result->num_rows == 0) {
+					 $insert = "Insert into ocdsreleasesdocs (ocid,id,url,title,dateModified) values ('".mysqli_real_escape_string($conn,$row["ocid"])."','".mysqli_real_escape_string($conn,$doc->id)."','".mysqli_real_escape_string($conn,$doc->url)."','".mysqli_real_escape_string($conn,$doc->title)."','".mysqli_real_escape_string($conn,$doc->dateModified)."');";
+					if ($conn->query($insert) === TRUE) {
+					  $last_id = $conn->insert_id;
+					  echo "New record ocdsreleasesdocs created successfully. Last inserted ID is: " . $last_id."\n";
+					}
+				}
 				
 		}
 		
@@ -84,13 +88,15 @@ if ($result->num_rows > 0) {
 		 if(count($awardsTender->awards) > 0){
 			 foreach($awardsTender->awards as $award){
 				 foreach($award->suppliers as $supplier){
-
+					$sql = "SELECT ocid FROM tenderaward where ocid='".$row["ocid"]."';";
+					$result = $conn->query($sql);
+					if ($result->num_rows == 0) { 
 						$insert = "Insert into tenderaward (ocid,name) values ('".mysqli_real_escape_string($conn,$row["ocid"])."','".mysqli_real_escape_string($conn,$supplier->name)."')";
 						if ($conn->query($insert) === TRUE) {
 						  $last_id = $conn->insert_id;
 						  echo "New record tenderaward created successfully. Last inserted ID is: " . $last_id."\n";
 						}
-					
+					}
 				 }
 			 }
 			 

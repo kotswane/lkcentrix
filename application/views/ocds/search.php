@@ -127,7 +127,7 @@ $(document).ready(function(){
     });
 	
 	$("#companyname").autocomplete({  
-        minLength:2,
+        minLength:1,
         delay:0,
         source:'<?php echo site_url('ocds/find'); ?>', 
 	});

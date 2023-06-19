@@ -102,6 +102,14 @@ if($myData->HAMarriageStatus == "MARRIED"){
         <td class="td-value"><?php echo (is_object($myData->HADeceasedStatus)?"":$myData->HADeceasedStatus);?></td>
         </tr>
         <tr class="tr-label">
+        <td class="td-label">Deceased Date</td>
+        <td class="td-value"><?php echo (is_object($myData->HADeceasedDate)?"":$myData->HADeceasedDate);?></td>
+        </tr>
+        <tr class="tr-label">
+        <td class="td-label">Birth Place</td>
+        <td class="td-value"><?php echo (is_object($myData->HABirthPlace)?"":$myData->HABirthPlace);?></td>
+        </tr>
+        <tr class="tr-label">
         <td class="td-label">ID Book Issue Date</td>
         <td class="td-value"><?php echo (is_object($myData->HAIDBookIssuedDate)?"":$myData->HAIDBookIssuedDate);?></td>
         </tr>

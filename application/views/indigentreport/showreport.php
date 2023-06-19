@@ -132,7 +132,7 @@
 							<td><?php echo (is_object($myData->HADeceasedDate)?"N/A":$myData->HADeceasedDate);?></td>
 							</tr>							
 							<tr>
-							<td>BirthPlace</td>
+							<td>Birth Place</td>
 							<td><?php echo (is_object($myData->HABirthPlace)?"":$myData->HABirthPlace);?></td>
 							</tr>
 							<tr>

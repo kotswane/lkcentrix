@@ -46,7 +46,8 @@
 		
 		public function findByUser($userId)
         {
-                $query = $this->db->get_where('search_history', array('userId' => $userId));
+                $sql = "SELECT * FROM search_history WHERE userId='".$userId."' ORDER BY created DESC;";
+				$query=$this->db->query($sql);
 				return $query->result();
         }
 		

@@ -198,7 +198,21 @@
 									<tr>							
 											<td>Current Employer</td>
 											<td><?php echo (is_object($report->ConsumerDetail->EmployerDetail)?"":$report->ConsumerDetail->EmployerDetail);?></td>
+									</tr>
+									<?php if(!is_object($report->ConsumerDetail->MaritalStatusDesc)){ 
+										if(strtolower($report->ConsumerDetail->MaritalStatusDesc) == "married"){
+											$idNumberSearch = "";
+											if(!is_object($report->ConsumerDetail->IDNo)){
+												$idNumberSearch = $report->ConsumerDetail->IDNo;
+											}
+											if ($idNumberSearch != ""){
+									?>
+										<tr>
+											<td colspan="2"><button class="btn btn-primary" type="button" onClick="getSpouseDetails('<?php echo $idNumberSearch;?>');"><i class="fa fa-search" aria-hidden="true"></i>&nbsp; View Spouse Details</button></td>
 										</tr>
+										<?php }
+										}
+									}?>
 									</table>
 								</td>								
 							</tr>
@@ -725,5 +739,24 @@ $(document).ready(function(){
         "order": []
     });
 });
+
+function getSpouseDetails(strId){
+	$("#loadMe").modal({
+      backdrop: "static", //remove ability to close modal with click
+      keyboard: false, //remove option to close with keyboard
+      show: true //Display loader!
+    });	
+	
+
+	$.post("<?php echo site_url();?>/procurementreport/getspousedetails",
+	  {
+		idnumber: strId
+	  },
+	  function(data, status){
+		  $("#loadMe").modal('hide');
+		  $("#loadSpouse").html(data);
+		  $("#loaddata").modal();
+	  });
+}
 </script>
 </html>

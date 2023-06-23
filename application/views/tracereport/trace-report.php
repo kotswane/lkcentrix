@@ -247,14 +247,19 @@
 				<div class="panel panel-primary">
                 <div class="panel-heading">Directorship(s)</div>
                 <div class="panel-body">
-				<?php if($report->ConsumerDirectorShipLink){ ?>
+				<?php if($report->ConsumerDirectorShipLink){ 
+				  /
+				  print '<pre>';
+				  print_r($report);
+				  die();*/
+				?>
 				   <?php if(is_object($report->ConsumerDirectorShipLink)){ ?>
                     <div class="col">
 						<div class="row">
 							<div class="col-xs-3">Company Name:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->ConsumerDirectorShipLink->CommercialName)?"":$report->ConsumerDirectorShipLink->CommercialName);?></span></strong></div>
 							<div class="col-xs-3">Registration Number:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->ConsumerDirectorShipLink->RegistrationNo)?"":$report->ConsumerDirectorShipLink->RegistrationNo);?></span></strong></div>
 							<div class="col-xs-3">Director Status:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->ConsumerDirectorShipLink->DirectorStatus)?"":$report->ConsumerDirectorShipLink->DirectorStatus);?></span></strong></div>
-							<div class="col-xs-3">Company Status:&nbsp;&nbsp;<strong><span><?php echo (is_object($report->ConsumerDirectorShipLink->CommercialStatus)?"":$report->ConsumerDirectorShipLink->CommercialStatus);?></span></strong></div>
+							
 						</div>
 						<hr class="hr-line"/>
 					</div>
@@ -268,7 +273,7 @@
 								<div class="col-xs-3">Company Name:&nbsp;&nbsp;<strong><span><?php echo (is_object($director->CommercialName)?"":$director->CommercialName);?></span></strong></div>
 								<div class="col-xs-3">Registration Number:&nbsp;&nbsp;<strong><span><?php echo (is_object($director->RegistrationNo)?"":$director->RegistrationNo);?></span></strong></div>
 								<div class="col-xs-3">Director Status:&nbsp;&nbsp;<strong><span><?php echo (is_object($director->DirectorStatus)?"":$director->DirectorStatus);?></span></strong></div>
-								<div class="col-xs-3">Company Status:&nbsp;&nbsp;<strong><span><?php echo (is_object($director->CommercialStatus)?"":$director->CommercialStatus);?></span></strong></div>
+								
 							</div>	
 							<hr class="hr-line"/>
 						</div>
@@ -279,7 +284,7 @@
 								<div class="col-xs-3">Company Name:&nbsp;&nbsp;<strong><span><?php echo (is_object($directorx->CommercialName)?"":$directorx->CommercialName);?></span></strong></div>
 								<div class="col-xs-3">Registration Number:&nbsp;&nbsp;<strong><span><?php echo (is_object($directorx->RegistrationNo)?"":$directorx->RegistrationNo);?></span></strong></div>
 								<div class="col-xs-3">Director Status:&nbsp;&nbsp;<strong><span><?php echo (is_object($directorx->DirectorStatus)?"":$directorx->DirectorStatus);?></span></strong></div>
-								<div class="col-xs-3">Company Status:&nbsp;&nbsp;<strong><span><?php echo (is_object($directorx->CommercialStatus)?"":$directorx->CommercialStatus);?></span></strong></div>
+								
 							</div>	
 							<hr class="hr-line"/>
 						</div>					

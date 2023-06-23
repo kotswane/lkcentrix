@@ -248,7 +248,7 @@
                 <div class="panel-heading">Directorship(s)</div>
                 <div class="panel-body">
 				<?php if($report->ConsumerDirectorShipLink){ 
-				  /
+				  /*
 				  print '<pre>';
 				  print_r($report);
 				  die();*/

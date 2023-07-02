@@ -36,15 +36,15 @@
 						<div>
 							<table class="table">
 								<tr>
-									<td><label><strong><span>Deeds Property Information.</strong></span><span style="color:red;"> (R 3.00)</span></label></td>
+									<td><label><strong><span>Deeds Property Information.</strong></span><span style="color:red;"> (R 3.85)</span></label></td>
 									<td><input type="checkbox" id="deed_property" name="specialReport[]" value="deed_property"/></td>
 								</tr>
 								<tr>
-									<td><label><strong><span>Consumer Telephone Linkage (Work,Cellular).</strong></span><span style="color:red;"> (R 3.00)</span></label></td>
+									<td><label><strong><span>Consumer Telephone Linkage (Work,Cellular).</strong></span><span style="color:red;"> (R 3.85)</span></label></td>
 									<td><input type="checkbox" id="v" name="specialReport[]" value="telephone_linkage"/></td>
 								</tr>
 								<tr>
-									<td><label><strong><span>CIPC Principal Information.</strong></span><span style="color:red;"> (R 3.00)</span></label></td>
+									<td><label><strong><span>CIPC Principal Information.</strong></span><span style="color:red;"> (R 3.85)</span></label></td>
 									<td><input type="checkbox" id="cipc_principal_information" name="specialReport[]" value="cipc_principal_information"/></td>
 								</tr>
 							</table>
